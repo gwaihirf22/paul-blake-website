@@ -34,22 +34,33 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
-      # REMOVE THE "Decode SSH Private Key" STEP ENTIRELY:
-      # - name: Decode SSH Private Key
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     chmod 700 ~/.ssh
-      #     echo "${{ secrets.SSH_PRIVATE_KEY_BASE64 }}" | base64 -d > ~/.ssh/id_rsa_github_actions
-      #     chmod 600 ~/.ssh/id_rsa_github_actions
-      #   shell: bash
-        
-      - name: Deploy to Unraid Server
-        uses: appleboy/ssh-action@master
+      # NEW STEP: Start SSH Agent and add private key
+      - name: Start SSH Agent
+        uses: webfactory/ssh-agent@v0.8.0 # Use a specific version for stability
         with:
-          host: ${{ secrets.UNRAID_HOST }}
-          username: ${{ secrets.UNRAID_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # <--- CHANGE THIS LINE BACK
-          script: |
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_BASE64 }} # This action handles base64 decoding directly
+          # No passphrase needed as we generated with empty passphrase
+
+      # NEW STEP: Deploy to Unraid Server (now using standard SSH commands via ssh-agent)
+      - name: Deploy to Unraid Server
+        run: |
+          set -e # Exit immediately if a command exits with a non-zero status
+          
+          # Add Unraid host to known_hosts to prevent SSH prompt.
+          # This is needed because the runner is a fresh VM each time.
+          # ssh-keyscan outputs to stdout, so redirect it to the file.
+          mkdir -p ~/.ssh # Ensure .ssh directory exists
+          ssh-keyscan -H ${{ secrets.UNRAID_HOST }} >> ~/.ssh/known_hosts
+          # Set proper permissions for known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          
+          # Use SSH to execute commands on Unraid.
+          # The -A flag forwards the ssh-agent, but we use the key directly which is often simpler here.
+          # ssh automatically uses keys added to ssh-agent if the host is in known_hosts.
+          # -o StrictHostKeyChecking=no can be used if ssh-keyscan is problematic, but less secure.
+          # For a self-hosted runner, StrictHostKeyChecking=yes is generally preferred after initial setup.
+          # Let's use it for now as it's the most common robust way with webfactory/ssh-agent.
+          ssh ${{ secrets.UNRAID_USERNAME }}@${{ secrets.UNRAID_HOST }} << 'EOF'
             # Navigate to project directory
             cd /mnt/user/appdata/paul-blake-website/
             
@@ -63,3 +74,7 @@ jobs:
             docker rmi $(docker images -f "dangling=true" -q) 2>/dev/null || true
             
             echo "Deployment completed successfully!"
+          EOF
+        shell: bash
+        # No need for specific env variables for ssh-action as it's a 'run' step now
+        # and secrets are referenced directly in the script via ${{ secrets.VAR }}

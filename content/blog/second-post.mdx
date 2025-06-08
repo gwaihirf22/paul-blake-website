@@ -35,31 +35,44 @@ Containerizing the application makes deployment consistent across different envi
 ```bash
 ├── content/
 │   └── blog/
+│       ├── theology/              # Dedicated theology section
+│       │   ├── moral-law-evolutionary-theory-vs-divine-law.mdx
+│       │   └── the-appearance-of-age.mdx
 │       ├── first-post.mdx
 │       └── second-post.mdx
 ├── pages/
 │   ├── index.js
 │   ├── blog/
+│   │   ├── theology/              # Theology routing
+│   │   │   ├── index.js
+│   │   │   └── [slug].js
 │   │   ├── index.js
 │   │   └── [slug].js
 └── styles/
     └── globals.css
 ```
 
-This structure keeps content separate from code, making it easy to manage and scale.
+This structure keeps content separate from code, making it easy to manage and scale. I've also added a dedicated theology section for Christian faith, theological discussions, and philosophy content.
 
-## What's Next?
+## Current Status & What's Next
 
-Future improvements I'm considering:
+### Recently Completed
+- ✅ **Theology Section**: Added dedicated routing and content for theological discussions
+- ✅ **Enhanced Project Structure**: Organized content with category-based routing
+- ✅ **Docker Hub Integration**: Implemented professional deployment strategy
 
-1. Adding tags and categories
+### In Progress
+- 🔄 **CI/CD Pipeline**: Currently implementing automated deployment with GitHub Actions and Docker Hub. Authentication and deployment automation are being refined for a seamless development workflow.
+
+### Future Improvements
+1. Adding tags and categories across all sections
 2. Implementing a search feature
 3. Adding comments (maybe with GitHub Discussions)
 4. RSS feed generation
 5. Enhanced SEO optimization
 
-Stay tuned for more updates!
+The goal is to create a robust, automatically deployable platform for both technical and theological content. Stay tuned for more updates!
 
 ---
 
-*Updated on June 7, 2025* 
+*Updated on January 27, 2025* 

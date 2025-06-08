@@ -58,7 +58,7 @@ You can also run the project using Docker:
 docker build -t paul-blake-website .
 
 # Run the container
-docker run -p 3000:3000 paul-blake-website
+docker run -p 3010:3010 paul-blake-website
 ```
 
 Or use Docker Compose:

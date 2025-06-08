@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Paul Blake - Developer & Writer (key test)</title>
+        <title>Paul Blake - Developer & Writer</title>
         <meta name="description" content="Personal website of Paul Blake - Full-stack developer, writer, and technology enthusiast. Former aircraft mechanic turned software developer sharing insights into the world of code." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
