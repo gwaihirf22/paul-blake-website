@@ -1,16 +1,21 @@
 # docker-compose.yml
-version: '3.9' # The WARN about 'version' being obsolete can be ignored, or you can remove this line entirely for newer Docker Compose.
+version: '3.9'
 services:
   paul-blake-website:
-    build:
-      context: .
-    container_name: paul-blake-site # <--- NEW: Shorter container name
+    # --- IMPORTANT CHANGE: From 'build' to 'image' ---
+    image: flyingoat03/paul-blake-site:latest # <--- NEW: Pulls from Docker Hub
+    # REMOVE THE 'build:' block below completely
+    # build:
+    #   context: .
+    # ---------------------------------------------------
+    container_name: paul-blake-site
     ports:
-      - "3010:3010" # <--- CHANGED: Host port 3010 maps to container port 3010
+      - "3010:3010" # Host port 3010 maps to container port 3010
     restart: unless-stopped
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3010 # Next.js listens on 3010 internally
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3010"]
       interval: 30s
