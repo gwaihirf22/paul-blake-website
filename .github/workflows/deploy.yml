@@ -40,7 +40,7 @@ jobs:
         with:
           host: ${{ secrets.UNRAID_HOST }}
           username: ${{ secrets.UNRAID_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_BASE64 | base64Decode }}
           script: |
             # Navigate to project directory
             cd /mnt/user/appdata/paul-blake-website/
