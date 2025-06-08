@@ -17,7 +17,7 @@ export default function Home() {
           <div className="hero-content">
             <h1>Paul Blake: Software Developer/Engineer</h1>
             <p className="hero-tagline">
-              Crafting robust solutions and sharing insights into the world of code. 
+              Crafting robust solutions and sharing insights into the world of code.
             </p>
             <div className="hero-cta">
               <Link href="/blog" className="btn">
@@ -94,9 +94,9 @@ export default function Home() {
           <h2>Latest Insights</h2>
           <div className="blog-content">
             <p>
-              I regularly write about software development, sharing lessons learned from my unique journey 
+              I regularly write about my journey in software development, sharing lessons learned from my unique journey 
               from aircraft maintenance to coding. Explore articles on JavaScript, React, system design, 
-              and the parallels between mechanical and software engineering.
+              and the parallels between mechanical and software engineering. I also write about my journey in Christian faith, theology, and philosophy.
             </p>
             <Link href="/blog" className="btn">
               Visit the Blog
