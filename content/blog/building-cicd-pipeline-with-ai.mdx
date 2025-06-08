@@ -1,0 +1,167 @@
+---
+title: "From Aircraft Mechanic to Automated Deployments: My Journey with an AI Assistant"
+date: "2025-06-08"
+author: "Paul Blake"
+excerpt: "The real, unvarnished story of building a modern CI/CD pipeline with an AI pair programmer - including all the SSL errors, SSH failures, and breakthrough moments that made it work."
+tags: ["DevOps", "CI/CD", "AI", "Docker", "Next.js", "Career Transition"]
+---
+
+# From Aircraft Mechanic to Automated Deployments: My Journey with an AI Assistant
+
+## Introduction: The Mechanic and The Machine
+
+As an aircraft mechanic, my world was tangible. I worked with physical systems where precision, process, and direct feedback were everything. When a system worked, you could see it and hear it. Transitioning into software development felt like entering a different universe—one of abstract logic and invisible processes.
+
+My goal was to build a personal website from scratch, host it myself on my Unraid server, and learn the tools of the trade. But I didn't want to just build a website; I wanted to build a *system*. A system where I could write code on my Mac and have it automatically appear on my live site, `paul-blake.com`. This is the world of Continuous Integration and Continuous Deployment (CI/CD).
+
+To tackle this, I decided to use an AI assistant as my pair programmer. This post is the real, unvarnished story of that process—the triumphs, the frustrating late-night debugging sessions, and what I learned about leveraging AI to build a modern development pipeline.
+
+## The Blueprint: AI as the Architect
+
+Every project needs a plan. I gave my AI partner a clear vision: a sleek, modern personal blog built with Next.js, running in a Docker container on my Unraid server, and deployed automatically whenever I pushed code to GitHub.
+
+The AI immediately excelled as an architect, laying out a professional blueprint:
+
+1. **Core Application:** Next.js with the Pages Router for its power in creating static-generated (SSG) and server-rendered (SSR) pages—perfect for a fast blog.
+2. **Containerization:** Docker to package the Next.js app, ensuring it runs consistently anywhere.
+3. **Deployment Automation:** GitHub Actions to orchestrate the CI/CD pipeline.
+4. **The Strategy:** The initial plan was to use GitHub Actions to:
+   - Build the Docker image.
+   - Push it to a registry (we chose Docker Hub).
+   - SSH into my Unraid server.
+   - Pull the new image and restart the container.
+
+This seemed straightforward. The AI even generated the initial `Dockerfile`, `docker-compose.yml`, and `deploy.yml` workflow file. The foundation was laid.
+
+## The Real-World Gauntlet: Where Theory Meets Reality
+
+This is where the real learning began. The clean, theoretical plan immediately ran into the messy reality of configuration, networking, and security. Here are the major hurdles we had to overcome, one by one.
+
+### Hurdle 1: The SSL Labyrinth (Error 526)
+
+Once the site was running on Unraid, I proxied it through SWAG and Cloudflare. Instantly, I was hit with security warnings. The "Connection is not private" error, followed by a Cloudflare **Error 526: Invalid SSL certificate**.
+
+- **What I Learned:** There isn't just one SSL certificate; there are two connections that need to be secure in a "Full (Strict)" setup:
+  1. **Browser to Cloudflare:** Handled by Cloudflare's Universal SSL.
+  2. **Cloudflare to my Server (SWAG):** Cloudflare was rejecting the certificate my SWAG container was presenting.
+
+- **The AI's Help & The Fix:** I fed the error logs into the AI. We discovered my SWAG container was generating a **wildcard certificate (`*.paul-blake.com`)**. While this works for subdomains, Cloudflare's "Full (Strict)" mode demanded that the certificate for my root domain, `paul-blake.com`, explicitly list `paul-blake.com` as a name. We had to adjust my SWAG container's environment variables to request a new certificate that covered both the root and the wildcard, solving the 526 error for good.
+
+### Hurdle 2: The Stubborn SSH Key (The Real Boss Battle)
+
+This was, by far, the most frustrating part of the entire process. My GitHub Actions workflow kept failing with SSH authentication errors, even though I could SSH into my server from my Mac with the same key.
+
+We encountered a cascade of errors:
+
+1. `i/o timeout`: The runner couldn't reach my server at all. The fix? A **self-hosted GitHub Actions runner** on Unraid, which eliminated all networking guesswork.
+2. `ssh.ParsePrivateKey: ssh: no key found` and `Error loading key "(stdin)": invalid format`: This was maddening. It meant the private key string in my GitHub Secret was corrupted or malformed.
+
+- **What I Learned:** Copying and pasting multi-line strings like SSH private keys into web forms is incredibly fragile. A single invisible character or incorrect newline can break everything. The format of the key (`PEM` vs. `OpenSSH`) also matters to different SSH clients.
+
+- **The AI's Help & The Fix:** This took days of back-and-forth. The AI guided me through:
+  - Using `base64` to encode the key (which failed due to the same copy-paste issues).
+  - Switching from the `appleboy/ssh-action` to the more robust `webfactory/ssh-agent`.
+  - Finally, generating a fresh **ED25519 key** (a modern, reliable format), meticulously copying it, and ensuring it had a **final newline character** in the GitHub secret. This was the magic bullet that finally allowed the SSH agent to parse the key correctly.
+
+### Hurdle 3: The Docker Compose Mismatch
+
+Once SSH worked, the script failed again with `no such service: paul-blake-site`.
+
+- **What I Learned:** There's a difference between a service's `container_name` and its `service name` in `docker-compose.yml`. My script was trying to `pull` the container name, not the service name.
+
+- **The AI's Help & The Fix:** After feeding the AI the error and my `docker-compose.yml`, it instantly spotted the mistake. A quick change in the deployment script from `docker compose pull paul-blake-site` to `docker compose pull paul-blake-website` fixed it.
+
+## The Breakthrough: Green Checkmarks
+
+After days of debugging, seeing the GitHub Actions workflow run green from start to finish was an incredible feeling. I made a small change to my local code, typed `git push`, and a few minutes later, the change was live on `paul-blake.com`. The clunky, manual deployment process was gone, replaced by a professional, automated pipeline.
+
+Here is the final, working `deploy.yml` that represents the culmination of all that work:
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy to Unraid Server
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux, x64, unraid-paul-blake]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          load: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/paul-blake-site:latest
+            ${{ secrets.DOCKER_USERNAME }}/paul-blake-site:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          
+      - name: Start SSH Agent
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_RAW }}
+
+      - name: Deploy to Unraid Server
+        run: |
+          set -e
+          echo "--- Adding Unraid host to known_hosts ---"
+          ssh-keyscan -H ${{ secrets.UNRAID_HOST }} >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+          
+          echo "--- Starting deployment to Unraid server ---"
+          ssh ${{ secrets.UNRAID_USERNAME }}@${{ secrets.UNRAID_HOST }} << 'EOF'
+            set -e
+            echo "--- Navigating to project directory ---"
+            cd /mnt/user/appdata/paul-blake-website/
+            
+            echo "--- Pulling latest image from Docker Hub ---"
+            docker compose pull paul-blake-website
+            
+            echo "--- Restarting container with new image ---"
+            docker compose up -d
+            
+            echo "--- Cleaning up old images ---"
+            docker image prune -f
+            
+            echo "--- Deployment completed successfully! ---"
+          EOF
+```
+
+## My Takeaways: How to *Really* Use an AI Pair Programmer
+
+This journey taught me that an AI assistant isn't a magic button; it's a powerful tool that works best within a specific workflow.
+
+1. **AI as an Architect:** It's phenomenal for generating the initial high-level plan, boilerplate code (`Dockerfile`, `next.config.js`), and configuration files.
+
+2. **Precision is Key:** The AI needs *specifics*. Vague requests lead to generic code. Providing detailed prompts with clear requirements yields much better results.
+
+3. **Feed It The Error:** The AI's most powerful debugging capability is its ability to parse specific error messages. Don't just tell it "it's broken." Copy and paste the *entire* log output. That's how we solved the SSL, SSH, and Docker Compose errors.
+
+4. **The Human is the Final Authority:** The AI doesn't have the full context of your unique environment (like your Unraid setup or your browser cache). You, the developer, are still responsible for understanding the *why* behind the code and making the final call.
+
+This experience didn't just teach me how to build a CI/CD pipeline. It taught me how to learn, debug, and collaborate with the powerful new tools that are shaping the future of software development. And as a former aircraft mechanic, building a reliable, automated system from scratch felt right at home.
+
+## What's Next?
+
+This CI/CD pipeline is just the beginning. I'm now exploring adding automated testing, security scanning, and more sophisticated deployment strategies. The foundation is solid, and the process of continuous improvement feels natural—much like the maintenance cycles I was used to in aviation.
+
+If you're considering making a similar career transition or building your own automated deployment pipeline, I hope this honest account of the process helps. The tools are incredibly powerful, but they still require patience, persistence, and a willingness to dig deep when things inevitably break.
+
+*Have questions about the pipeline or want to share your own CI/CD journey? Feel free to reach out—I'd love to hear about your experiences with AI-assisted development.* 
