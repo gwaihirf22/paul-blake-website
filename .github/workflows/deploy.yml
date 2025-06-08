@@ -1,10 +1,9 @@
+# .github/workflows/deploy.yml
 name: Deploy to Unraid Server
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: [self-hosted, linux, x64, unraid-paul-blake]
@@ -35,12 +34,23 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           
+      - name: Decode SSH Private Key
+        run: |
+          # Create the .ssh directory if it doesn't exist
+          mkdir -p ~/.ssh
+          # Decode the base64 secret and save it to a temporary file
+          echo "${{ secrets.SSH_PRIVATE_KEY_BASE64 }}" | base64 --decode > ~/.ssh/id_rsa_github_actions
+          # Set correct permissions for the private key (CRITICAL!)
+          chmod 600 ~/.ssh/id_rsa_github_actions
+        shell: bash
+        
       - name: Deploy to Unraid Server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.UNRAID_HOST }}
           username: ${{ secrets.UNRAID_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY_BASE64 | base64Decode }}
+          # Now reference the path to the decoded private key file
+          key: ~/.ssh/id_rsa_github_actions # <--- CHANGE THIS LINE
           script: |
             # Navigate to project directory
             cd /mnt/user/appdata/paul-blake-website/
