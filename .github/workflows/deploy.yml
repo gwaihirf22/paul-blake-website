@@ -28,6 +28,7 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
+          load: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/paul-blake-site:latest
             ${{ secrets.DOCKER_USERNAME }}/paul-blake-site:${{ github.sha }}

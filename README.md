@@ -100,7 +100,8 @@ This project includes a GitHub Actions workflow that automatically deploys to an
 
 #### Workflow Features:
 - **Docker Build**: Creates optimized Docker image for `linux/amd64`
-- **SSH Deployment**: Transfers and deploys to Unraid server
+- **Docker Hub Push**: Pushes image to Docker Hub registry
+- **SSH Deployment**: Pulls latest image and restarts on Unraid server
 - **Auto Cleanup**: Removes old Docker images to save space
 
 #### Required GitHub Secrets:
@@ -109,22 +110,32 @@ Set these in your repository settings under **Settings** → **Secrets and varia
 
 | Secret | Description | Example |
 |--------|-------------|---------|
+| `DOCKER_USERNAME` | Docker Hub username | `your-username` |
+| `DOCKER_TOKEN` | Docker Hub access token | `dckr_pat_...` |
 | `UNRAID_HOST` | Unraid server IP address | `192.168.1.100` |
 | `UNRAID_USERNAME` | Unraid username | `root` |
 | `SSH_PRIVATE_KEY` | SSH private key for Unraid access | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
 
-#### Optional Docker Hub Secrets (if pushing to registry):
-| Secret | Description |
-|--------|-------------|
-| `DOCKER_USERNAME` | Docker Hub username |
-| `DOCKER_TOKEN` | Docker Hub access token |
-
 #### Deployment Process:
 1. Code is pushed to `main` branch
 2. GitHub Actions builds Docker image
-3. Image is transferred to Unraid server via SSH
-4. Docker Compose restarts container with new image
-5. Old images are cleaned up automatically
+3. Image is pushed to Docker Hub registry
+4. SSH into Unraid server and pull latest image from Docker Hub
+5. Docker Compose restarts container with new image
+6. Old images are cleaned up automatically
+
+#### Docker Compose Configuration:
+
+Your `docker-compose.yml` on the Unraid server should reference your Docker Hub image:
+
+```yaml
+services:
+  paul-blake-site:
+    image: your-username/paul-blake-site:latest
+    ports:
+      - "3000:3000"
+    # ... other configuration
+```
 
 ### Manual Deployment
 
