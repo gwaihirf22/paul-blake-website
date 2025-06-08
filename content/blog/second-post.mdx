@@ -1,0 +1,65 @@
+---
+title: "Building This Blog"
+date: "2025-05-05"
+---
+
+# Building This Blog
+
+In this post, I'll walk through the technical decisions and architecture behind this blog.
+
+## Tech Stack
+
+I chose to build this blog with:
+
+- **Next.js** - For the React framework and static site generation
+- **MDX** - To write blog posts in Markdown with React component support  
+- **Docker** - For consistent deployment and containerization
+- **Plain CSS** - Keeping it simple and fast
+
+## Why These Choices?
+
+### Next.js with Pages Router
+
+I went with the Pages Router over the newer App Router because it's mature, well-documented, and perfect for a blog use case. The static generation capabilities are exactly what I need for optimal performance.
+
+### MDX Over Pure Markdown
+
+While I could have used pure Markdown, MDX gives me the flexibility to embed React components directly in my posts when needed. This opens up possibilities for interactive content, code examples, and custom styling.
+
+### Docker for Deployment
+
+Containerizing the application makes deployment consistent across different environments. Whether I'm running this locally or on my server, Docker ensures it works the same way.
+
+## File Structure
+
+```bash
+├── content/
+│   └── blog/
+│       ├── first-post.mdx
+│       └── second-post.mdx
+├── pages/
+│   ├── index.js
+│   ├── blog/
+│   │   ├── index.js
+│   │   └── [slug].js
+└── styles/
+    └── globals.css
+```
+
+This structure keeps content separate from code, making it easy to manage and scale.
+
+## What's Next?
+
+Future improvements I'm considering:
+
+1. Adding tags and categories
+2. Implementing a search feature
+3. Adding comments (maybe with GitHub Discussions)
+4. RSS feed generation
+5. Enhanced SEO optimization
+
+Stay tuned for more updates!
+
+---
+
+*Updated on June 7, 2025* 

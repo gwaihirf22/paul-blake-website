@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://paul-blake.com
+
+# Sitemaps
+Sitemap: https://paul-blake.com/sitemap.xml
