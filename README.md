@@ -1,40 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Paul Blake Website
+
+This is a personal website and blog built with [Next.js](https://nextjs.org) using the Pages Router. The site features a main blog and a dedicated theology section for Christian faith, theological discussions, and philosophy.
+
+## Features
+
+- **Personal Blog**: Thoughts on development, technology, and general interests
+- **Theology Section**: Dedicated area for Christian faith, theology, philosophy, and science discussions
+- **MDX Support**: Write blog posts in Markdown with React component support
+- **Responsive Design**: Clean, modern UI that works on all devices
+- **Static Site Generation**: Optimized performance with Next.js SSG
+- **Docker Support**: Containerized for easy deployment
+
+## Project Structure
+
+```
+├── content/
+│   └── blog/
+│       ├── theology/           # Theological blog posts
+│       ├── first-post.mdx     # Regular blog posts
+│       └── second-post.mdx
+├── pages/
+│   ├── blog/
+│   │   ├── theology/          # Theology section pages
+│   │   │   ├── index.js       # Theology blog index
+│   │   │   └── [slug].js      # Individual theology posts
+│   │   ├── index.js           # Main blog index
+│   │   └── [slug].js          # Individual blog posts
+│   └── index.js               # Homepage
+└── styles/
+    └── globals.css
+```
 
 ## Getting Started
 
-First, run the development server:
+### Development
+
+First, install dependencies:
+
+```bash
+npm install
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Docker Development
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+You can also run the project using Docker:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+```bash
+# Build the image
+docker build -t paul-blake-website .
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Run the container
+docker run -p 3000:3000 paul-blake-website
+```
+
+Or use Docker Compose:
+
+```bash
+docker compose up
+```
+
+## Blog Content
+
+### Writing Blog Posts
+
+- **Regular Posts**: Add `.mdx` files to `content/blog/`
+- **Theology Posts**: Add `.mdx` files to `content/blog/theology/`
+
+Each post requires frontmatter:
+
+```yaml
+---
+title: "Your Post Title"
+date: "2025-01-27"
+author: "Paul Blake"
+---
+```
+
+### Theology Section
+
+The theology section (`/blog/theology`) is dedicated to:
+- Christian faith and doctrine
+- Theological discussions and apologetics
+- Philosophy and worldview topics
+- Science and faith intersection
+
+## Deployment
+
+### Automated Deployment to Unraid
+
+This project includes a GitHub Actions workflow that automatically deploys to an Unraid server on every push to the `main` branch.
+
+#### Workflow Features:
+- **Docker Build**: Creates optimized Docker image for `linux/amd64`
+- **SSH Deployment**: Transfers and deploys to Unraid server
+- **Auto Cleanup**: Removes old Docker images to save space
+
+#### Required GitHub Secrets:
+
+Set these in your repository settings under **Settings** → **Secrets and variables** → **Actions**:
+
+| Secret | Description | Example |
+|--------|-------------|---------|
+| `UNRAID_HOST` | Unraid server IP address | `192.168.1.100` |
+| `UNRAID_USERNAME` | Unraid username | `root` |
+| `SSH_PRIVATE_KEY` | SSH private key for Unraid access | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
+
+#### Optional Docker Hub Secrets (if pushing to registry):
+| Secret | Description |
+|--------|-------------|
+| `DOCKER_USERNAME` | Docker Hub username |
+| `DOCKER_TOKEN` | Docker Hub access token |
+
+#### Deployment Process:
+1. Code is pushed to `main` branch
+2. GitHub Actions builds Docker image
+3. Image is transferred to Unraid server via SSH
+4. Docker Compose restarts container with new image
+5. Old images are cleaned up automatically
+
+### Manual Deployment
+
+You can also deploy manually:
+
+```bash
+# Build for production
+npm run build
+
+# Or using Docker
+docker build -t paul-blake-site:latest .
+```
+
+## Tech Stack
+
+- **Framework**: Next.js 14 (Pages Router)
+- **Content**: MDX with gray-matter
+- **Styling**: Plain CSS
+- **Deployment**: Docker + GitHub Actions
+- **Server**: Unraid with Docker Compose
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs) - Next.js features and API
+- [MDX Documentation](https://mdxjs.com/) - Writing content with MDX
+- [Docker Documentation](https://docs.docker.com/) - Containerization
+- [GitHub Actions](https://docs.github.com/en/actions) - CI/CD workflows
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+This project is personal/educational use. Content and code are © Paul Blake.
