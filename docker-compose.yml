@@ -1,13 +1,8 @@
 # docker-compose.yml
 version: '3.9'
 services:
-  paul-blake-website:
-    # --- IMPORTANT CHANGE: From 'build' to 'image' ---
-    image: flyingoat03/paul-blake-site:latest # <--- NEW: Pulls from Docker Hub
-    # REMOVE THE 'build:' block below completely
-    # build:
-    #   context: .
-    # ---------------------------------------------------
+  paul-blake-site:
+    image: flyingoat03/paul-blake-site:latest
     container_name: paul-blake-site
     ports:
       - "3010:3010" # Host port 3010 maps to container port 3010
