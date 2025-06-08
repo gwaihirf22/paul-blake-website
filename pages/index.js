@@ -17,7 +17,7 @@ export default function Home() {
           <div className="hero-content">
             <h1>Paul Blake: Software Developer/Engineer</h1>
             <p className="hero-tagline">
-              Crafting robust solutions and sharing insights into the world of code.
+              Crafting robust solutions and sharing insights into the world of code. 
             </p>
             <div className="hero-cta">
               <Link href="/blog" className="btn">
