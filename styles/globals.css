@@ -31,6 +31,27 @@ html, body {
   --color-border: #334155;
   --color-card-background: #1e293b;
   --color-hover: #0891b2;
+  
+  /* Dark card colors */
+  --card-bg-primary: #1f2937;      /* Dark blue-gray */
+  --card-bg-secondary: #374151;     /* Lighter blue-gray for WIP/special cards */
+  --card-bg-accent: #065f46;       /* Dark green for highlighted cards */
+  
+  /* Light text colors for dark backgrounds */
+  --card-text-primary: #f9fafb;    /* Almost white for main text */
+  --card-text-secondary: #d1d5db;  /* Light gray for secondary text */
+  --card-text-accent: #10b981;     /* Green accent for links/highlights */
+  
+  /* Borders and shadows for dark theme */
+  --card-border-primary: #4b5563;     /* Medium gray border */
+  --card-border-secondary: #6b7280;   /* Slightly lighter for secondary cards */
+  --card-shadow-dark: rgba(0, 0, 0, 0.4);  /* Darker shadow for depth */
+  
+  /* Button and link colors for dark cards */
+  --card-button-bg: #3b82f6;          /* Blue button background */
+  --card-button-hover: #2563eb;       /* Darker blue on hover */
+  --card-link-color: #60a5fa;         /* Light blue for links */
+  --card-link-hover: #93c5fd;         /* Even lighter blue on hover */
 }
 
 html {
@@ -255,4 +276,124 @@ section {
 /* Smooth transitions for theme changes */
 * {
   transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Base card styles - can be used across all components */
+.dark-card {
+  background-color: var(--card-bg-primary);
+  color: var(--card-text-primary);
+  border: 1px solid var(--card-border-primary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 6px var(--card-shadow-dark);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px var(--card-shadow-dark);
+}
+
+.dark-card-secondary {
+  background-color: var(--card-bg-secondary);
+  color: var(--card-text-primary);
+  border: 1px solid var(--card-border-secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 6px var(--card-shadow-dark);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark-card-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px var(--card-shadow-dark);
+}
+
+/* Typography styles for dark cards */
+.dark-card h3,
+.dark-card-secondary h3 {
+  color: var(--card-text-primary);
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.dark-card h2,
+.dark-card-secondary h2 {
+  color: var(--card-text-primary);
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+}
+
+.dark-card p,
+.dark-card-secondary p {
+  color: var(--card-text-secondary);
+  line-height: 1.6;
+  margin: 0.5rem 0;
+}
+
+/* Link styles for dark cards */
+.dark-card a,
+.dark-card-secondary a {
+  color: var(--card-link-color);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color 0.2s, color 0.2s;
+}
+
+.dark-card a:hover,
+.dark-card-secondary a:hover {
+  color: var(--card-link-hover);
+  border-bottom-color: var(--card-link-hover);
+}
+
+/* Button styles for dark cards */
+.dark-card-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--card-button-bg);
+  color: var(--card-text-primary);
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.dark-card-button:hover {
+  background-color: var(--card-button-hover);
+  color: var(--card-text-primary);
+}
+
+/* Special profile links section styling */
+.dark-profile-section {
+  background-color: var(--card-bg-primary);
+  color: var(--card-text-primary);
+  border: 1px solid var(--card-border-primary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 6px var(--card-shadow-dark);
+}
+
+.dark-profile-section h2 {
+  color: var(--card-text-primary);
+  font-weight: 600;
+  margin-top: 0;
+}
+
+/* Utility classes for consistent spacing and layout */
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .card-grid-responsive {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
 }

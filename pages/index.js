@@ -79,15 +79,15 @@ export default function Home() {
         <section className="projects">
           <h2>Featured Projects</h2>
           <div className="projects-content">
-            <div className="project-highlight">
+            <div className="dark-card">
               <h3>🏘️ Neighborly</h3>
               <p>Community-focused web application for skill bartering and local tool sharing</p>
             </div>
-            <div className="project-highlight">
+            <div className="dark-card">
               <h3>⚡ Atomic Momentum</h3>
               <p>Lightweight habit tracker focused on building daily momentum through small wins</p>
             </div>
-            <div className="project-highlight">
+            <div className="dark-card">
               <h3>🌐 This Website</h3>
               <p>Next.js blog with theology section, Docker deployment, and automated CI/CD</p>
             </div>
@@ -213,29 +213,6 @@ export default function Home() {
           background-color: var(--color-card-background);
           border: 1px solid var(--color-border);
           border-radius: 8px;
-        }
-
-        .project-highlight {
-          margin: 1.5rem 0;
-          padding: 1.5rem;
-          background-color: #ffffff;
-          border: 1px solid #d1d5db;
-          border-radius: 6px;
-          border-left: 4px solid var(--color-accent);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .project-highlight h3 {
-          margin: 0 0 0.5rem 0;
-          color: #111827;
-          font-size: 1.2rem;
-          font-weight: 600;
-        }
-
-        .project-highlight p {
-          margin: 0;
-          color: #374151;
-          line-height: 1.5;
         }
 
         .projects-content .btn {

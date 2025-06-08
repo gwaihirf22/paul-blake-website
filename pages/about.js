@@ -13,7 +13,7 @@ export default function About() {
       <div>
         <h1>About Paul Blake</h1>
         
-        <div className="intro">
+        <div className="dark-profile-section">
           <p>Welcome! I'm Paul, a software developer with a passion for building meaningful technology solutions and exploring the intersection of faith, philosophy, and code.</p>
         </div>
 
@@ -51,28 +51,28 @@ export default function About() {
         <section className="values">
           <h2>What Drives Me</h2>
           
-          <div className="value-item">
+          <div className="dark-card">
             <h3>🏘️ Community-Focused Development</h3>
             <p>
               I believe technology should strengthen communities rather than isolate us. Projects like Neighborly reflect my commitment to building tools that help people connect and share resources locally.
             </p>
           </div>
 
-          <div className="value-item">
+          <div className="dark-card">
             <h3>⚡ Incremental Progress</h3>
             <p>
               Whether it's through my Atomic Momentum habit tracker or my approach to learning new technologies, I'm passionate about the power of small, consistent improvements over time.
             </p>
           </div>
 
-          <div className="value-item">
+          <div className="dark-card">
             <h3>🎯 Purpose-Driven Technology</h3>
             <p>
               Every line of code should serve a purpose. I strive to build solutions that solve real problems and have a positive impact on people's lives.
             </p>
           </div>
 
-          <div className="value-item">
+          <div className="dark-card">
             <h3>📚 Faith and Philosophy</h3>
             <p>
               My Christian faith deeply influences how I approach both technology and life. I'm particularly interested in exploring how biblical principles can inform our approach to craftsmanship, work, and innovation.
@@ -119,18 +119,6 @@ export default function About() {
       </div>
 
       <style jsx>{`
-        .intro {
-          font-size: 1.2rem;
-          color: #374151;
-          margin-bottom: 2rem;
-          padding: 1.5rem;
-          background-color: #ffffff;
-          border: 1px solid #d1d5db;
-          border-radius: 8px;
-          border-left: 4px solid #0066cc;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
         .journey, .values, .current-focus, .connect {
           margin: 2.5rem 0;
         }
@@ -140,7 +128,7 @@ export default function About() {
         }
 
         .career-section h3, .transition-section h3 {
-          color: #111827;
+          color: var(--card-text-primary);
           margin-bottom: 1rem;
           font-weight: 600;
         }
@@ -152,27 +140,7 @@ export default function About() {
 
         .career-section li {
           margin: 0.5rem 0;
-        }
-
-        .value-item {
-          margin: 1.5rem 0;
-          padding: 1.5rem;
-          background-color: #ffffff;
-          border: 1px solid #d1d5db;
-          border-radius: 8px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .value-item h3 {
-          margin: 0 0 1rem 0;
-          color: #111827;
-          font-weight: 600;
-        }
-
-        .value-item p {
-          margin: 0;
-          line-height: 1.6;
-          color: #374151;
+          color: var(--card-text-secondary);
         }
 
         .current-focus ul, .connect-links ul {
@@ -182,53 +150,49 @@ export default function About() {
 
         .current-focus li, .connect-links li {
           margin: 0.5rem 0;
+          color: var(--card-text-secondary);
         }
 
         .connect-links {
           margin-top: 1.5rem;
         }
 
-        .connect-links a {
-          color: #0066cc;
-          text-decoration: none;
-          border-bottom: 1px solid transparent;
-        }
-
-        .connect-links a:hover {
-          border-bottom-color: #0066cc;
-        }
-
         .navigation {
           margin-top: 3rem;
           padding-top: 2rem;
-          border-top: 1px solid #e1e5e9;
+          border-top: 1px solid var(--card-border-primary);
         }
 
         .navigation a {
-          color: #0066cc;
+          color: var(--card-link-color);
           text-decoration: none;
           margin-right: 1rem;
         }
 
         .navigation a:hover {
+          color: var(--card-link-hover);
           text-decoration: underline;
         }
 
         p {
           line-height: 1.6;
           margin: 1rem 0;
+          color: var(--card-text-secondary);
         }
 
-        h2 {
-          color: #111827;
+        h1, h2 {
+          color: var(--card-text-primary);
           margin: 2rem 0 1rem 0;
-          border-bottom: 2px solid #0066cc;
-          padding-bottom: 0.5rem;
           font-weight: 600;
         }
 
+        h2 {
+          border-bottom: 2px solid var(--card-link-color);
+          padding-bottom: 0.5rem;
+        }
+
         h3 {
-          color: #374151;
+          color: var(--card-text-primary);
           margin: 1.5rem 0 0.5rem 0;
           font-weight: 600;
         }
