@@ -6,8 +6,10 @@ import matter from "gray-matter";
 import { bundleMDX } from "mdx-bundler";
 import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
+import rehypePrism from "rehype-prism-plus";
+import ReadingProgress from "../../components/ReadingProgress";
 
-export default function BlogPost({ post }) {
+export default function BlogPost({ post, showProgress }) {
   const Component = useMemo(() => getMDXComponent(post.code), [post.code]);
   
   const formatDate = (dateString) => {
@@ -27,6 +29,9 @@ export default function BlogPost({ post }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+      {showProgress && <ReadingProgress />}
+      
       <div>
         <article>
           <header>
@@ -73,12 +78,17 @@ export async function getStaticProps({ params }) {
   const fullPath = path.join(process.cwd(), 'content/blog', `${params.slug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   
+  // Calculate reading time
+  const wordsPerMinute = 200;
+  const wordCount = fileContents.split(/\s+/).length;
+  const readingTimeMinutes = Math.ceil(wordCount / wordsPerMinute);
+  
   const { code, frontmatter } = await bundleMDX({
     source: fileContents,
     cwd: path.join(process.cwd(), 'content/blog'),
     mdxOptions: (options) => {
       options.remarkPlugins = [...(options.remarkPlugins ?? [])];
-      options.rehypePlugins = [...(options.rehypePlugins ?? [])];
+      options.rehypePlugins = [...(options.rehypePlugins ?? []), rehypePrism];
       return options;
     },
   });
@@ -96,8 +106,10 @@ export async function getStaticProps({ params }) {
         frontmatter: {
           ...frontmatter,
           date: formattedDate,
+          readingTime: readingTimeMinutes,
         },
       },
+      showProgress: readingTimeMinutes > 2, // Show progress bar for posts > 2 minutes
     },
   };
 } 
