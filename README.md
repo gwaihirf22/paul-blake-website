@@ -1,4 +1,8 @@
-# Paul Blake Website
+# Paul Blake's Personal Website
+
+A modern Next.js website featuring a blog, project showcase, and personal information. Built with MDX for rich content creation and deployed with Docker and CI/CD automation.
+
+<!-- Trigger deployment to fix profile image display - 2025-06-10 -->
 
 This is a personal website and blog built with [Next.js](https://nextjs.org) using the Pages Router. The site features a main blog and a dedicated theology section for Christian faith, theological discussions, and philosophy.
 
