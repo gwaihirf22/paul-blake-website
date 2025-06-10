@@ -14,7 +14,14 @@ export default function About() {
         <h1>About Paul Blake</h1>
         
         <div className="dark-profile-section">
-          <p>Welcome! I'm Paul, a software developer with a passion for building meaningful technology solutions and exploring the intersection of faith, philosophy, and code.</p>
+          <div className="profile-intro">
+            <div className="profile-image">
+              <img src="/beach-profile-pic.jpeg" alt="Paul Blake" />
+            </div>
+            <div className="intro-text">
+              <p>Welcome! I'm Paul, a software developer with a passion for building meaningful technology solutions and exploring the intersection of faith, philosophy, and code.</p>
+            </div>
+          </div>
         </div>
 
         <section className="journey">
@@ -119,6 +126,40 @@ export default function About() {
       </div>
 
       <style jsx>{`
+        .profile-intro {
+          display: flex;
+          gap: 2rem;
+          align-items: center;
+        }
+
+        .profile-image {
+          flex-shrink: 0;
+        }
+
+        .profile-image img {
+          width: 200px;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 10px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-image img:hover {
+          transform: scale(1.02);
+          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .intro-text {
+          flex: 1;
+        }
+
+        .intro-text p {
+          margin: 0;
+          font-size: 1.1rem;
+          line-height: 1.6;
+        }
+
         .journey, .values, .current-focus, .connect {
           margin: 2.5rem 0;
         }
@@ -195,6 +236,19 @@ export default function About() {
           color: var(--card-text-primary);
           margin: 1.5rem 0 0.5rem 0;
           font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+          .profile-intro {
+            flex-direction: column;
+            text-align: center;
+            gap: 1.5rem;
+          }
+
+          .profile-image img {
+            width: 180px;
+            height: 180px;
+          }
         }
       `}</style>
     </>

@@ -34,17 +34,24 @@ export default function Home() {
         <section className="about">
           <h2>About Me</h2>
           <div className="about-content">
-            <p>
-              I'm a passionate software developer with a unique background that bridges hands-on mechanical expertise 
-              with modern technology. Starting my career as an aircraft mechanic, I developed a deep appreciation 
-              for precision, systematic problem-solving, and the critical importance of reliable systems.
-            </p>
-            <p>
-              This foundation has been invaluable in my transition to computer science and software development. 
-              I bring the same meticulous attention to detail and systematic approach to building robust, 
-              scalable applications. Whether I'm debugging complex code or architecting new solutions, 
-              I apply the same principles that kept aircraft safely in the sky.
-            </p>
+            <div className="about-with-image">
+              <div className="profile-image">
+                <img src="/beach-profile-pic.jpeg" alt="Paul Blake" />
+              </div>
+              <div className="about-text">
+                <p>
+                  I'm a passionate software developer with a unique background that bridges hands-on mechanical expertise 
+                  with modern technology. Starting my career as an aircraft mechanic, I developed a deep appreciation 
+                  for precision, systematic problem-solving, and the critical importance of reliable systems.
+                </p>
+                <p>
+                  This foundation has been invaluable in my transition to computer science and software development. 
+                  I bring the same meticulous attention to detail and systematic approach to building robust, 
+                  scalable applications. Whether I'm debugging complex code or architecting new solutions, 
+                  I apply the same principles that kept aircraft safely in the sky.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -157,12 +164,41 @@ export default function Home() {
         }
 
         .about-content {
-          max-width: 800px;
+          max-width: 1000px;
         }
 
-        .about-content p {
+        .about-with-image {
+          display: flex;
+          gap: 3rem;
+          align-items: flex-start;
+        }
+
+        .profile-image {
+          flex-shrink: 0;
+        }
+
+        .profile-image img {
+          width: 250px;
+          height: 250px;
+          object-fit: cover;
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-image img:hover {
+          transform: scale(1.02);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .about-text {
+          flex: 1;
+        }
+
+        .about-text p {
           font-size: 1.1rem;
           line-height: 1.7;
+          margin-bottom: 1.5rem;
         }
 
         /* Skills Section */
@@ -253,6 +289,18 @@ export default function Home() {
           .hero-cta {
             flex-direction: column;
             align-items: center;
+          }
+
+          .about-with-image {
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+            text-align: center;
+          }
+
+          .profile-image img {
+            width: 200px;
+            height: 200px;
           }
 
           .skills-grid {

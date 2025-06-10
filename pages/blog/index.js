@@ -24,27 +24,66 @@ export default function BlogIndex({ posts }) {
       </Head>
       <div>
         <h1>Blog</h1>
-        <p>Welcome to my blog! Here you'll find my thoughts on development, technology, and whatever else I find interesting.</p>
+        <div className="dark-profile-section">
+          <p>Welcome to my blog! Here you'll find my thoughts on development, technology, and whatever else I find interesting.</p>
+        </div>
         
         <p>
           <strong>Categories:</strong> <Link href="/blog/theology">Theology</Link>
         </p>
         
-        <ul>
+        <div className="posts-grid">
           {posts.map((post) => (
-            <li key={post.slug}>
-              <Link href={`/blog/${post.slug}`}>
-                {post.title}
-              </Link>
-              <p suppressHydrationWarning>{formatDate(post.date)}</p>
-            </li>
+            <div key={post.slug} className="dark-card">
+              <h3>
+                <Link href={`/blog/${post.slug}`}>
+                  {post.title}
+                </Link>
+              </h3>
+              <p className="post-date" suppressHydrationWarning>
+                Published: {formatDate(post.date)}
+              </p>
+            </div>
           ))}
-        </ul>
+        </div>
         
         <p>
           <Link href="/">← Back to home</Link>
         </p>
       </div>
+      
+      <style jsx>{`
+        .posts-grid {
+          margin: 2rem 0;
+        }
+        
+        .post-date {
+          font-size: 0.9rem;
+          font-style: italic;
+          margin: 0.5rem 0 0 0;
+        }
+        
+        h1 {
+          color: var(--card-text-primary);
+          margin: 2rem 0 1rem 0;
+          font-weight: 600;
+        }
+        
+        p {
+          color: var(--card-text-secondary);
+          line-height: 1.6;
+        }
+        
+        p a {
+          color: var(--card-link-color);
+          text-decoration: none;
+        }
+        
+        p a:hover {
+          color: var(--card-link-hover);
+          text-decoration: underline;
+        }
+      `}</style>
     </>
   );
 }
