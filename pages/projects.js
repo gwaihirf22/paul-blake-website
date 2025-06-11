@@ -31,9 +31,14 @@ export default function Projects() {
           
           <div className="dark-card">
             <h3>🏘️ Neighborly</h3>
-            <p><strong>Tech Stack:</strong> TypeScript, Web Development</p>
-            <p>A community-focused web application designed for skill bartering and local tool sharing among friends and nearby communities. This project aims to strengthen neighborhood connections by enabling people to share resources and expertise.</p>
+            <p><strong>Tech Stack:</strong> Frontend: Next.js 14 with TypeScript, React, Tailwind CSS</p>
+            <p>Backend: Next.js API routes with NextAuth.js authentication</p>
+            <p>Database: PostgreSQL with Prisma ORM</p>
+            <p>Deployment: Docker (multi-architecture) with CI/CD pipeline</p>
+            <p>Additional: React Hot Toast, Mailgun email service, image optimization with Sharp</p>
+            <p>A community-focused web application designed for skill bartering and local tool sharing among friends and nearby communities. This project aims to strengthen neighborhood connections by enabling people to share resources and expertise. The application features user authentication, friend connections, messaging, tool/skill management, reservations, and location-based community discovery. It's deployed via Docker containers with PostgreSQL database backend and includes comprehensive admin functionality for community management.</p>
             <div className="project-links">
+              <a href="https://neighborly-community.com" target="_blank" rel="noopener noreferrer" className="dark-card-button">Visit App</a>
               <a href="https://github.com/gwaihirf22/Neighborly" target="_blank" rel="noopener noreferrer" className="dark-card-button">View on GitHub</a>
             </div>
           </div>
@@ -44,6 +49,16 @@ export default function Projects() {
             <p>A lightweight, offline-first habit tracker application focused on building daily momentum through small wins. The app emphasizes the power of atomic habits and consistent daily progress.</p>
             <div className="project-links">
               <a href="https://github.com/gwaihirf22/atomic-momentum" target="_blank" rel="noopener noreferrer" className="dark-card-button">View on GitHub</a>
+            </div>
+          </div>
+
+          <div className="dark-card">
+            <h3>🦁 Lion Tails</h3>
+            <p><strong>Tech Stack:</strong> React, Next.js, CSS Modules, OpenAI API (GPT-4, DALL-E 3, TTS), Node.js</p>
+            <p>An innovative AI-powered platform that generates personalized and interactive children's Bible stories. Features dynamic story generation, interactive customization, AI-generated illustrations with DALL-E 3, and engaging narration with text-to-speech functionality. Hosted on Replit.</p>
+            <div className="project-links">
+              <a href="https://lions-tails.replit.app" target="_blank" rel="noopener noreferrer" className="dark-card-button">Visit App</a>
+              <a href="https://github.com/gwaihirf22/lion-tails" target="_blank" rel="noopener noreferrer" className="dark-card-button">View on GitHub</a>
             </div>
           </div>
 

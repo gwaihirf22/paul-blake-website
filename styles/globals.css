@@ -403,20 +403,26 @@ section {
 .dark-card-button {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background-color: var(--card-button-bg);
-  color: var(--card-text-primary);
+  background: linear-gradient(135deg, var(--color-code-background), var(--color-hover));
+  color: var(--color-background);
   text-decoration: none;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .dark-card-button:hover {
-  background-color: var(--card-button-hover);
-  color: var(--card-text-primary);
+  background: linear-gradient(135deg, var(--color-hover), var(--color-code-background));
+  color: var(--color-background);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 188, 212, 0.3);
 }
 
 /* Special profile links section styling */

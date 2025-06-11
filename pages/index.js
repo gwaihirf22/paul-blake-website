@@ -95,6 +95,10 @@ export default function Home() {
               <p>Lightweight habit tracker focused on building daily momentum through small wins</p>
             </div>
             <div className="dark-card">
+              <h3>🦁 Lion Tails</h3>
+              <p>AI-powered platform for generating personalized and interactive children's Bible stories with illustrations and narration</p>
+            </div>
+            <div className="dark-card">
               <h3>🌐 This Website</h3>
               <p>Next.js blog with theology section, Docker deployment, and automated CI/CD</p>
             </div>
