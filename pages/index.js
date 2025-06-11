@@ -15,7 +15,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="hero">
           <div className="hero-content">
-            <h1>Paul Blake: Software Developer/Engineer</h1>
+            <h1>Paul Blake: Software Developer & Engineer</h1>
             <p className="hero-tagline">
               Crafting robust solutions and sharing insights into the world of code.
             </p>
