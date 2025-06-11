@@ -104,6 +104,53 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Technologies Section */}
+        <section className="technologies">
+          <h2>Technologies I'm Building With</h2>
+          <div className="technologies-grid">
+            <div className="technology-card">
+              <h3>JavaScript</h3>
+              <p>The foundational language for building interactive web experiences.</p>
+            </div>
+            <div className="technology-card">
+              <h3>TypeScript</h3>
+              <p>A statically-typed superset of JavaScript that enhances code quality and scalability.</p>
+            </div>
+            <div className="technology-card">
+              <h3>Python</h3>
+              <p>A versatile language I've used for scripting and introductory computer science concepts.</p>
+            </div>
+            <div className="technology-card">
+              <h3>C</h3>
+              <p>A low-level language that taught me fundamental memory management and system principles.</p>
+            </div>
+            <div className="technology-card">
+              <h3>React</h3>
+              <p>A powerful library for building declarative and component-based user interfaces.</p>
+            </div>
+            <div className="technology-card">
+              <h3>Next.js</h3>
+              <p>The full-stack React framework I used to build this statically-generated, SEO-friendly website.</p>
+            </div>
+            <div className="technology-card">
+              <h3>HTML & CSS</h3>
+              <p>The core technologies for structuring and styling the web.</p>
+            </div>
+            <div className="technology-card">
+              <h3>MDX</h3>
+              <p>A powerful format allowing me to write blog posts in Markdown with embedded React components.</p>
+            </div>
+            <div className="technology-card">
+              <h3>Docker</h3>
+              <p>Containerizing my applications for consistent, isolated deployment on my Unraid server.</p>
+            </div>
+            <div className="technology-card">
+              <h3>Git & GitHub Actions</h3>
+              <p>For version control and building the automated CI/CD pipeline that deploys this site.</p>
+            </div>
+          </div>
+        </section>
+
         {/* Blog CTA Section */}
         <section className="blog-cta">
           <h2>Latest Insights</h2>
@@ -199,6 +246,47 @@ export default function Home() {
           font-size: 1.1rem;
           line-height: 1.7;
           margin-bottom: 1.5rem;
+        }
+
+        /* Technologies Section */
+        .technologies {
+          margin-bottom: 4rem;
+        }
+
+        .technologies-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+          margin-top: 2rem;
+        }
+
+        .technology-card {
+          background-color: var(--color-card-background);
+          border: 1px solid var(--color-border);
+          border-radius: 8px;
+          padding: 1.25rem;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .technology-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 188, 212, 0.15);
+          border-color: var(--color-accent);
+        }
+
+        .technology-card h3 {
+          color: var(--color-accent);
+          margin-top: 0;
+          margin-bottom: 0.75rem;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        .technology-card p {
+          color: var(--color-text-secondary);
+          margin-bottom: 0;
+          font-size: 0.95rem;
+          line-height: 1.25;
         }
 
         /* Skills Section */
@@ -303,6 +391,11 @@ export default function Home() {
             height: 200px;
           }
 
+          .technologies-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+          }
+
           .skills-grid {
             grid-template-columns: 1fr;
           }
@@ -310,6 +403,16 @@ export default function Home() {
           .projects-content,
           .blog-cta {
             padding: 2rem 1rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .technologies-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .technology-card {
+            padding: 1.25rem;
           }
         }
       `}</style>

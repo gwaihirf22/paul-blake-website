@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Logo from "./Logo";
 
 export default function Navbar() {
   const router = useRouter();
@@ -13,7 +14,8 @@ export default function Navbar() {
       <div className="navbar-container">
         <div className="navbar-brand">
           <Link href="/" className="brand-link">
-            Paul Blake
+            <Logo />
+            <span className="brand-text">Paul Blake</span>
           </Link>
         </div>
         
@@ -51,7 +53,7 @@ export default function Navbar() {
           top: 0;
           left: 0;
           right: 0;
-          background-color: rgba(15, 23, 42, 0.95);
+          background-color: var(--color-background);
           backdrop-filter: blur(10px);
           border-bottom: 1px solid var(--color-border);
           z-index: 1000;
@@ -64,21 +66,31 @@ export default function Navbar() {
           padding: 0 2rem;
           display: flex;
           justify-content: space-between;
-          align-items: center;
+          align-items: baseline !important;
           height: 70px;
         }
 
         .navbar-brand {
           display: flex;
-          align-items: center;
+          align-items: baseline !important;
         }
 
         .brand-link {
           font-size: 1.5rem;
-          font-weight: 700;
           color: var(--color-text-primary);
           text-decoration: none;
           transition: color 0.2s ease;
+          display: flex !important;
+          align-items: baseline !important;
+          gap: 0.75rem;
+        }
+
+        .brand-text {
+          font-weight: 800 !important;
+          font-size: 1.5rem !important;
+          color: var(--color-accent) !important;
+          line-height: 1 !important;
+          display: inline-block !important;
         }
 
         .brand-link:hover {
@@ -86,20 +98,31 @@ export default function Navbar() {
           transform: none;
         }
 
+        .brand-link:hover .brand-text {
+          color: var(--color-text-primary) !important;
+        }
+
+        .brand-link:hover :global(.logo-svg) {
+           color: var(--color-accent);
+        }
+
         .navbar-links {
           display: flex;
           gap: 2rem;
-          align-items: center;
+          align-items: baseline !important;
         }
 
         .nav-link {
           color: var(--color-text-secondary);
           text-decoration: none;
           font-weight: 500;
+          font-size: 1rem;
           padding: 0.5rem 1rem;
           border-radius: 6px;
           transition: all 0.2s ease;
           position: relative;
+          line-height: 1 !important;
+          display: inline-block !important;
         }
 
         .nav-link:hover {
@@ -133,6 +156,11 @@ export default function Navbar() {
 
           .brand-link {
             font-size: 1.25rem;
+            gap: 0.5rem;
+          }
+
+          .brand-text {
+            font-size: 1.25rem !important;
           }
 
           .navbar-links {
@@ -153,6 +181,10 @@ export default function Navbar() {
           .nav-link {
             padding: 0.25rem 0.5rem;
             font-size: 0.85rem;
+          }
+
+          .brand-link {
+            gap: 0.4rem;
           }
         }
       `}</style>
