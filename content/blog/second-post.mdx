@@ -3,6 +3,8 @@ title: "Building This Blog"
 date: "2025-05-05"
 ---
 
+import { CodeBlock } from '../../components/CodeBlock.jsx';
+
 In this post, I'll walk through the technical decisions and architecture behind this blog.
 
 ## Tech Stack
@@ -30,8 +32,8 @@ Containerizing the application makes deployment consistent across different envi
 
 ## File Structure
 
-```bash
-├── content/
+<CodeBlock language="bash" title="Project Structure">
+{`├── content/
 │   └── blog/
 │       ├── theology/              # Dedicated theology section
 │       │   ├── moral-law-evolutionary-theory-vs-divine-law.mdx
@@ -47,8 +49,8 @@ Containerizing the application makes deployment consistent across different envi
 │   │   ├── index.js
 │   │   └── [slug].js
 └── styles/
-    └── globals.css
-```
+    └── globals.css`}
+</CodeBlock>
 
 This structure keeps content separate from code, making it easy to manage and scale. I've also added a dedicated theology section for Christian faith, theological discussions, and philosophy content.
 

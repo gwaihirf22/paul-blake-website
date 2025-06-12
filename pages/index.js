@@ -88,15 +88,15 @@ export default function Home() {
           <div className="projects-content">
             <div className="dark-card">
               <h3>🏘️ Neighborly</h3>
-              <p>Community-focused web application for skill bartering and local tool sharing</p>
+              <p>Community-focused web application for skill bartering and local tool sharing. Next.js 14, PostgreSQL, Docker, CI/CD, and more.</p>
             </div>
             <div className="dark-card">
               <h3>⚡ Atomic Momentum</h3>
-              <p>Lightweight habit tracker focused on building daily momentum through small wins</p>
+              <p>Lightweight habit tracker focused on building daily momentum through small wins. React, TypeScript, and more.</p>
             </div>
             <div className="dark-card">
               <h3>🦁 Lion Tails</h3>
-              <p>AI-powered platform for generating personalized and interactive children's Bible stories with illustrations and narration</p>
+              <p>AI-powered platform for generating personalized and interactive children's Bible stories with illustrations and narration. React, Next.js, OpenAI API, and more.</p>
             </div>
             <div className="dark-card">
               <h3>🌐 This Website</h3>
