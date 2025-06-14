@@ -25,7 +25,7 @@ export default function TheologyIndex({ posts }) {
       <div>
         <h1>Theological Blog</h1>
         <div className="dark-profile-section">
-          <p>Welcome to my theological blog posts! Here you'll find my thoughts and reflections on Christian faith, theology, philosophy, and the intersection of science and faith. These posts explore deep questions about God, morality, purpose, and what it means to live as a follower of Christ in today's world.</p>
+          <p>Welcome to my theological blog posts! Here you'll find my thoughts and reflections on Christian faith, theology, philosophy, and the intersection of science and faith. These posts explore deep questions about God, morality, purpose, and what it means to live faithfully as a follower of Christ in today's world.</p>
         </div>
         
         <div className="posts-grid">
