@@ -6,8 +6,13 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
-RUN npm config set registry https://registry.yarnpkg.com
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm config set fetch-retries 5 \
+    && npm config set fetch-retry-factor 2 \
+    && npm config set fetch-retry-mintimeout 10000 \
+    && npm config set fetch-timeout 600000 \
+    && npm config set registry https://registry.yarnpkg.com \
+    && (npm ci --omit=dev --no-audit --no-fund || (echo "Primary registry failed, switching to npmmirror" && npm config set registry https://registry.npmmirror.com && npm ci --omit=dev --no-audit --no-fund)) \
+    && npm cache clean --force
 
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder
