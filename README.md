@@ -10,6 +10,7 @@ This is a personal website and blog built with [Next.js](https://nextjs.org) usi
 
 - **Personal Blog**: Thoughts on development, technology, and general interests
 - **Theology Section**: Dedicated area for Christian faith, theology, philosophy, and science discussions
+- **Comment System**: GitHub Discussions integration with reactions and email notifications
 - **MDX Support**: Write blog posts in Markdown with React component support
 - **Responsive Design**: Clean, modern UI that works on all devices
 - **Static Site Generation**: Optimized performance with Next.js SSG
@@ -95,6 +96,31 @@ The theology section (`/blog/theology`) is dedicated to:
 - Theological discussions and apologetics
 - Philosophy and worldview topics
 - Science and faith intersection
+
+## Comment System
+
+The website features an integrated comment system powered by [Giscus](https://giscus.app) and GitHub Discussions.
+
+### Features
+- **GitHub Integration**: Comments are stored as GitHub Discussions in this repository
+- **No Separate Registration**: Users comment with their existing GitHub accounts
+- **Reactions**: Like/dislike and emoji reactions on posts and comments
+- **Email Notifications**: Automatic notifications when someone replies to your comment
+- **Moderation**: Full moderation capabilities through GitHub's interface
+- **Privacy Focused**: No tracking, no ads, open source
+
+### How It Works
+- Comments appear at the bottom of each blog post (both regular and theology posts)
+- Users click "Sign in with GitHub" to leave comments
+- Each blog post creates a separate GitHub Discussion automatically
+- Users receive email notifications for replies based on their GitHub notification settings
+- Repository maintainers can moderate comments directly on GitHub
+
+### For Users
+- Visit any blog post and scroll to the bottom to see the comment section
+- Sign in with GitHub to participate in discussions
+- Customize your GitHub notification preferences to control email alerts
+- Use reactions (👍👎❤️😄🎉😕🚀👀) to engage with posts and comments
 
 ## Deployment
 

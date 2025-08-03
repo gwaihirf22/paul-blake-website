@@ -8,6 +8,7 @@ import { getMDXComponent } from "mdx-bundler/client";
 import { useMemo } from "react";
 import rehypePrism from "rehype-prism-plus";
 import ReadingProgress from "../../../components/ReadingProgress";
+import Comments from "../../../components/Comments";
 
 export default function TheologyPost({ post, showProgress }) {
   const Component = useMemo(() => getMDXComponent(post.code), [post.code]);
@@ -46,6 +47,8 @@ export default function TheologyPost({ post, showProgress }) {
             <Component />
           </div>
         </article>
+        
+        <Comments />
         
         <nav>
           <p>
