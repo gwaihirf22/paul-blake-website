@@ -9,6 +9,7 @@ import { useMemo } from "react";
 import rehypePrism from "rehype-prism-plus";
 import ReadingProgress from "../../../components/ReadingProgress";
 import Comments from "../../../components/Comments";
+import SubscriptionForm from "../../../components/SubscriptionForm";
 
 export default function TheologyPost({ post, showProgress }) {
   const Component = useMemo(() => getMDXComponent(post.code), [post.code]);
@@ -49,6 +50,8 @@ export default function TheologyPost({ post, showProgress }) {
         </article>
         
         <Comments />
+        
+        <SubscriptionForm categories={['theology']} compact={true} />
         
         <nav>
           <p>

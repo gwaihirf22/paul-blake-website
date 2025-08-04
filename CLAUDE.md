@@ -96,6 +96,54 @@ The app runs on port 3010 in production. The Dockerfile uses Next.js standalone 
 **Reconfiguration:** 
 If you need to change categories or repository settings, update the configuration values in `components/Comments.jsx` and ensure GitHub Discussions is enabled with the giscus app installed.
 
+## Blog Subscription System
+
+**RSS Feeds:**
+- `/api/rss/blog.xml` - Main blog posts (excluding theology)
+- `/api/rss/theology.xml` - Theology posts only
+- `/api/rss/all.xml` - All posts combined
+
+**MailerLite Integration:** ✅ **FULLY MIGRATED FROM MAILGUN**
+- Repository: Uses `@mailerlite/mailerlite-nodejs` for email subscription management
+- Groups: Supports category-specific subscriptions with configured Group IDs
+  - Technology Posts: `161750636988204571`
+  - Theology Posts: `161750656038733632`
+  - All Blog Posts: `161750623746786929`
+- Domain Verification: `paul-blake.com` verified and authenticated
+- Sender Email: `email.blog@paul-blake.com` configured as default sender
+- Double Opt-in: GDPR-compliant email confirmation process
+- Automated Campaigns: GitHub Actions trigger emails for new posts
+
+**Dependencies:**
+- `feed` - RSS feed generation
+- `@mailerlite/mailerlite-nodejs` - Email service integration
+
+**Environment Variables Required:**
+```env
+NEXT_PUBLIC_SITE_URL=https://paul-blake.com
+MAILERLITE_API_KEY=your_mailerlite_api_key
+ADMIN_EMAIL=email.blog@paul-blake.com
+NOTIFICATION_SECRET=ml_blog_notification_secret_2025_v1
+```
+
+**GitHub Actions Secrets Required:**
+- `NOTIFICATION_SECRET` - Same as environment variable above
+- `NEXT_PUBLIC_SITE_URL` - Your deployed site URL for the API call
+
+**Subscription API Endpoints:**
+- `POST /api/subscribe` - Handle new subscriptions ✅ **WORKING**
+- `POST /api/unsubscribe` - Handle unsubscription requests ✅ **WORKING** 
+- `POST /api/send-notification` - Send email notifications for new posts ⏳ **PENDING EMAIL VERIFICATION**
+
+**Migration Status:**
+- ✅ Mailgun completely removed
+- ✅ MailerLite package installed and configured
+- ✅ All API endpoints converted
+- ✅ Group IDs configured
+- ✅ Domain verified (`paul-blake.com`)
+- ✅ Subscription forms working on `/blog` and `/blog/theology`
+- ⏳ Campaign creation pending sender email verification completion
+
 ### Key Files to Understand
 
 - `pages/_app.js` - Global app wrapper and layout

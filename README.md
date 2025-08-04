@@ -10,6 +10,7 @@ This is a personal website and blog built with [Next.js](https://nextjs.org) usi
 
 - **Personal Blog**: Thoughts on development, technology, and general interests
 - **Theology Section**: Dedicated area for Christian faith, theology, philosophy, and science discussions
+- **Email Subscriptions**: MailerLite-powered subscription system with category-specific notifications
 - **Comment System**: GitHub Discussions integration with reactions and email notifications
 - **MDX Support**: Write blog posts in Markdown with React component support
 - **Responsive Design**: Clean, modern UI that works on all devices

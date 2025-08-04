@@ -11,6 +11,10 @@ services:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
       - PORT=3010 # Next.js listens on 3010 internally
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+      - MAILERLITE_API_KEY=${MAILERLITE_API_KEY}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - NOTIFICATION_SECRET=${NOTIFICATION_SECRET}
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3010"]
       interval: 30s

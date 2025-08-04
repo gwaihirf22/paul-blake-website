@@ -35,7 +35,7 @@ export default function Projects() {
             <p>Backend: Next.js API routes with NextAuth.js authentication</p>
             <p>Database: PostgreSQL with Prisma ORM</p>
             <p>Deployment: Docker (multi-architecture) with CI/CD pipeline</p>
-            <p>Additional: React Hot Toast, Mailgun email service, image optimization with Sharp</p>
+            <p>Additional: React Hot Toast, MailerLite email service, image optimization with Sharp</p>
             <p>A community-focused web application designed for skill bartering and local tool sharing among friends and nearby communities. This project aims to strengthen neighborhood connections by enabling people to share resources and expertise. The application features user authentication, friend connections, messaging, tool/skill management, reservations, and location-based community discovery. It's deployed via Docker containers with PostgreSQL database backend and includes comprehensive admin functionality for community management.</p>
             <div className="project-links">
               <a href="https://neighborly-community.com" target="_blank" rel="noopener noreferrer" className="dark-card-button">Visit App</a>

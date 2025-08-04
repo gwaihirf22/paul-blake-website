@@ -1,0 +1,143 @@
+name: Blog Post Notifications
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/blog/**/*.mdx'
+  workflow_dispatch:
+    inputs:
+      post_slug:
+        description: 'Post slug to send notification for'
+        required: true
+        type: string
+      category:
+        description: 'Post category (blog or theology)'
+        required: true
+        type: choice
+        options:
+        - blog
+        - theology
+        default: blog
+
+jobs:
+  detect-new-posts:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    outputs:
+      new-posts: ${{ steps.detect.outputs.new-posts }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Fetch current and previous commit
+      
+      - name: Detect new or modified posts
+        id: detect
+        run: |
+          # Get list of changed MDX files in content/blog/
+          changed_files=$(git diff --name-only HEAD~1 HEAD -- 'content/blog/**/*.mdx' || echo "")
+          
+          if [ -z "$changed_files" ]; then
+            echo "No blog post changes detected"
+            echo "new-posts=[]" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "Changed files: $changed_files"
+          
+          # Process each changed file
+          new_posts="["
+          first=true
+          
+          for file in $changed_files; do
+            # Extract slug and category
+            if [[ $file == content/blog/theology/*.mdx ]]; then
+              category="theology"
+              slug=$(basename "$file" .mdx)
+            elif [[ $file == content/blog/*.mdx ]]; then
+              category="blog"
+              slug=$(basename "$file" .mdx)
+            else
+              continue
+            fi
+            
+            # Check if this is a new file (added) or just modified
+            if git diff --name-status HEAD~1 HEAD | grep -q "^A.*$file"; then
+              status="new"
+            else
+              status="modified"
+            fi
+            
+            # Only send notifications for new posts or if explicitly modified
+            if [ "$status" = "new" ] || [ "$status" = "modified" ]; then
+              if [ "$first" = true ]; then
+                first=false
+              else
+                new_posts="$new_posts,"
+              fi
+              new_posts="$new_posts{\"slug\":\"$slug\",\"category\":\"$category\",\"status\":\"$status\"}"
+            fi
+          done
+          
+          new_posts="$new_posts]"
+          echo "new-posts=$new_posts" >> $GITHUB_OUTPUT
+          echo "Detected posts: $new_posts"
+
+  send-notifications:
+    runs-on: ubuntu-latest
+    needs: detect-new-posts
+    if: (github.event_name == 'push' && needs.detect-new-posts.outputs.new-posts != '[]') || github.event_name == 'workflow_dispatch'
+    strategy:
+      matrix:
+        post: ${{ github.event_name == 'push' && fromJson(needs.detect-new-posts.outputs.new-posts) || fromJson(format('[{{"slug":"{0}","category":"{1}","status":"manual"}}]', github.event.inputs.post_slug, github.event.inputs.category)) }}
+    steps:
+      - name: Send notification for ${{ matrix.post.slug }}
+        run: |
+          echo "Sending notification for post: ${{ matrix.post.slug }} (category: ${{ matrix.post.category }})"
+          
+          # Send notification to the deployed site
+          response=$(curl -s -w "%{http_code}" -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.NOTIFICATION_SECRET }}" \
+            -d '{"slug":"${{ matrix.post.slug }}","category":"${{ matrix.post.category }}"}' \
+            "${{ secrets.NEXT_PUBLIC_SITE_URL }}/api/send-notification")
+          
+          http_code="${response: -3}"
+          response_body="${response%???}"
+          
+          echo "HTTP Status: $http_code"
+          echo "Response: $response_body"
+          
+          if [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ]; then
+            echo "✅ Notification sent successfully for ${{ matrix.post.slug }}"
+          else
+            echo "❌ Failed to send notification for ${{ matrix.post.slug }}"
+            echo "Response body: $response_body"
+            exit 1
+          fi
+
+  notification-summary:
+    runs-on: ubuntu-latest
+    needs: [detect-new-posts, send-notifications]
+    if: always() && (needs.detect-new-posts.result == 'success' || github.event_name == 'workflow_dispatch')
+    steps:
+      - name: Notification Summary
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "📧 Manual notification sent for: ${{ github.event.inputs.post_slug }} (${{ github.event.inputs.category }})"
+          else
+            posts="${{ needs.detect-new-posts.outputs.new-posts }}"
+            if [ "$posts" = "[]" ]; then
+              echo "ℹ️ No new blog posts detected, no notifications sent"
+            else
+              echo "📧 Notifications processed for the following posts:"
+              echo "$posts" | jq -r '.[] | "- \(.slug) (\(.category))"'
+            fi
+          fi
+          
+          if [ "${{ needs.send-notifications.result }}" = "success" ]; then
+            echo "✅ All notifications sent successfully"
+          elif [ "${{ needs.send-notifications.result }}" = "failure" ]; then
+            echo "❌ Some notifications failed to send"
+          fi
