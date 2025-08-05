@@ -53,8 +53,14 @@ jobs:
             echo "--- Navigating to project directory ---"
             cd /mnt/user/appdata/paul-blake-website/
             
+            echo "--- Setting environment variables ---"
+            export NEXT_PUBLIC_SITE_URL="https://paul-blake.com"
+            export MAILERLITE_API_KEY="${{ secrets.MAILERLITE_API_KEY }}"
+            export ADMIN_EMAIL="email.blog@paul-blake.com"
+            export NOTIFICATION_SECRET="${{ secrets.NOTIFICATION_SECRET }}"
+            
             echo "--- Pulling latest image from Docker Hub ---"
-            docker compose pull paul-blake-website # <-- THE ONLY CHANGE IS ON THIS LINE
+            docker compose pull paul-blake-website
             
             echo "--- Restarting container with new image ---"
             docker compose up -d
