@@ -1,46 +1,67 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Logo from "./Logo";
 
 export default function Navbar() {
   const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isActive = (pathname) => {
     return router.pathname === pathname;
   };
 
+  // Close the mobile menu on route change for a polished UX
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [router.pathname]);
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-brand">
-          <Link href="/" className="brand-link">
+          <Link href="/" className="brand-link" aria-label="Go to homepage">
             <Logo />
             <span className="brand-text">Paul Blake</span>
           </Link>
         </div>
-        
-        <div className="navbar-links">
-          <Link 
-            href="/" 
+
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+        >
+          <span className="menu-bars" />
+        </button>
+
+        <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
+          <Link
+            href="/"
             className={`nav-link ${isActive('/') ? 'active' : ''}`}
+            aria-current={isActive('/') ? 'page' : undefined}
           >
             Home
           </Link>
-          <Link 
-            href="/blog" 
+          <Link
+            href="/blog"
             className={`nav-link ${isActive('/blog') || router.pathname.startsWith('/blog/') ? 'active' : ''}`}
+            aria-current={isActive('/blog') || router.pathname.startsWith('/blog/') ? 'page' : undefined}
           >
             Blog
           </Link>
-          <Link 
-            href="/projects" 
+          <Link
+            href="/projects"
             className={`nav-link ${isActive('/projects') ? 'active' : ''}`}
+            aria-current={isActive('/projects') ? 'page' : undefined}
           >
             Projects
           </Link>
-          <Link 
-            href="/about" 
+          <Link
+            href="/about"
             className={`nav-link ${isActive('/about') ? 'active' : ''}`}
+            aria-current={isActive('/about') ? 'page' : undefined}
           >
             About
           </Link>
@@ -66,13 +87,13 @@ export default function Navbar() {
           padding: 0 2rem;
           display: flex;
           justify-content: space-between;
-          align-items: baseline !important;
+          align-items: center !important;
           height: 70px;
         }
 
         .navbar-brand {
           display: flex;
-          align-items: baseline !important;
+          align-items: center !important;
         }
 
         .brand-link {
@@ -81,7 +102,7 @@ export default function Navbar() {
           text-decoration: none;
           transition: color 0.2s ease;
           display: flex !important;
-          align-items: baseline !important;
+          align-items: center !important;
           gap: 0.75rem;
         }
 
@@ -109,7 +130,7 @@ export default function Navbar() {
         .navbar-links {
           display: flex;
           gap: 2rem;
-          align-items: baseline !important;
+          align-items: center !important;
         }
 
         .nav-link {
@@ -148,6 +169,36 @@ export default function Navbar() {
           border-radius: 50%;
         }
 
+        /* Menu toggle button */
+        .menu-toggle {
+          display: none;
+          background: transparent;
+          border: 1px solid var(--color-border);
+          color: var(--color-text-secondary);
+          padding: 0.4rem 0.6rem;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+
+        .menu-bars {
+          display: inline-block;
+          width: 22px;
+          height: 2px;
+          background: currentColor;
+          position: relative;
+        }
+        .menu-bars::before,
+        .menu-bars::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          width: 22px;
+          height: 2px;
+          background: currentColor;
+        }
+        .menu-bars::before { top: -6px; }
+        .menu-bars::after { top: 6px; }
+
         @media (max-width: 768px) {
           .navbar-container {
             padding: 0 1rem;
@@ -163,29 +214,52 @@ export default function Navbar() {
             font-size: 1.25rem !important;
           }
 
+          /* Hide desktop links and show toggle */
           .navbar-links {
-            gap: 1rem;
+            display: none;
+          }
+          .menu-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          /* Override SVG size for compact header */
+          .brand-link :global(.logo-svg) {
+            width: 36px !important;
+            height: 36px !important;
           }
 
           .nav-link {
             padding: 0.5rem 0.75rem;
             font-size: 0.9rem;
           }
+
+          /* Mobile dropdown */
+          .navbar-links.open {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-background);
+            border-bottom: 1px solid var(--color-border);
+          }
+          .navbar-links.open .nav-link {
+            padding: 0.9rem 1rem;
+            border-radius: 0;
+          }
         }
 
         @media (max-width: 480px) {
-          .navbar-links {
-            gap: 0.5rem;
-          }
+          .nav-link { font-size: 0.95rem; }
+          .brand-link { gap: 0.4rem; }
+        }
 
-          .nav-link {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.85rem;
-          }
-
-          .brand-link {
-            gap: 0.4rem;
-          }
+        /* Extremely small devices: keep the header clean */
+        @media (max-width: 360px) {
+          .brand-text { display: none !important; }
         }
       `}</style>
     </nav>
