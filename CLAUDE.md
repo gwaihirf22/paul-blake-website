@@ -39,7 +39,7 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 
 **Component Architecture:**
 - Global app wrapper in `_app.js` with fixed navbar and scrollbar visibility
-- Reusable components in `components/`: Navbar, Logo, ReadingProgress, Comments, etc.
+- Reusable components in `components/`: Navbar, Logo, ReadingProgress, Comments, YouTube, etc.
 - Styled-jsx for component-scoped CSS
 - CSS custom properties for theming in `globals.css`
 
@@ -156,5 +156,34 @@ NOTIFICATION_SECRET=ml_blog_notification_secret_2025_v1
 - `pages/blog/[slug].js` - Dynamic blog post rendering with MDX and comments
 - `pages/blog/theology/[slug].js` - Theology post rendering (mirrors main blog) with comments
 - `components/Comments.jsx` - Giscus comment system integration
+- `components/YouTube.jsx` - YouTube video embedding component for MDX posts
 - `next.config.js` - Next.js configuration with standalone output
 - `docker-compose.yml` - Production deployment configuration
+
+## MDX Components
+
+The blog uses several custom MDX components for rich content:
+
+**YouTube Component (`components/YouTube.jsx`)**
+- Embeds YouTube videos with responsive 16:9 aspect ratio
+- Usage: `<YouTube videoId="19RghmEGw8E" title="Video Title" />`
+- Automatically handles responsive sizing and clean styling
+- Minimal margins for optimal spacing in blog posts
+
+**Other MDX Components:**
+- `Callout.jsx` - Info and warning callout boxes
+- `CodeBlock.jsx` - Enhanced code blocks with syntax highlighting
+- `Image.jsx` - Responsive images with captions and styling
+
+**Usage in Blog Posts:**
+```jsx
+// Import at top of .mdx file
+import { YouTube } from '../../../components/YouTube.jsx';
+import { Callout } from '../../../components/Callout.jsx';
+import { Image } from '../../../components/Image.jsx';
+
+// Use in content
+<YouTube videoId="VIDEO_ID" title="Description" />
+<Callout type="info">Important information</Callout>
+<Image src="/image.jpg" alt="Description" caption="Optional caption" />
+```
