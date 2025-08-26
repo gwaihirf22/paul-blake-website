@@ -128,16 +128,24 @@ jobs:
             echo "📧 Manual notification sent for: ${{ github.event.inputs.post_slug }} (${{ github.event.inputs.category }})"
           else
             posts="${{ needs.detect-new-posts.outputs.new-posts }}"
-            if [ "$posts" = "[]" ]; then
+            if [ "$posts" = "[]" ] || [ -z "$posts" ]; then
               echo "ℹ️ No new blog posts detected, no notifications sent"
             else
               echo "📧 Notifications processed for the following posts:"
-              echo "$posts" | jq -r '.[] | "- \(.slug) (\(.category))"'
+              # More robust jq parsing with error handling
+              if echo "$posts" | jq empty 2>/dev/null; then
+                echo "$posts" | jq -r '.[] | "- \(.slug) (\(.category))"' 2>/dev/null || echo "- Posts were processed (jq parsing failed)"
+              else
+                echo "- Posts were processed (invalid JSON format)"
+              fi
             fi
           fi
           
+          # Update messaging for draft campaigns instead of sending
           if [ "${{ needs.send-notifications.result }}" = "success" ]; then
-            echo "✅ All notifications sent successfully"
+            echo "✅ All draft campaigns created successfully"
           elif [ "${{ needs.send-notifications.result }}" = "failure" ]; then
-            echo "❌ Some notifications failed to send"
+            echo "❌ Some draft campaigns failed to create"
+          else
+            echo "ℹ️ Draft campaign creation result: ${{ needs.send-notifications.result }}"
           fi

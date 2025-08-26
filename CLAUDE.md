@@ -133,7 +133,7 @@ NOTIFICATION_SECRET=ml_blog_notification_secret_2025_v1
 **Subscription API Endpoints:**
 - `POST /api/subscribe` - Handle new subscriptions ✅ **WORKING**
 - `POST /api/unsubscribe` - Handle unsubscription requests ✅ **WORKING** 
-- `POST /api/send-notification` - Send email notifications for new posts ⏳ **PENDING EMAIL VERIFICATION**
+- `POST /api/send-notification` - Create draft campaigns for new posts ✅ **WORKING**
 
 **Migration Status:**
 - ✅ Mailgun completely removed
@@ -142,7 +142,13 @@ NOTIFICATION_SECRET=ml_blog_notification_secret_2025_v1
 - ✅ Group IDs configured
 - ✅ Domain verified (`paul-blake.com`)
 - ✅ Subscription forms working on `/blog` and `/blog/theology`
-- ⏳ Campaign creation pending sender email verification completion
+- ✅ Draft campaign creation working (manual sending required)
+
+**Notification Workflow:**
+- GitHub Actions automatically creates draft campaigns in MailerLite when new blog posts are published
+- Draft campaigns include subject line and target the correct subscriber groups
+- Manual step required: Complete campaign content and send from MailerLite dashboard
+- This approach works with MailerLite's free plan limitations
 
 ### Key Files to Understand
 

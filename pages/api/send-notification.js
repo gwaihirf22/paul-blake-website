@@ -256,32 +256,36 @@ export default async function handler(req, res) {
     const results = [];
 
     try {
-      // Create a campaign in MailerLite
+      // Create a draft campaign in MailerLite (no content, stays in draft for manual sending)
       const subject = `${category === 'theology' ? '[Theology] ' : ''}New Post: ${post.title}`;
       
-      // Correct MailerLite campaign structure
+      // Create minimal campaign in draft status
       const campaign = await mailerlite.campaigns.create({
         name: `Blog Notification: ${post.title}`,
         type: 'regular',
         emails: [{
           subject: subject,
           from_name: 'Paul Blake',
-          from: process.env.ADMIN_EMAIL || 'email.blog@paul-blake.com',
-          content: html,
-          plain_text: plain_text
+          from: process.env.ADMIN_EMAIL || 'email.blog@paul-blake.com'
         }],
         groups: [groupId]
       });
 
-      // Send the campaign
-      if (campaign.data?.id) {
-        await mailerlite.campaigns.send(campaign.data.id);
+      // Campaign stays in draft - no sending, content can be added manually
+      if (campaign.data?.data?.id) {
+        const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://paul-blake.com'}/blog${category === 'theology' ? '/theology' : ''}/${post.slug}`;
         
         results.push({
           group_id: groupId,
-          status: 'sent',
-          campaign_id: campaign.data.id,
-          subject: subject
+          status: 'draft_created',
+          campaign_id: campaign.data.data.id,
+          campaign_name: `Blog Notification: ${post.title}`,
+          subject: subject,
+          recipients_count: campaign.data.data.recipients_count,
+          dashboard_url: `https://dashboard.mailerlite.com/campaigns/${campaign.data.data.id}/edit`,
+          post_url: postUrl,
+          suggested_content: `New ${category === 'theology' ? 'Theology' : 'Tech'} Post: ${post.title}\n\n${post.excerpt || 'A new blog post has been published.'}\n\nRead the full post: ${postUrl}`,
+          note: 'Draft campaign created - add content and send manually from MailerLite dashboard'
         });
       } else {
         results.push({
@@ -292,26 +296,33 @@ export default async function handler(req, res) {
       }
 
           } catch (error) {
-        console.error(`Error sending to group ${groupId}:`, error);
+        console.error(`Error creating campaign for group ${groupId}:`, error);
         console.error('Full error details:', JSON.stringify(error.response?.data || error, null, 2));
+        
+        // Check if it's a content-related error (which should be resolved now)
+        const errorMessage = error.response?.data?.message || error.message;
+        const isContentError = errorMessage.includes('Content submission') || errorMessage.includes('advanced plan');
+        
         results.push({
           group_id: groupId,
           status: 'error',
-          error: error.message,
-          details: error.response?.data || 'No additional details'
+          error: errorMessage,
+          details: error.response?.data || 'No additional details',
+          resolution: isContentError ? 'This error should be resolved with draft-only campaign creation' : 'Check MailerLite API credentials and permissions'
         });
       }
 
     const hasErrors = results.some(r => r.status === 'error');
     
     return res.status(hasErrors ? 207 : 200).json({
-      message: hasErrors ? 'Partially successful' : 'Notifications sent successfully',
+      message: hasErrors ? 'Partially successful' : 'Draft campaigns created successfully',
       post: {
         title: post.title,
         slug: post.slug,
         category
       },
-      results
+      results,
+      instructions: 'Draft campaigns have been created in MailerLite. Complete and send them manually from the MailerLite dashboard.'
     });
 
   } catch (error) {
