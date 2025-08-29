@@ -1,20 +1,24 @@
 ---
-title: "Building This Blog"
-date: "2025-05-05"
+title: "Building This Blog: Technical Architecture & Evolution"
+date: "2025-08-29"
 ---
 
 import { CodeBlock } from '../../components/CodeBlock.jsx';
 
-In this post, I'll walk through the technical decisions and architecture behind this blog.
+In this post, I'll walk through the technical decisions, architecture, and recent evolution of this blog platform.
 
-## Tech Stack
+## Current Tech Stack
 
-I chose to build this blog with:
+This blog is built with a modern, security-focused stack:
 
-- **Next.js** - For the React framework and static site generation
-- **MDX** - To write blog posts in Markdown with React component support  
-- **Docker** - For consistent deployment and containerization
-- **Plain CSS** - Keeping it simple and fast
+- **Next.js 14** - React framework with static site generation and API routes
+- **MDX** - Markdown with React component support for rich content
+- **Docker** - Containerized deployment for consistency and scalability
+- **GitHub Actions** - Comprehensive CI/CD with automated security scanning
+- **Lighthouse CI** - Automated performance and accessibility monitoring
+- **MailerLite API** - Newsletter subscription management
+- **Giscus** - GitHub-powered commenting system
+- **React Syntax Highlighter** - Enhanced code block rendering
 
 ## Why These Choices?
 
@@ -30,47 +34,94 @@ While I could have used pure Markdown, MDX gives me the flexibility to embed Rea
 
 Containerizing the application makes deployment consistent across different environments. Whether I'm running this locally or on my server, Docker ensures it works the same way.
 
-## File Structure
+## Architecture & File Structure
 
 <CodeBlock language="bash" title="Project Structure">
 {`├── content/
 │   └── blog/
-│       ├── theology/              # Dedicated theology section
-│       │   ├── moral-law-evolutionary-theory-vs-divine-law.mdx
-│       │   └── the-appearance-of-age.mdx
-│       ├── first-post.mdx
-│       └── second-post.mdx
+│       ├── technology/            # Technical content
+│       │   ├── ai-app-integration-one-shot-fallacy.mdx
+│       │   ├── building-cicd-pipeline-with-ai.mdx
+│       │   └── first-post.mdx
+│       └── theology/              # Theological content
+│           ├── moral-law-evolutionary-theory-vs-divine-law.mdx
+│           ├── joy-as-defiance-the-christian-rebellion.mdx
+│           └── the-appearance-of-age.mdx
 ├── pages/
-│   ├── index.js
+│   ├── api/                       # API routes
+│   │   ├── rss/                   # RSS feed generation
+│   │   ├── subscribe.js           # Newsletter API
+│   │   └── send-notification.js   # Email notifications
 │   ├── blog/
-│   │   ├── theology/              # Theology routing
-│   │   │   ├── index.js
-│   │   │   └── [slug].js
-│   │   ├── index.js
-│   │   └── [slug].js
-└── styles/
-    └── globals.css`}
+│   │   ├── technology/            # Technology section routing
+│   │   └── theology/              # Theology section routing
+│   ├── about.js
+│   ├── projects.js
+│   └── index.js
+├── components/                    # Reusable React components
+│   ├── CodeBlock.jsx
+│   ├── Comments.jsx
+│   ├── Navbar.js
+│   └── SubscriptionForm.jsx
+├── .github/workflows/             # CI/CD automation
+│   ├── lighthouse-ci.yml          # Performance monitoring
+│   └── security-scan.yml          # Security auditing
+└── public/
+    ├── favicon.ico                # Custom Chi-Rho favicon
+    └── sitemap.xml                # Auto-generated sitemap`}
 </CodeBlock>
 
-This structure keeps content separate from code, making it easy to manage and scale. I've also added a dedicated theology section for Christian faith, theological discussions, and philosophy content.
+This architecture separates content from code while providing a scalable foundation for both technical and theological content. The API routes enable newsletter subscriptions and automated notifications.
 
-## Current Status & What's Next
+## Security & Performance Excellence
 
-### Recently Completed
-- ✅ **Theology Section**: Added dedicated routing and content for theological discussions
-- ✅ **Enhanced Project Structure**: Organized content with category-based routing
-- ✅ **Docker Hub Integration**: Implemented professional deployment strategy
-- 🔄 **CI/CD Pipeline**: Implemented automated deployment with GitHub Actions and Docker Hub. Authentication and deployment automation for a seamless development workflow.
+### Security Hardening (August 2025)
+- ✅ **Zero Vulnerabilities**: Resolved all moderate security vulnerabilities including PrismJS DOM Clobbering
+- ✅ **Automated Security Scanning**: GitHub Actions workflow with npm audit, OWASP dependency check, and CodeQL analysis
+- ✅ **Lighthouse Security Audits**: Continuous security monitoring in CI/CD pipeline
+- ✅ **Package Overrides**: Strategic dependency management to enforce secure versions
 
-### Future Improvements
-1. Adding tags and categories across all sections
-2. Implementing a search feature
-3. Adding comments (maybe with GitHub Discussions)
-4. RSS feed generation
-5. Enhanced SEO optimization
+### Performance Monitoring
+- ✅ **Lighthouse CI**: Automated performance, accessibility, and SEO auditing on every push
+- ✅ **Performance Metrics**: Tracking Core Web Vitals and user experience metrics
+- ⚠️ **Optimization Needed**: Large blog posts (2.6MB+) exceed recommended 128KB threshold
 
-The goal is to create a robust, automatically deployable platform for both technical and theological content. Stay tuned for more updates!
+## Current Features & Capabilities
+
+### Content Management
+- ✅ **Multi-Category Blog**: Separate technology and theology sections with dedicated routing
+- ✅ **Rich Content**: MDX support with React components for interactive posts
+- ✅ **RSS Feeds**: Auto-generated feeds for all content, technology, and theology sections
+- ✅ **SEO Optimization**: Automated sitemap generation with next-sitemap
+
+### User Engagement
+- ✅ **Newsletter Integration**: MailerLite API for subscription management
+- ✅ **Comments System**: GitHub-powered discussions via Giscus
+- ✅ **Email Notifications**: Automated subscriber notifications for new posts
+- ✅ **Custom Favicon**: Chi-Rho symbol representing the intersection of faith and technology
+
+### Developer Experience
+- ✅ **CI/CD Pipeline**: Comprehensive GitHub Actions with security scanning and performance monitoring
+- ✅ **Docker Deployment**: Containerized application for consistent environments
+- ✅ **Code Quality**: ESLint integration and automated linting
+- ✅ **Documentation**: Comprehensive project documentation and changelogs
+
+## What's Next
+
+### Immediate Priorities (Q4 2025)
+1. **Content Optimization**: Implement pagination for large theology posts to reduce bundle size
+2. **Performance Improvements**: Optimize images and implement lazy loading
+3. **CSP Headers**: Implement Content Security Policy for enhanced security
+4. **Search Functionality**: Add full-text search across all content
+
+### Future Enhancements
+1. **TypeScript Migration**: Gradual migration for better type safety
+2. **Next.js 15 Upgrade**: Planning migration to latest Next.js features
+3. **Advanced Analytics**: Implement privacy-focused analytics
+4. **Mobile Optimization**: Enhanced mobile experience and PWA features
+
+This platform represents the intersection of faith and technology—a place where theological reflection meets technical excellence, built with security and performance as foundational principles.
 
 ---
 
-*Updated on January 27, 2025* 
+*Last updated: August 29, 2025* 
