@@ -9,10 +9,10 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrism from "rehype-prism-plus";
-import Callout from "../../../components/Callout";
-import CodeBlock from "../../../components/CodeBlock";
-import Image from "../../../components/Image";
-import YouTube from "../../../components/YouTube";
+import { Callout } from "../../../components/Callout";
+import { CodeBlock } from "../../../components/CodeBlock";
+import { Image } from "../../../components/Image";
+import { YouTube } from "../../../components/YouTube";
 import Comments from "../../../components/Comments";
 import ReadingProgress from "../../../components/ReadingProgress";
 

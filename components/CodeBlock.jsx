@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import a11yDark from 'react-syntax-highlighter/dist/esm/styles/prism/a11y-dark';
 import { Copy, Check } from 'lucide-react';
 
 export function CodeBlock({ children, language, title }) {
