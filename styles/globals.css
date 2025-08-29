@@ -675,3 +675,74 @@ html.show-scrollbar {
     margin: 0.5rem 0.75rem !important;
   }
 }
+
+/* Mobile dropdown touch improvements - higher specificity */
+@media (max-width: 768px) {
+  .navbar .dropdown-menu .dropdown-item {
+    padding: 1rem 1.5rem !important; /* Larger touch targets (44px+) */
+    margin: 0.5rem 0 !important; /* Better spacing between items */
+    border-radius: 8px !important; /* Modern touch feel */
+    transition: all 0.2s ease !important; /* Smooth interactions */
+    font-size: 1rem !important; /* Better readability */
+    display: block !important;
+    text-decoration: none !important;
+    color: var(--color-text-primary) !important; /* White for dropdown items */
+  }
+
+  .navbar .dropdown-menu .dropdown-item:hover {
+    background: rgba(0, 188, 212, 0.05) !important; /* Subtle hover feedback */
+  }
+
+  .navbar .dropdown-menu .dropdown-item:active {
+    background: rgba(0, 188, 212, 0.1) !important; /* Touch feedback */
+    transform: scale(0.98) !important; /* Subtle press effect */
+  }
+
+  .navbar .dropdown-menu {
+    padding: 1rem !important; /* Better edge spacing for touch */
+  }
+
+  /* Top-level navigation links in mobile menu */
+  .navbar-links.open .nav-link {
+    padding: 1rem 1.5rem !important; /* Larger touch targets (44px+) */
+    margin: 0.25rem 0 !important; /* Better spacing between items */
+    border-radius: 8px !important; /* Modern touch feel */
+    transition: all 0.2s ease !important; /* Smooth interactions */
+    font-size: 1.1rem !important; /* Slightly larger for top-level */
+    display: block !important;
+    text-decoration: none !important;
+    color: var(--color-accent) !important; /* Light blue for top-level links */
+    text-align: center !important;
+  }
+
+  .navbar-links.open .nav-link:hover {
+    background: rgba(0, 188, 212, 0.05) !important; /* Subtle hover feedback */
+  }
+
+  .navbar-links.open .nav-link:active {
+    background: rgba(0, 188, 212, 0.1) !important; /* Touch feedback */
+    transform: scale(0.98) !important; /* Subtle press effect */
+  }
+
+  /* Blog dropdown trigger specific styling */
+  .navbar-links.open .nav-link-with-dropdown {
+    padding: 1rem 1.5rem !important; /* Larger touch targets */
+    margin: 0.25rem 0 !important; /* Better spacing */
+    border-radius: 8px !important; /* Modern touch feel */
+    transition: all 0.2s ease !important; /* Smooth interactions */
+    font-size: 1.1rem !important; /* Slightly larger for top-level */
+    display: block !important;
+    text-decoration: none !important;
+    color: var(--color-accent) !important; /* Light blue for top-level links */
+    text-align: center !important;
+  }
+
+  .navbar-links.open .nav-link-with-dropdown:hover {
+    background: rgba(0, 188, 212, 0.05) !important; /* Subtle hover feedback */
+  }
+
+  .navbar-links.open .nav-link-with-dropdown:active {
+    background: rgba(0, 188, 212, 0.1) !important; /* Touch feedback */
+    transform: scale(0.98) !important; /* Subtle press effect */
+  }
+}

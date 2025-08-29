@@ -495,7 +495,7 @@ export default function Navbar() {
               border: none;
               border-radius: 0;
               box-shadow: none;
-              padding: 0 1rem;
+              padding: 1rem; /* Better edge spacing for touch */
               backdrop-filter: none;
               margin-top: 0;
             }
@@ -509,18 +509,42 @@ export default function Navbar() {
             }
 
             .dropdown-item {
-              padding: 0.5rem 0;
-              margin: 0;
+              padding: 1rem 1.5rem; /* Larger touch targets (44px+) */
+              margin: 0.5rem 0; /* Better spacing between items */
               border: 0;
               background: transparent;
-              border-radius: 0;
+              border-radius: 8px; /* Modern touch feel */
+              transition: all 0.2s ease; /* Smooth interactions */
+              font-size: 1rem; /* Better readability */
+              display: block;
+              text-decoration: none;
+              color: var(--color-text-primary);
             }
 
-            .dropdown-item-content { align-items: center; }
-            .dropdown-item-title, .dropdown-item-description { text-align: center; }
-            .dropdown-item-description { display: none; }
+            .dropdown-item:hover {
+              background: rgba(0, 188, 212, 0.05); /* Subtle hover feedback */
+            }
 
-            .dropdown-divider { display: none; }
+            .dropdown-item:active {
+              background: rgba(0, 188, 212, 0.1); /* Touch feedback */
+              transform: scale(0.98); /* Subtle press effect */
+            }
+
+            .dropdown-item-content { 
+              align-items: center; 
+              text-align: center;
+            }
+            .dropdown-item-title, .dropdown-item-description { 
+              text-align: center; 
+            }
+            .dropdown-item-description { 
+              display: none; 
+            }
+
+            .dropdown-divider { 
+              display: none; 
+              margin: 0.75rem 0; /* Better divider spacing */
+            }
           }
         }
 

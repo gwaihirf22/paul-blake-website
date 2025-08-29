@@ -187,3 +187,102 @@ import { Image } from '../../../components/Image.jsx';
 <Callout type="info">Important information</Callout>
 <Image src="/image.jpg" alt="Description" caption="Optional caption" />
 ```
+
+# Paul Blake Website - Development Guidelines
+
+## Color Scheme
+
+### Primary Colors
+- **Background**: `#0f172a` (Dark blue-gray)
+- **Text Primary**: `#e2e8f0` (Light gray/white)
+- **Text Secondary**: `#a0aec0` (Medium gray)
+- **Accent**: `#00bcd4` (Light blue/cyan)
+- **Hover**: `#0891b2` (Darker blue)
+
+### UI Elements
+- **Border**: `#334155` (Medium gray)
+- **Card Background**: `#1e293b` (Dark gray)
+- **Code Background**: `#1e293b` (Dark gray)
+- **Link**: `#00bcd4` (Same as accent)
+
+### CSS Variables
+```css
+:root {
+  --color-background: #0f172a;
+  --color-text-primary: #e2e8f0;
+  --color-text-secondary: #a0aec0;
+  --color-accent: #00bcd4;
+  --color-link: #00bcd4;
+  --color-code-background: #1e293b;
+  --color-border: #334155;
+  --color-card-background: #1e293b;
+  --color-hover: #0891b2;
+}
+```
+
+### Usage Guidelines
+
+#### Navigation
+- **Top-level links** (Home, Blog, Projects, About): Use `var(--color-accent)` (light blue)
+- **Dropdown items** (Blog submenu): Use `var(--color-text-primary)` (white)
+- **Hover states**: Use `rgba(0, 188, 212, 0.05)` for subtle feedback
+- **Active states**: Use `rgba(0, 188, 212, 0.1)` for touch feedback
+
+#### Content
+- **Headings**: Use `var(--color-text-primary)` (white)
+- **Body text**: Use `var(--color-text-primary)` (white)
+- **Secondary text**: Use `var(--color-text-secondary)` (gray)
+- **Links**: Use `var(--color-accent)` (light blue)
+- **Code blocks**: Use `var(--color-code-background)` background
+
+#### Interactive Elements
+- **Buttons**: Use `var(--color-accent)` background with `var(--color-background)` text
+- **Hover effects**: Use `var(--color-hover)` for darker blue
+- **Focus states**: Use `var(--color-accent)` outline
+
+## Mobile Navigation Guidelines
+
+### Touch Targets
+- **Minimum size**: 44px (Apple/Google guidelines)
+- **Padding**: `1rem 1.5rem` for adequate touch area
+- **Spacing**: `0.25rem 0` between top-level items, `0.5rem 0` between dropdown items
+
+### Visual Feedback
+- **Border radius**: `8px` for modern touch feel
+- **Transitions**: `all 0.2s ease` for smooth interactions
+- **Hover**: Subtle background color change
+- **Active**: Scale transform and darker background
+
+### Typography
+- **Top-level links**: `1.1rem` font size
+- **Dropdown items**: `1rem` font size
+- **Text alignment**: Centered for mobile layout
+
+## Development Standards
+
+### CSS Organization
+1. **Global variables** in `styles/globals.css`
+2. **Component-specific styles** in styled-jsx
+3. **Mobile overrides** with `!important` for specificity
+4. **Media queries** for responsive design
+
+### File Structure
+- **Components**: `/components/`
+- **Pages**: `/pages/`
+- **Styles**: `/styles/globals.css`
+- **Content**: `/content/blog/`
+
+### Best Practices
+- Always use CSS variables for colors
+- Test on mobile devices for touch interactions
+- Maintain consistent spacing and typography
+- Use semantic HTML with proper accessibility attributes
+- Keep component styles scoped to avoid conflicts
+
+## Recent Updates
+
+### Mobile Navigation (2025-01-29)
+- Improved touch targets to 44px+ minimum
+- Added visual feedback for touch interactions
+- Standardized color scheme across navigation elements
+- Enhanced spacing and typography for mobile usability

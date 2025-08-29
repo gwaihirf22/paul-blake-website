@@ -210,3 +210,25 @@ This project is personal/educational use. Content and code are © Paul Blake.
 ### Navbar dropdown (desktop/mobile)
 - If desktop dropdown spacing/rounding appears incorrect, ensure `styles/globals.css` desktop overrides are loaded; they intentionally resolve styled‑jsx precedence.
 - Mobile submenu uses container-level toggling (display/height/visibility/overflow) and disables hover-open under the mobile media query. If submenu appears but does not occupy space, verify that the container is toggling `display:block` and `height:auto` on open.
+
+### Color Scheme
+The site uses a standardized dark theme with CSS variables:
+
+```css
+:root {
+  --color-background: #0f172a;      /* Dark blue-gray background */
+  --color-text-primary: #e2e8f0;    /* White text */
+  --color-text-secondary: #a0aec0;  /* Gray secondary text */
+  --color-accent: #00bcd4;          /* Light blue accent */
+  --color-hover: #0891b2;           /* Darker blue for hover */
+  --color-border: #334155;          /* Border color */
+  --color-card-background: #1e293b; /* Card backgrounds */
+}
+```
+
+**Navigation Colors:**
+- Top-level links (Home, Blog, Projects, About): Light blue (`var(--color-accent)`)
+- Dropdown items (Blog submenu): White (`var(--color-text-primary)`)
+- Hover/active states: Subtle blue backgrounds with opacity
+
+See `CLAUDE.md` for complete development guidelines and color usage standards.
