@@ -40,7 +40,7 @@ export default function TechnologyPost({ frontMatter, mdxSource, slug }) {
         <title>{frontMatter.title} - Paul Blake</title>
         <meta name="description" content={frontMatter.description || frontMatter.title} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+
         
         {/* Open Graph */}
         <meta property="og:title" content={frontMatter.title} />

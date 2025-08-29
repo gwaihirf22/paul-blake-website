@@ -1,0 +1,31 @@
+<svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Very light yellow circular background (much larger) -->
+  <circle cx="50" cy="50" r="49.5" fill="#fffbeb" stroke="none"/>
+  
+  <!-- Chi-Rho design - artistic with flared ends -->
+  <g id="chi-rho">
+    <!-- Main vertical stem of the Rho (even thicker) -->
+    <path d="M50 1 L50 99" stroke="#1e3a8a" strokeWidth="1000" strokeLinecap="round" />
+    
+    <!-- Chi diagonal with artistic flares - first diagonal -->
+    <g id="chi-diagonal-1">
+      <!-- Main diagonal line -->
+      <path d="M15 35 L85 85" stroke="#1e3a8a" strokeWidth="1000" strokeLinecap="round" />
+    </g>
+    
+    <!-- Chi diagonal with artistic flares - second diagonal -->
+    <g id="chi-diagonal-2">
+      <!-- Main diagonal line -->
+      <path d="M85 35 L15 85" stroke="#1e3a8a" strokeWidth="1000" strokeLinecap="round" />
+    </g>
+
+    <!-- The P-shaped loop of the Rho (even thicker and more artistic) -->
+    <path 
+      d="M50 1 C 85 1, 85 40, 50 40"
+      stroke="#1e3a8a"
+      strokeWidth="1000"
+      strokeLinecap="round"
+      fill="none"
+    />
+  </g>
+</svg>

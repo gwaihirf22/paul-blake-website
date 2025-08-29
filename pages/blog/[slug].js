@@ -29,7 +29,7 @@ export default function BlogPost({ post, showProgress }) {
         <title>{`${post.frontmatter.title} - Paul Blake`}</title>
         <meta name="description" content={`Blog post: ${post.frontmatter.title}`} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+
       </Head>
       
       {showProgress && <ReadingProgress />}

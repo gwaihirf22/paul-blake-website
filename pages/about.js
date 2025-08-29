@@ -8,7 +8,7 @@ export default function About() {
         <title>About - Paul Blake</title>
         <meta name="description" content="Learn more about Paul Blake's journey from aircraft mechanic to software developer, and his passion for technology, faith, and community." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+
       </Head>
       <div>
         <h1>About Paul Blake</h1>

@@ -21,7 +21,7 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
         <title>Blog - Paul Blake</title>
         <meta name="description" content="Read my latest blog posts about technology, theology, and more." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+
         <link rel="alternate" type="application/rss+xml" title="Paul Blake - Blog Posts" href="/api/rss/blog.xml" />
         <link rel="alternate" type="application/rss+xml" title="Paul Blake - All Posts" href="/api/rss/all.xml" />
       </Head>

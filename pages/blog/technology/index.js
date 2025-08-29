@@ -21,7 +21,7 @@ export default function TechnologyIndex({ posts }) {
         <title>Technology & Development - Paul Blake</title>
         <meta name="description" content="Read my technology and development blog posts about software engineering, AI, DevOps, and cloud infrastructure." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+
         <link rel="alternate" type="application/rss+xml" title="Paul Blake - Technology Posts" href="/api/rss/blog.xml" />
         <link rel="alternate" type="application/rss+xml" title="Paul Blake - All Posts" href="/api/rss/all.xml" />
       </Head>

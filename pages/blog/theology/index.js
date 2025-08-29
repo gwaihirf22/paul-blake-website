@@ -21,7 +21,7 @@ export default function TheologyIndex({ posts }) {
         <title>Theology & Faith - Paul Blake</title>
         <meta name="description" content="Read my theology and faith blog posts about Christian faith, theology, philosophy, and the intersection of science and faith." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+
         <link rel="alternate" type="application/rss+xml" title="Paul Blake - Theology Posts" href="/api/rss/theology.xml" />
         <link rel="alternate" type="application/rss+xml" title="Paul Blake - All Posts" href="/api/rss/all.xml" />
       </Head>
