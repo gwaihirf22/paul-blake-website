@@ -10,7 +10,10 @@
       "startServerCommand": "npm run start",
       "startServerReadyPattern": "ready on",
       "startServerReadyTimeout": 30000,
-      "numberOfRuns": 1
+      "numberOfRuns": 1,
+      "settings": {
+        "chromeFlags": "--headless --no-sandbox --disable-gpu --disable-dev-shm-usage --disable-extensions --no-first-run --disable-default-apps"
+      }
     },
     "assert": {
       "assertions": {

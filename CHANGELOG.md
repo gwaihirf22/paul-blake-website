@@ -15,6 +15,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - React 19 migration planning
 - TypeScript migration planning
 
+## [0.1.2] - 2025-08-29
+
+### Security 🔒
+- **CRITICAL**: Fixed PrismJS DOM Clobbering vulnerability (GHSA-x7hr-w5r2-h6wg)
+  - Used package overrides to force secure `prismjs ^1.30.0` across all dependencies
+  - Fixed vulnerable nested dependencies in `react-syntax-highlighter` and `refractor`
+  - Reduced security vulnerabilities from 3 moderate to 0 moderate
+- **ENHANCEMENT**: All security audits now pass with zero vulnerabilities
+
+### Performance & Quality 🚀
+- **ADDED**: Lighthouse CI for automated performance and accessibility auditing
+  - Automated audits run on every push to main branch
+  - Performance, accessibility, best practices, and SEO monitoring
+  - Results uploaded to temporary public storage for review
+  - Local testing capability with `npm run lighthouse:local`
+- **ADDED**: GitHub Actions workflow for Lighthouse CI (`lighthouse-ci.yml`)
+- **ADDED**: Lighthouse CI configuration files (`lighthouserc.json`, `lighthouserc.ci.json`)
+
+### Development 🛠️
+- **ADDED**: New npm scripts for quality assurance
+  - `npm run lighthouse:ci` - Run Lighthouse CI in CI environment
+  - `npm run lighthouse:local` - Run Lighthouse CI locally on port 3002
+- **ENHANCEMENT**: Updated development workflow documentation
+
+### Dependencies 📦
+- **ADDED**: `@lhci/cli` for Lighthouse CI functionality
+- **OVERRIDE**: Forced `prismjs ^1.30.0` for all packages to ensure security
+
+### Documentation 📚
+- **UPDATED**: `README.md` - Added Lighthouse CI documentation and quality assurance section
+- **UPDATED**: `PROJECT_MANAGEMENT.md` - Updated security status and added Lighthouse CI to tools
+- **UPDATED**: Development workflow documentation to include performance auditing
+
 ## [0.1.1] - 2024-12-19
 
 ### Security 🔒

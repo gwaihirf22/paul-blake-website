@@ -65,6 +65,21 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+### Quality Assurance
+
+Run performance and accessibility audits:
+
+```bash
+# Run Lighthouse CI locally (requires app to be built first)
+npm run lighthouse:local
+
+# Run security audit
+npm audit
+
+# Run linting
+npm run lint
+```
+
 ### Docker Development
 
 You can also run the project using Docker:
@@ -121,7 +136,8 @@ The theology section (`/blog/theology`) is dedicated to:
 
 ### Development Workflows
 - **Automated Security Scanning** - Weekly vulnerability scans via GitHub Actions
-- **Performance Monitoring** - Automated performance testing and optimization
+- **Lighthouse CI** - Automated performance and accessibility audits on every push
+- **Performance Monitoring** - Automated performance testing and optimization  
 - **Deployment Pipeline** - Automated Docker builds and deployments
 - Theological discussions and apologetics
 - Philosophy and worldview topics
