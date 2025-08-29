@@ -37,8 +37,14 @@ This is a personal website and blog built with [Next.js](https://nextjs.org) usi
 │   │   │   ├── index.js         # Theology blog index
 │   │   │   └── [slug].js        # Individual theology posts
 │   │   └── index.js             # Blog landing page (all categories)
-└── styles/
-    └── globals.css
+├── styles/
+│   └── globals.css
+├── .github/workflows/           # CI/CD and security automation
+├── SECURITY_ROADMAP.md          # Security improvements and monitoring
+├── UPGRADE_ROADMAP.md           # Technical upgrades and migrations
+├── PERFORMANCE_OPTIMIZATION.md  # Performance improvement plan
+├── PROJECT_MANAGEMENT.md        # Unified project management overview
+└── CHANGELOG.md                 # Version history and changes
 ```
 
 ## Getting Started
@@ -98,6 +104,25 @@ author: "Paul Blake"
 
 The theology section (`/blog/theology`) is dedicated to:
 - Christian faith and doctrine
+
+## Project Documentation
+
+### Security & Compliance
+- **[Security Roadmap](SECURITY_ROADMAP.md)** - Comprehensive security improvements, vulnerability tracking, and monitoring
+- **[Changelog](CHANGELOG.md)** - Version history, security fixes, and feature updates
+
+### Technical Planning
+- **[Upgrade Roadmap](UPGRADE_ROADMAP.md)** - Next.js 15, React 19, and other major version migrations
+- **[Performance Optimization](PERFORMANCE_OPTIMIZATION.md)** - Content optimization, build improvements, and performance strategies
+
+### Project Management
+- **[Project Management Overview](PROJECT_MANAGEMENT.md)** - Unified view of all roadmaps, timelines, and success metrics
+- **[Bug Tracker](BUG_TRACKER.md)** - Known issues, fixes, and development notes
+
+### Development Workflows
+- **Automated Security Scanning** - Weekly vulnerability scans via GitHub Actions
+- **Performance Monitoring** - Automated performance testing and optimization
+- **Deployment Pipeline** - Automated Docker builds and deployments
 - Theological discussions and apologetics
 - Philosophy and worldview topics
 - Science and faith intersection
