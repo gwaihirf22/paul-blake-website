@@ -94,10 +94,18 @@ jobs:
       - name: Wait for application to start
         run: sleep 30
         
+      - name: Setup virtual display
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+        
       - name: Run Lighthouse security audit
         run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x24 -ac +extension GLX +render -noreset &
+          sleep 3
           npm install -g lighthouse
-          lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --only-categories=security
+          lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --only-categories=security --chrome-flags="--headless --no-sandbox --disable-gpu --disable-dev-shm-usage"
           
       - name: Upload Lighthouse report
         uses: actions/upload-artifact@v4
