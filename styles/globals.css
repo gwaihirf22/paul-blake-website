@@ -425,6 +425,20 @@ select:focus-visible {
 }
 
 /* Button styles for dark cards */
+.dark-card .btn {
+  background-color: var(--color-accent);
+  color: var(--color-background);
+  border: none;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.dark-card .btn:hover {
+  background-color: var(--color-hover);
+  color: var(--color-background);
+  border-bottom-color: transparent;
+}
+
 .dark-card-button {
   display: inline-block;
   padding: 0.5rem 1rem;

@@ -10,6 +10,7 @@ This is a personal website and blog built with [Next.js](https://nextjs.org) usi
 
 - **Personal Blog**: Thoughts on development, technology, and general interests
 - **Theology Section**: Dedicated area for Christian faith, theology, philosophy, and science discussions
+- **Interactive Games**: Browser-based games built with HTML5 Canvas and React
 - **Email Subscriptions**: MailerLite-powered subscription system with category-specific notifications
 - **Comment System**: GitHub Discussions integration with reactions and email notifications
 - **MDX Support**: Write blog posts in Markdown with React component support
@@ -37,6 +38,16 @@ This is a personal website and blog built with [Next.js](https://nextjs.org) usi
 │   │   │   ├── index.js         # Theology blog index
 │   │   │   └── [slug].js        # Individual theology posts
 │   │   └── index.js             # Blog landing page (all categories)
+│   ├── projects/
+│   │   ├── games/               # Interactive games section
+│   │   │   ├── index.js         # Games showcase page
+│   │   │   └── helicopter.js    # Helicopter Game page
+│   │   └── index.js             # Main projects page
+├── components/
+│   ├── games/                   # Game-specific components
+│   │   └── HelicopterGame.jsx   # Helicopter game engine and UI
+│   ├── Navbar.js                # Main navigation with games dropdown
+│   └── ...                      # other reusable components
 ├── styles/
 │   └── globals.css
 ├── .github/workflows/           # CI/CD and security automation

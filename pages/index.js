@@ -87,6 +87,15 @@ export default function Home() {
           <h2>Featured Projects</h2>
           <div className="projects-content">
             <div className="dark-card">
+              <h3>🚁 Helicopter Game</h3>
+              <p>Addictive browser-based arcade game with simple one-click controls. Navigate through obstacles, beat your high score!</p>
+              <div className="project-actions">
+                <Link href="/projects/games/helicopter" className="btn">
+                  Play Now
+                </Link>
+              </div>
+            </div>
+            <div className="dark-card">
               <h3>🏘️ Neighborly</h3>
               <p>Community-focused web application for skill bartering and local tool sharing. Next.js 14, PostgreSQL, Docker, CI/CD, and more.</p>
             </div>
@@ -347,6 +356,16 @@ export default function Home() {
           margin-top: 2rem;
           display: inline-block;
         }
+
+        .project-actions {
+          margin-top: 1rem;
+        }
+
+        .project-actions .btn {
+          margin-top: 0;
+          display: inline-block;
+        }
+
 
         /* Blog CTA Section */
         .blog-cta {

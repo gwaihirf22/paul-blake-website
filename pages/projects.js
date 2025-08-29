@@ -102,6 +102,20 @@ export default function Projects() {
             <p>A theological work exploring the biblical figures of Bezalel and Ohliab - the master craftsmen chosen by God to build the Tabernacle. Examining the intersection of faith, creativity, and skilled work.</p>
             <p><em>Status: Research & Writing Phase</em></p>
           </div>
+
+          <h2>Games</h2>
+          
+          <div className="dark-card games-card">
+            <h3>🚁 Helicopter Game</h3>
+            <p><strong>Genre:</strong> Arcade / Endless Runner</p>
+            <p><strong>Controls:</strong> One-click control - Hold to ascend, release to descend</p>
+            <p><strong>Tech Stack:</strong> HTML5 Canvas, JavaScript, React Hooks</p>
+            <p>Navigate your helicopter through challenging obstacles in this addictive arcade-style game. Features physics-based movement, procedurally generated obstacles, particle effects, and high score tracking. Optimized for both desktop and mobile devices.</p>
+            <div className="project-links">
+              <Link href="/projects/games/helicopter" className="dark-card-button play-button">Play Game</Link>
+              <Link href="/projects/games" className="dark-card-button">View All Games</Link>
+            </div>
+          </div>
         </div>
 
         <div className="dark-card">
@@ -129,6 +143,30 @@ export default function Projects() {
         
         .project-links {
           margin-top: 1rem;
+        }
+        
+        .games-card {
+          position: relative;
+          border-left: 4px solid #ff6b35;
+          background: linear-gradient(135deg, var(--card-bg-primary), rgba(255, 107, 53, 0.05));
+        }
+        
+        .games-card h3 {
+          color: #ff6b35;
+        }
+        
+        .play-button {
+          background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
+          color: var(--color-background) !important;
+          font-weight: 700 !important;
+          box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3) !important;
+        }
+        
+        .play-button:hover {
+          background: linear-gradient(135deg, #f7931e, #ff6b35) !important;
+          color: var(--color-background) !important;
+          transform: translateY(-3px) !important;
+          box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4) !important;
         }
         
         @media (min-width: 768px) {

@@ -7,6 +7,7 @@ export default function Navbar() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isBlogMobileOpen, setIsBlogMobileOpen] = useState(false);
+  const [isProjectsMobileOpen, setIsProjectsMobileOpen] = useState(false);
 
   const isActive = (pathname) => {
     return router.pathname === pathname;
@@ -16,6 +17,7 @@ export default function Navbar() {
   useEffect(() => {
     setIsMenuOpen(false);
     setIsBlogMobileOpen(false);
+    setIsProjectsMobileOpen(false);
   }, [router.pathname]);
 
   const handleBlogClick = (e) => {
@@ -26,6 +28,17 @@ export default function Navbar() {
       e.preventDefault();
       e.stopPropagation();
       setIsBlogMobileOpen((prev) => !prev);
+    }
+  };
+
+  const handleProjectsClick = (e) => {
+    // Toggle dropdown on mobile; on desktop let hover handle it
+    const menuToggle = document.querySelector('.menu-toggle');
+    const isMobileView = menuToggle && getComputedStyle(menuToggle).display !== 'none';
+    if (isMobileView) {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsProjectsMobileOpen((prev) => !prev);
     }
   };
 
@@ -92,13 +105,34 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-          <Link
-            href="/projects"
-            className={`nav-link ${isActive('/projects') ? 'active' : ''}`}
-            aria-current={isActive('/projects') ? 'page' : undefined}
-          >
-            Projects
-          </Link>
+          <div className="nav-dropdown">
+            <Link
+              href="/projects"
+              className={`nav-link nav-link-with-dropdown ${isActive('/projects') || router.pathname.startsWith('/projects/') ? 'active' : ''} ${isProjectsMobileOpen ? 'mobile-open' : ''}`}
+              aria-current={isActive('/projects') || router.pathname.startsWith('/projects/') ? 'page' : undefined}
+              aria-haspopup="true"
+              aria-expanded={isProjectsMobileOpen}
+              onClick={handleProjectsClick}
+            >
+              Projects
+              <span className="dropdown-arrow" aria-hidden="true">▼</span>
+            </Link>
+            <div className={`dropdown-menu ${isProjectsMobileOpen ? 'mobile-open' : ''}`} style={{ display: isProjectsMobileOpen ? 'block' : undefined, opacity: isProjectsMobileOpen ? 1 : undefined, visibility: isProjectsMobileOpen ? 'visible' : undefined, height: isProjectsMobileOpen ? 'auto' : undefined, overflow: isProjectsMobileOpen ? 'visible' : undefined }}>
+              <Link href="/projects" className="dropdown-item primary">
+                <div className="dropdown-item-content">
+                  <span className="dropdown-item-title">All Projects</span>
+                  <span className="dropdown-item-description">View all development projects</span>
+                </div>
+              </Link>
+              <hr className="dropdown-divider" style={{ display: isProjectsMobileOpen ? 'block' : undefined }} />
+              <Link href="/projects/games" className="dropdown-item">
+                <div className="dropdown-item-content">
+                  <span className="dropdown-item-title">Games</span>
+                  <span className="dropdown-item-description">Interactive browser games</span>
+                </div>
+              </Link>
+            </div>
+          </div>
           <Link
             href="/about"
             className={`nav-link ${isActive('/about') ? 'active' : ''}`}

@@ -35,6 +35,8 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - `/blog/theology` - Theology section index
 - `/blog/theology/[slug]` - Individual theology posts
 - `/projects` - Project showcase page
+- `/projects/games` - Games showcase page
+- `/projects/games/helicopter` - Helicopter Game page
 - `/about` - About page
 
 **Component Architecture:**
@@ -54,6 +56,14 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - Reading progress bar for posts >2 minutes
 - Syntax highlighting with `rehype-prism-plus`
 - Date formatting and sorting by publication date
+
+**Games System:**
+- Interactive browser games built with HTML5 Canvas and React
+- Games located in `pages/projects/games/` directory structure
+- Game components in `components/games/` for reusable game logic
+- Helicopter Game: Physics-based arcade game with canvas rendering, collision detection, and localStorage high scores
+- Navigation integration: Games dropdown in Projects navbar section
+- Featured game integration on homepage with direct play link
 
 **Deployment:**
 - Docker multi-stage builds with standalone output
@@ -279,6 +289,24 @@ import { Image } from '../../../components/Image.jsx';
 - Use semantic HTML with proper accessibility attributes
 - Keep component styles scoped to avoid conflicts
 
+### CSS Styling Patterns & Important Notes
+
+**Button Styling Conflicts:**
+- `.dark-card a` styles override `.btn` styles for buttons inside dark card containers
+- Solution: Use `.dark-card .btn` selector with higher specificity to restore button appearance
+- Always check CSS hierarchy when buttons don't match expected styling
+
+**Dark Card Component Rules:**
+- `.dark-card a` applies to ALL anchor tags inside dark cards (including Next.js Link components)
+- This includes custom colors, borders, and hover effects that override button styles
+- When adding buttons inside `.dark-card`, ensure `.dark-card .btn` styles are defined
+
+**Specificity Hierarchy:**
+1. Global `.btn` styles in `globals.css`
+2. Container-specific `.dark-card a` overrides
+3. Combined `.dark-card .btn` restores button styling
+4. Page-specific styles (styled-jsx) can override global styles
+
 ## Recent Updates
 
 ### Mobile Navigation (2025-01-29)
@@ -286,3 +314,13 @@ import { Image } from '../../../components/Image.jsx';
 - Added visual feedback for touch interactions
 - Standardized color scheme across navigation elements
 - Enhanced spacing and typography for mobile usability
+
+### Games System Implementation (2025-08-29)
+- Added interactive games section to website architecture
+- Implemented Helicopter Game with HTML5 Canvas and React Hooks
+- Created scalable games directory structure: `/projects/games/`
+- Added Games dropdown to Projects navigation with mobile responsiveness
+- Fixed CSS styling conflicts between `.dark-card a` and `.btn` selectors
+- Integrated featured game showcase on homepage with direct play link
+- Implemented physics-based game engine with collision detection and particle effects
+- Added localStorage integration for persistent high score tracking
