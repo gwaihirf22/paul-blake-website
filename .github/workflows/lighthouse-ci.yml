@@ -23,16 +23,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-        
       - name: Build application
         run: npm run build
         
       - name: Run Lighthouse CI
-        run: npm run lighthouse:ci
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-          CHROME_PATH: /usr/bin/google-chrome
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: './lighthouserc.ci.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
