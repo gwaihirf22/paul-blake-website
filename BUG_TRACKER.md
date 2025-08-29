@@ -112,3 +112,39 @@ When reporting a new bug, please use this template:
 - Include browser console errors and network tab information when relevant
 - Reference commit hashes when bugs are introduced or fixed
 - Update status regularly as work progresses 
+
+## 2025-08-29
+
+- Fixed: Desktop blog dropdown spacing and edge overflow
+  - Cause: styled-jsx specificity prevented component styles from taking effect consistently.
+  - Fix: Added desktop override block in styles/globals.css to enforce dropdown padding, margins, and rounded corners; ensured overflow clipping and slight left nudge off viewport edge.
+  - Files: styles/globals.css
+
+- Todo (mobile navbar dropdown)
+  - Ensure Blog sub-links are hidden by default in mobile view and only shown when Blog is tapped.
+  - Keep Blog aligned with other nav links; arrow rotates when expanded.
+  - Center sub-link items; remove extra spacing.
+  - Collapse again on second tap and on route change. 
+
+- Fixed: Mobile Blog submenu expansion & spacing
+  - Cause: CSS cascade left the submenu present but non-visible and a residual layout gap; hover styles also interfered on mobile.
+  - Fix: Switched to container-based show/hide (display/height/visibility toggled) and centered Blog link; removed legacy rules and hover-open on mobile.
+  - Files: components/Navbar.js (mobile state toggle, CSS), styles/globals.css (desktop dropdown overrides)
+
+- Cleanup: Removed obsolete dropdown-* rules and consolidated mobile logic; kept a minimal, desktop-only override in globals to avoid styled-jsx precedence issues. Avoided unnecessary !important usage elsewhere. 
+
+### Synopsis: Navbar Dropdown (Desktop + Mobile)
+
+- Root causes:
+  - CSS cascade & scoping: Styled‑JSX component styles lost to global anchor hover and other rules with higher precedence; desktop dropdown styles appeared but were overridden at runtime.
+  - Mixed interaction models: Hover and click behaviors conflicted on mobile, leaving the submenu present but visually hidden and leaving layout gaps.
+  - Residual layout space: The submenu container had space even when visually hidden (opacity/visibility without display/height control).
+
+- Final approach:
+  - Desktop: Kept hover interaction; enforced spacing/rounding with a small, targeted override in `styles/globals.css` (no scatter of !important elsewhere).
+  - Mobile: Switched to container‑based show/hide (toggle display/height/visibility/overflow), disabled hover‑open on mobile, centered Blog trigger, tightened spacing, and used inline toggles only where needed (divider visibility).
+
+- Lessons:
+  - Prefer container‑level show/hide (display/height/overflow) over only opacity/visibility to avoid “ghost” gaps.
+  - Keep desktop and mobile interaction models separate; disable hover behaviors under mobile breakpoints.
+  - Use globals sparingly to resolve styled‑JSX precedence when necessary; avoid broad !important rules that hinder future changes. 

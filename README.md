@@ -22,17 +22,21 @@ This is a personal website and blog built with [Next.js](https://nextjs.org) usi
 ```
 ├── content/
 │   └── blog/
-│       ├── theology/           # Theological blog posts
-│       ├── first-post.mdx     # Regular blog posts
-│       └── second-post.mdx
+│       ├── technology/          # Technology & Development posts
+│       │   ├── ai-app-integration-one-shot-fallacy.mdx
+│       │   └── ...              # more technology posts
+│       └── theology/            # Theology & Faith posts
+│           ├── joy-as-defiance-the-christian-rebellion.mdx
+│           └── ...              # more theology posts
 ├── pages/
 │   ├── blog/
-│   │   ├── theology/          # Theology section pages
-│   │   │   ├── index.js       # Theology blog index
-│   │   │   └── [slug].js      # Individual theology posts
-│   │   ├── index.js           # Main blog index
-│   │   └── [slug].js          # Individual blog posts
-│   └── index.js               # Homepage
+│   │   ├── technology/          # Technology section pages
+│   │   │   ├── index.js         # Technology blog index
+│   │   │   └── [slug].js        # Individual technology posts
+│   │   ├── theology/            # Theology section pages
+│   │   │   ├── index.js         # Theology blog index
+│   │   │   └── [slug].js        # Individual theology posts
+│   │   └── index.js             # Blog landing page (all categories)
 └── styles/
     └── globals.css
 ```
@@ -200,3 +204,9 @@ To learn more about the technologies used:
 ## License
 
 This project is personal/educational use. Content and code are © Paul Blake.
+
+## Notes & Troubleshooting
+
+### Navbar dropdown (desktop/mobile)
+- If desktop dropdown spacing/rounding appears incorrect, ensure `styles/globals.css` desktop overrides are loaded; they intentionally resolve styled‑jsx precedence.
+- Mobile submenu uses container-level toggling (display/height/visibility/overflow) and disables hover-open under the mobile media query. If submenu appears but does not occupy space, verify that the container is toggling `display:block` and `height:auto` on open.

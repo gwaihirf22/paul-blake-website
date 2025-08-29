@@ -5,7 +5,7 @@ import path from "path";
 import matter from "gray-matter";
 import SubscriptionForm from "../../../components/SubscriptionForm";
 
-export default function TheologyIndex({ posts }) {
+export default function TechnologyIndex({ posts }) {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('en-US', { 
@@ -18,26 +18,26 @@ export default function TheologyIndex({ posts }) {
   return (
     <>
       <Head>
-        <title>Theology & Faith - Paul Blake</title>
-        <meta name="description" content="Read my theology and faith blog posts about Christian faith, theology, philosophy, and the intersection of science and faith." />
+        <title>Technology & Development - Paul Blake</title>
+        <meta name="description" content="Read my technology and development blog posts about software engineering, AI, DevOps, and cloud infrastructure." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="alternate" type="application/rss+xml" title="Paul Blake - Theology Posts" href="/api/rss/theology.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Paul Blake - Technology Posts" href="/api/rss/blog.xml" />
         <link rel="alternate" type="application/rss+xml" title="Paul Blake - All Posts" href="/api/rss/all.xml" />
       </Head>
       <div>
-        <h1>Theology & Faith</h1>
+        <h1>Technology & Development</h1>
         <div className="dark-profile-section">
-          <p>Welcome to my theology and faith blog! Here you'll find my thoughts and reflections on Christian faith, theology, philosophy, and the intersection of science and faith. These posts explore deep questions about God, morality, purpose, and what it means to live faithfully as a follower of Christ in today's world.</p>
+          <p>Welcome to my technology and development blog! Here you'll find posts about software engineering, AI, DevOps, cloud infrastructure, and my latest technical projects. I share practical insights, lessons learned, and deep dives into the technologies I work with.</p>
         </div>
         
         <div className="blog-navigation">
           <p>
-            <strong>Navigation:</strong> <Link href="/blog">All Posts</Link>
+            <strong>Navigation:</strong> <Link href="/blog">All Posts</Link> • <Link href="/blog/theology">Theology & Faith</Link>
           </p>
           <p>
             <strong>Subscribe:</strong> 
-            <a href="/api/rss/theology.xml" target="_blank" rel="noopener noreferrer">Theology RSS</a> • 
+            <a href="/api/rss/blog.xml" target="_blank" rel="noopener noreferrer">Tech RSS</a> • 
             <a href="/api/rss/all.xml" target="_blank" rel="noopener noreferrer">All RSS</a>
           </p>
         </div>
@@ -46,7 +46,7 @@ export default function TheologyIndex({ posts }) {
           {posts.map((post) => (
             <div key={post.slug} className="dark-card">
               <h3>
-                <Link href={`/blog/theology/${post.slug}`}>
+                <Link href={`/blog/technology/${post.slug}`}>
                   {post.title}
                 </Link>
               </h3>
@@ -57,7 +57,7 @@ export default function TheologyIndex({ posts }) {
           ))}
         </div>
         
-        <SubscriptionForm categories={['theology']} />
+        <SubscriptionForm categories={['blog']} />
         
         <p>
           <Link href="/blog">← Back to main blog</Link> | <Link href="/">← Back to home</Link>
@@ -135,14 +135,14 @@ export default function TheologyIndex({ posts }) {
 }
 
 export async function getStaticProps() {
-  const theologyDir = path.join(process.cwd(), 'content/blog/theology');
-  const filenames = fs.readdirSync(theologyDir);
+  const technologyDir = path.join(process.cwd(), 'content/blog/technology');
+  const filenames = fs.readdirSync(technologyDir);
   
   const posts = filenames
     .filter(name => name.endsWith('.mdx'))
     .map(filename => {
       const slug = filename.replace(/\.mdx$/, '');
-      const fullPath = path.join(theologyDir, filename);
+      const fullPath = path.join(technologyDir, filename);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const { data } = matter(fileContents);
       
@@ -165,4 +165,4 @@ export async function getStaticProps() {
       posts,
     },
   };
-} 
+}
