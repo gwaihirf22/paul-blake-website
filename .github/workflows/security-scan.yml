@@ -196,12 +196,20 @@ jobs:
           
           if [ -f "reports/security-audit-report/audit-report.json" ]; then
             echo "### NPM Audit Results" >> security-summary.md
-            cat reports/security-audit-report/audit-report.json | jq -r '.metadata.vulnerabilities | "Critical: \(.critical // 0), High: \(.high // 0), Moderate: \(.moderate // 0), Low: \(.low // 0)"' >> security-summary.md
+            cat reports/security-audit-report/audit-report.json | jq -r '.metadata.vulnerabilities | "Critical: \(.critical // 0), High: \(.high // 0), Moderate: \(.moderate // 0), Low: \(.low // 0)"' >> security-summary.md || echo "Failed to parse NPM audit results" >> security-summary.md
+          else
+            echo "### NPM Audit Results" >> security-summary.md
+            echo "NPM audit report not found" >> security-summary.md
           fi
+          
+          echo "" >> security-summary.md
           
           if [ -f "reports/lighthouse-security-report/lighthouse-report.json" ]; then
             echo "### Lighthouse Security Score" >> security-summary.md
-            cat reports/lighthouse-security-report/lighthouse-report.json | jq -r '.categories.security.score * 100 | "Security Score: \(.)%"' >> security-summary.md
+            cat reports/lighthouse-security-report/lighthouse-report.json | jq -r 'if .categories.security.score == null then "Security Score: N/A (audit failed)" else (.categories.security.score * 100 | "Security Score: \(.)%") end' >> security-summary.md || echo "Failed to parse Lighthouse security results" >> security-summary.md
+          else
+            echo "### Lighthouse Security Score" >> security-summary.md
+            echo "Lighthouse security report not found" >> security-summary.md
           fi
           
       - name: Upload security summary
