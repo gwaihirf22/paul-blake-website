@@ -45,6 +45,20 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - Styled-jsx for component-scoped CSS
 - CSS custom properties for theming in `globals.css`
 
+**Navigation System:**
+- Responsive dropdown navigation with viewport-aware positioning
+- CSS-only solution using `!important` overrides for reliable dropdown positioning
+- Mobile-optimized viewport configuration for gaming and touch interactions
+- Dropdown overflow prevention: right-alignment on medium screens (769px-1200px)
+- Fixed dropdown width (280px) with viewport-based max-width constraints
+
+**Mobile & Gaming Enhancements:**
+- Progressive Web App (PWA) capable viewport configuration
+- Fullscreen API integration for immersive mobile gaming
+- Touch event optimization with page scroll prevention during gameplay
+- Mobile-first responsive design for HTML5 Canvas games
+- Enhanced touch targets (48px minimum) for better mobile accessibility
+
 **Comment System:**
 - Giscus integration with GitHub Discussions backend
 - Comments component automatically loaded on all blog post pages
@@ -301,11 +315,24 @@ import { Image } from '../../../components/Image.jsx';
 - This includes custom colors, borders, and hover effects that override button styles
 - When adding buttons inside `.dark-card`, ensure `.dark-card .btn` styles are defined
 
+**Dropdown Navigation Issues:**
+- CSS specificity conflicts can prevent dropdown positioning rules from applying
+- **Solution**: Use `!important` declarations for critical positioning rules
+- Medium-screen viewport cutoffs require explicit right-alignment CSS
+- Debug approach: Add colored borders to visualize which CSS rules are active
+- **Key Fix**: `left: auto !important; right: 0 !important;` for reliable positioning
+
+**Viewport Meta Tag Placement:**
+- ⚠️ **IMPORTANT**: Viewport meta tags must be in `_app.js`, NOT `_document.js`
+- Next.js 13+ throws warnings for viewport meta tags in `_document.js`
+- Mobile gaming requires specific viewport configuration for optimal touch handling
+
 **Specificity Hierarchy:**
 1. Global `.btn` styles in `globals.css`
 2. Container-specific `.dark-card a` overrides
 3. Combined `.dark-card .btn` restores button styling
 4. Page-specific styles (styled-jsx) can override global styles
+5. **Nuclear option**: `!important` declarations override all conflicting CSS
 
 ## Recent Updates
 
@@ -324,3 +351,19 @@ import { Image } from '../../../components/Image.jsx';
 - Integrated featured game showcase on homepage with direct play link
 - Implemented physics-based game engine with collision detection and particle effects
 - Added localStorage integration for persistent high score tracking
+
+### Mobile Gaming Enhancements (2025-09-02)
+- Enhanced mobile viewport configuration for immersive gaming
+- Implemented Fullscreen API for native app-like mobile experience
+- Added touch event optimization with page scroll prevention
+- Created progressive difficulty system with website-themed rewards
+- Improved helicopter graphics with realistic rotating rotors
+- Fixed mobile UI layout issues with full-screen responsive design
+
+### Navigation Dropdown Fixes (2025-09-02)
+- **CRITICAL FIX**: Resolved dropdown cutoff issues on medium-sized screens
+- Implemented nuclear CSS approach with `!important` overrides for reliable positioning
+- Added right-alignment for Projects dropdown and medium-screen responsiveness
+- Fixed viewport meta tag placement (moved from `_document.js` to `_app.js`)
+- **Debugging approach**: Used colored borders to identify CSS specificity issues
+- Solution: Aggressive CSS positioning that overrides all conflicting rules

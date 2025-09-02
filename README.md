@@ -263,6 +263,31 @@ This project is personal/educational use. Content and code are © Paul Blake.
 - If desktop dropdown spacing/rounding appears incorrect, ensure `styles/globals.css` desktop overrides are loaded; they intentionally resolve styled‑jsx precedence.
 - Mobile submenu uses container-level toggling (display/height/visibility/overflow) and disables hover-open under the mobile media query. If submenu appears but does not occupy space, verify that the container is toggling `display:block` and `height:auto` on open.
 
+### Dropdown Navigation Cutoff Issues (FIXED 2025-09-02)
+- **Issue**: Dropdowns extended beyond viewport boundaries on medium-sized screens (769px-1200px)
+- **Root cause**: CSS specificity conflicts prevented positioning rules from applying
+- **Solution**: Nuclear CSS approach with `!important` declarations
+- **Implementation**: 
+  ```css
+  .nav-dropdown:last-of-type .dropdown-menu {
+    left: auto !important;
+    right: 0 !important;
+  }
+  @media (max-width: 1200px) and (min-width: 769px) {
+    .nav-dropdown .dropdown-menu {
+      left: auto !important;
+      right: 0 !important;
+    }
+  }
+  ```
+- **Debug tip**: Add colored borders to dropdowns to visualize CSS rule application
+
+### Viewport Meta Tag Warning (FIXED 2025-09-02)
+- **Issue**: Next.js warning "viewport meta tags should not be used in _document.js's <Head>"
+- **Solution**: Move viewport meta tag from `pages/_document.js` to `pages/_app.js`
+- **Implementation**: Use Next.js `Head` component in `_app.js` for viewport configuration
+- **Mobile Gaming**: Essential for proper fullscreen API and touch event handling
+
 ### Color Scheme
 The site uses a standardized dark theme with CSS variables:
 

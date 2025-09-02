@@ -20,6 +20,7 @@ export default function Navbar() {
     setIsProjectsMobileOpen(false);
   }, [router.pathname]);
 
+
   const handleBlogClick = (e) => {
     // Toggle dropdown on mobile; on desktop let hover handle it
     const menuToggle = document.querySelector('.menu-toggle');
@@ -301,15 +302,14 @@ export default function Navbar() {
           position: absolute;
           top: calc(100% + 0.5rem);
           left: 0;
-          right: 1rem;
           background: var(--color-card-background);
           border: 1px solid var(--color-border);
           border-radius: 12px;
           box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-          min-width: 340px;
-          max-width: 420px;
+          width: 280px !important;
+          max-width: calc(100vw - 3rem) !important;
           padding: 0.75rem 0;
-          overflow: hidden; /* ensure inner item corners clip nicely */
+          overflow: hidden;
           box-sizing: border-box;
           opacity: 0;
           visibility: hidden;
@@ -318,6 +318,21 @@ export default function Navbar() {
           z-index: 1000;
           backdrop-filter: blur(10px);
         }
+
+        /* SOLUTION: Force right alignment to prevent viewport overflow */
+        .nav-dropdown:last-of-type .dropdown-menu {
+          left: auto !important;
+          right: 0 !important;
+        }
+
+        /* On medium screens, align all dropdowns right to prevent cutoff */
+        @media (max-width: 1200px) and (min-width: 769px) {
+          .nav-dropdown .dropdown-menu {
+            left: auto !important;
+            right: 0 !important;
+          }
+        }
+
 
         .nav-dropdown:hover .dropdown-menu {
           opacity: 1;
@@ -442,6 +457,43 @@ export default function Navbar() {
         }
         .menu-bars::before { top: -6px; }
         .menu-bars::after { top: 6px; }
+
+        /* Tablet and small desktop responsive adjustments */
+        @media (max-width: 1024px) and (min-width: 769px) {
+          .dropdown-menu {
+            width: clamp(260px, 32vw, 320px);
+            padding: 0.5rem 0;
+          }
+
+          .dropdown-item {
+            padding: 1rem 2rem;
+          }
+
+          .dropdown-item-description {
+            font-size: 0.75rem;
+            opacity: 0.6;
+          }
+
+          .dropdown-item-title {
+            font-size: 0.9rem;
+          }
+        }
+
+        /* Small tablet responsive adjustments */
+        @media (max-width: 900px) and (min-width: 769px) {
+          .dropdown-item-description {
+            display: none;
+          }
+
+          .dropdown-item {
+            padding: 0.8rem 1.5rem;
+          }
+
+          .dropdown-divider {
+            margin: 0.5rem 1rem;
+          }
+        }
+
 
         @media (max-width: 768px) {
           .navbar-container {
