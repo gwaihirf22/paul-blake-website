@@ -37,6 +37,8 @@ export default function HelicopterGame() {
   });
 
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showFullscreenToast, setShowFullscreenToast] = useState(false);
   
   const animationFrameRef = useRef();
   const lastTimeRef = useRef(0);
@@ -76,20 +78,46 @@ export default function HelicopterGame() {
     scoreForDifficultyIncrease: 5
   };
 
-  // Fullscreen functionality
+  // Enhanced fullscreen functionality with mobile support
   const toggleFullscreen = useCallback(async () => {
     try {
       const gameContainer = canvasRef.current?.parentElement;
       if (!gameContainer) return;
 
-      if (!document.fullscreenElement) {
-        // Enter fullscreen
+      // Check if we're currently in fullscreen
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement || 
+        document.webkitFullscreenElement || 
+        document.msFullscreenElement ||
+        document.mozFullScreenElement
+      );
+
+      if (!isCurrentlyFullscreen) {
+        // Enter fullscreen - try multiple methods for mobile compatibility
         if (gameContainer.requestFullscreen) {
           await gameContainer.requestFullscreen();
         } else if (gameContainer.webkitRequestFullscreen) {
+          // iOS Safari and older webkit browsers
           await gameContainer.webkitRequestFullscreen();
+        } else if (gameContainer.webkitEnterFullscreen) {
+          // iOS Safari video fullscreen API
+          await gameContainer.webkitEnterFullscreen();
+        } else if (gameContainer.mozRequestFullScreen) {
+          // Firefox
+          await gameContainer.mozRequestFullScreen();
         } else if (gameContainer.msRequestFullscreen) {
+          // Internet Explorer/Edge
           await gameContainer.msRequestFullscreen();
+        } else {
+          // Fallback for mobile: try document.body
+          const element = document.body;
+          if (element.requestFullscreen) {
+            await element.requestFullscreen();
+          } else if (element.webkitRequestFullscreen) {
+            await element.webkitRequestFullscreen();
+          } else {
+            throw new Error('Fullscreen not supported on this device');
+          }
         }
       } else {
         // Exit fullscreen
@@ -97,28 +125,76 @@ export default function HelicopterGame() {
           await document.exitFullscreen();
         } else if (document.webkitExitFullscreen) {
           await document.webkitExitFullscreen();
+        } else if (document.webkitCancelFullScreen) {
+          await document.webkitCancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+          await document.mozCancelFullScreen();
         } else if (document.msExitFullscreen) {
           await document.msExitFullscreen();
         }
       }
     } catch (error) {
-      console.log('Fullscreen not supported or failed:', error);
+      console.log('Fullscreen error:', error.message);
+      // Enhanced mobile fallback with better user feedback
+      const gameEl = canvasRef.current?.parentElement;
+      if (gameEl) {
+        if (!gameEl.classList.contains('pseudo-fullscreen')) {
+          console.log('Activating pseudo-fullscreen mode for optimal mobile experience');
+          gameEl.classList.add('pseudo-fullscreen');
+          setIsFullscreen(true);
+          
+          // Show toast notification for mobile users
+          if (window.innerWidth <= 768) {
+            setShowFullscreenToast(true);
+            setTimeout(() => setShowFullscreenToast(false), 3000);
+            
+            // Try to hide mobile address bar for true immersive experience
+            setTimeout(() => {
+              window.scrollTo(0, 1);
+            }, 100);
+          }
+        } else {
+          gameEl.classList.remove('pseudo-fullscreen');
+          setIsFullscreen(false);
+        }
+      }
     }
   }, []);
 
-  // Track fullscreen state
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Track fullscreen state with enhanced mobile support
   useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement || 
+        document.webkitFullscreenElement || 
+        document.msFullscreenElement ||
+        document.mozFullScreenElement
+      );
+      setIsFullscreen(isCurrentlyFullscreen);
     };
 
+    // Add all fullscreen event listeners for different browsers
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
     document.addEventListener('msfullscreenchange', handleFullscreenChange);
 
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
       document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
       document.removeEventListener('msfullscreenchange', handleFullscreenChange);
     };
   }, []);
@@ -832,6 +908,13 @@ export default function HelicopterGame() {
         >
           {isFullscreen ? '⊟' : '⊞'}
         </button>
+
+        {/* Mobile fullscreen toast notification */}
+        {showFullscreenToast && (
+          <div className="fullscreen-toast">
+            🎮 Immersive Mode Active! Tap the ⊟ button to exit.
+          </div>
+        )}
         
         {!gameState.isPlaying && (
           <div className="game-overlay">
@@ -854,7 +937,7 @@ export default function HelicopterGame() {
                   {gameState.score > 0 ? 'Play Again' : 'Start Game'}
                 </button>
                 <button onClick={toggleFullscreen} className="fullscreen-menu-button">
-                  📺 {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen Mode'}
+                  📺 {isFullscreen ? 'Exit Fullscreen' : isMobile ? 'Immersive Mode' : 'Fullscreen Mode'}
                 </button>
               </div>
             </div>
@@ -1051,6 +1134,78 @@ export default function HelicopterGame() {
           background: rgba(0, 188, 212, 0.2);
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(0, 188, 212, 0.2);
+        }
+
+        /* Enhanced pseudo-fullscreen for mobile devices */
+        .pseudo-fullscreen {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          height: 100dvh !important; /* Dynamic viewport height for modern mobile browsers */
+          z-index: 9999 !important;
+          background: var(--color-background) !important;
+          border-radius: 0 !important;
+          border: none !important;
+          overflow: hidden !important;
+          touch-action: none !important;
+          -webkit-touch-callout: none !important;
+          -webkit-user-select: none !important;
+          -khtml-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+          user-select: none !important;
+        }
+
+        .pseudo-fullscreen .game-canvas {
+          width: 100vw !important;
+          height: 100vh !important;
+          height: 100dvh !important; /* Dynamic viewport height for modern mobile browsers */
+          border-radius: 0 !important;
+          touch-action: none !important;
+          object-fit: contain !important;
+        }
+
+        /* Hide scrollbars in pseudo-fullscreen */
+        .pseudo-fullscreen {
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
+        }
+        
+        .pseudo-fullscreen::-webkit-scrollbar {
+          display: none !important;
+        }
+
+        /* Mobile fullscreen toast notification */
+        .fullscreen-toast {
+          position: fixed;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(0, 188, 212, 0.95);
+          color: var(--color-background);
+          padding: 12px 24px;
+          border-radius: 25px;
+          font-size: 14px;
+          font-weight: 600;
+          z-index: 10000;
+          animation: slideInDown 0.3s ease-out;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 4px 20px rgba(0, 188, 212, 0.3);
+        }
+
+        @keyframes slideInDown {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
         }
 
         .mobile-instructions {
