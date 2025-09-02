@@ -35,6 +35,8 @@ export default function HelicopterGame() {
     score: 0,
     highScore: 0
   });
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   const animationFrameRef = useRef();
   const lastTimeRef = useRef(0);
@@ -73,6 +75,53 @@ export default function HelicopterGame() {
     maxDifficulty: 3.0,
     scoreForDifficultyIncrease: 5
   };
+
+  // Fullscreen functionality
+  const toggleFullscreen = useCallback(async () => {
+    try {
+      const gameContainer = canvasRef.current?.parentElement;
+      if (!gameContainer) return;
+
+      if (!document.fullscreenElement) {
+        // Enter fullscreen
+        if (gameContainer.requestFullscreen) {
+          await gameContainer.requestFullscreen();
+        } else if (gameContainer.webkitRequestFullscreen) {
+          await gameContainer.webkitRequestFullscreen();
+        } else if (gameContainer.msRequestFullscreen) {
+          await gameContainer.msRequestFullscreen();
+        }
+      } else {
+        // Exit fullscreen
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          await document.msExitFullscreen();
+        }
+      }
+    } catch (error) {
+      console.log('Fullscreen not supported or failed:', error);
+    }
+  }, []);
+
+  // Track fullscreen state
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
 
   // Initialize game
   const initGame = useCallback(() => {
@@ -329,6 +378,9 @@ export default function HelicopterGame() {
   const gameOver = () => {
     const state = gameStateRef.current;
     state.isPlaying = false;
+
+    // Restore normal scrolling when game ends
+    document.body.style.overflow = '';
 
     // Update high score
     if (state.score > state.highScore) {
@@ -603,9 +655,24 @@ export default function HelicopterGame() {
     };
     const handleTouchStart = (e) => {
       e.preventDefault();
+      e.stopPropagation();
+      // Prevent page scrolling and bouncing
+      document.body.style.overflow = 'hidden';
       handleInput(true);
     };
     const handleTouchEnd = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleInput(false);
+    };
+    const handleTouchMove = (e) => {
+      // Prevent scrolling during touch
+      if (gameStateRef.current.isPlaying) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+    const handleTouchCancel = (e) => {
       e.preventDefault();
       handleInput(false);
     };
@@ -634,22 +701,40 @@ export default function HelicopterGame() {
 
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mouseup', handleMouseUp);
-    canvas.addEventListener('touchstart', handleTouchStart);
-    canvas.addEventListener('touchend', handleTouchEnd);
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvas.addEventListener('touchcancel', handleTouchCancel, { passive: false });
     canvas.addEventListener('keydown', handleKeyDown);
     canvas.addEventListener('keyup', handleKeyUp);
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+
+    // Prevent pull-to-refresh and other mobile gestures during gameplay
+    const preventGestures = (e) => {
+      if (gameStateRef.current.isPlaying) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('touchmove', preventGestures, { passive: false });
+    document.addEventListener('touchstart', preventGestures, { passive: false });
 
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
       canvas.removeEventListener('mouseup', handleMouseUp);
       canvas.removeEventListener('touchstart', handleTouchStart);
       canvas.removeEventListener('touchend', handleTouchEnd);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchcancel', handleTouchCancel);
       canvas.removeEventListener('keydown', handleKeyDown);
       canvas.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      document.removeEventListener('touchmove', preventGestures);
+      document.removeEventListener('touchstart', preventGestures);
+      
+      // Restore body overflow when component unmounts
+      document.body.style.overflow = '';
     };
   }, [handleInput]);
 
@@ -739,6 +824,15 @@ export default function HelicopterGame() {
           className="game-canvas"
         />
         
+        {/* Fullscreen toggle button - available during gameplay */}
+        <button 
+          onClick={toggleFullscreen}
+          className="fullscreen-button"
+          title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+        >
+          {isFullscreen ? '⊟' : '⊞'}
+        </button>
+        
         {!gameState.isPlaying && (
           <div className="game-overlay">
             <div className="game-menu">
@@ -755,9 +849,14 @@ export default function HelicopterGame() {
                 Hold to ascend, release to descend.<br/>
                 Avoid obstacles and try to get the highest score!
               </p>
-              <button onClick={initGame} className="play-button">
-                {gameState.score > 0 ? 'Play Again' : 'Start Game'}
-              </button>
+              <div className="menu-buttons">
+                <button onClick={initGame} className="play-button">
+                  {gameState.score > 0 ? 'Play Again' : 'Start Game'}
+                </button>
+                <button onClick={toggleFullscreen} className="fullscreen-menu-button">
+                  📺 {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen Mode'}
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -775,8 +874,12 @@ export default function HelicopterGame() {
               <span className="control-icon">⌨️</span>
               <span>Spacebar (Desktop)</span>
             </div>
+            <div className="control-item">
+              <span className="control-icon">📺</span>
+              <span>Fullscreen Mode</span>
+            </div>
           </div>
-          <p className="game-tip">Hold to ascend, release to descend!</p>
+          <p className="game-tip">Hold to ascend, release to descend! Try fullscreen for the best mobile experience!</p>
         </div>
       </div>
 
@@ -899,6 +1002,57 @@ export default function HelicopterGame() {
           box-shadow: 0 8px 25px rgba(0, 188, 212, 0.4);
         }
 
+        .menu-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          align-items: center;
+        }
+
+        .fullscreen-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: rgba(0, 188, 212, 0.8);
+          color: var(--color-background);
+          border: none;
+          border-radius: 6px;
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          z-index: 10;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(5px);
+        }
+
+        .fullscreen-button:hover {
+          background: rgba(0, 188, 212, 1);
+          transform: scale(1.1);
+        }
+
+        .fullscreen-menu-button {
+          background: rgba(0, 188, 212, 0.1);
+          color: var(--color-accent);
+          border: 1px solid var(--color-accent);
+          border-radius: 8px;
+          padding: 0.8rem 1.5rem;
+          font-size: 1rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          min-width: 180px;
+        }
+
+        .fullscreen-menu-button:hover {
+          background: rgba(0, 188, 212, 0.2);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 188, 212, 0.2);
+        }
+
         .mobile-instructions {
           margin-top: 1rem;
         }
@@ -919,7 +1073,7 @@ export default function HelicopterGame() {
 
         .controls-grid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
           gap: 1rem;
           margin-bottom: 1rem;
         }
@@ -955,6 +1109,22 @@ export default function HelicopterGame() {
           background: rgba(0, 188, 212, 0.05);
           border-radius: 8px;
           border: 1px solid rgba(0, 188, 212, 0.2);
+        }
+
+        /* Mobile-first touch optimizations */
+        .game-canvas {
+          /* Improve touch responsiveness */
+          touch-action: none;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+
+        /* Prevent zoom on double-tap */
+        .helicopter-game * {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -webkit-tap-highlight-color: transparent;
         }
 
         @media (max-width: 768px) {
@@ -993,6 +1163,28 @@ export default function HelicopterGame() {
 
           .game-menu h2 {
             font-size: 1.3rem;
+          }
+
+          /* Enhanced mobile touch targets */
+          .fullscreen-button {
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+            top: 15px;
+            right: 15px;
+          }
+
+          .play-button {
+            padding: 1.2rem 2rem;
+            font-size: 1.2rem;
+            min-height: 48px;
+          }
+
+          .fullscreen-menu-button {
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            min-height: 48px;
+            min-width: 200px;
           }
 
           .instruction-card {
