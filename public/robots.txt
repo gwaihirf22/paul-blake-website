@@ -1,6 +1,7 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /lucys_party
 
 # Host
 Host: https://paul-blake.com

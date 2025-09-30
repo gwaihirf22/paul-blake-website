@@ -3,6 +3,7 @@ module.exports = {
   siteUrl: 'https://paul-blake.com',
   generateRobotsTxt: true,
   sitemapSize: 7000,
+  exclude: ['/lucys_party'], // Exclude private invitation page
   transform: async (config, path) => {
     return {
       loc: path,
