@@ -104,7 +104,6 @@ export default function LucysParty() {
           </div>
 
           <div className="detail-card special-request">
-            <div className="comic-burst small">THWIP!</div>
             <div className="card-icon">📚</div>
             <h3>🕷️ Special Spider Mission! 🕷️</h3>
             <div className="special-content">
@@ -158,10 +157,10 @@ export default function LucysParty() {
       <style jsx>{`
         .invitation-container {
           min-height: 100vh;
-          background: 
-            linear-gradient(rgba(26, 26, 46, 0.85), rgba(15, 52, 96, 0.85)),
+          background:
+            linear-gradient(rgba(255, 182, 255, 0.2), rgba(183, 234, 255, 0.3)),
             url('/Spidey.png') center center/contain no-repeat,
-            linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            linear-gradient(135deg, #fce7f3 0%, #ddd6fe 25%, #bfdbfe 50%, #e0f2fe 75%, #fce7f3 100%);
           background-attachment: fixed;
           padding: 1rem;
           font-family: 'Comic Sans MS', 'Apple Color Emoji', 'Chalkboard SE', 'Bradley Hand', cursive, fantasy, sans-serif !important;
@@ -256,36 +255,36 @@ export default function LucysParty() {
         /* Comic Book Burst Effects */
         .comic-burst {
           position: absolute;
-          background: linear-gradient(45deg, #dc2626, #ea580c);
+          background: linear-gradient(45deg, #ff1493, #ff69b4, #ffb6d9);
           color: white;
           padding: 0.3rem 0.8rem;
           border-radius: 50px;
           font-size: 0.8rem;
           font-weight: bold;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+          text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
           transform: rotate(-15deg);
           z-index: 10;
           top: -10px;
           right: 15px;
           border: 2px solid #ffffff;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+          box-shadow: 0 4px 12px rgba(255, 20, 147, 0.4), 0 0 20px rgba(255, 105, 180, 0.3);
           animation: pulse 2s ease-in-out infinite alternate;
         }
-        
+
         .comic-burst.small {
           top: -8px;
           right: 10px;
           font-size: 0.7rem;
           padding: 0.2rem 0.5rem;
-          background: linear-gradient(45deg, #2563eb, #1d4ed8);
+          background: linear-gradient(45deg, #00d9ff, #7dd3fc);
         }
-        
+
         .comic-burst.action {
           top: -15px;
           right: 15px;
           left: auto;
           transform: rotate(15deg);
-          background: linear-gradient(45deg, #059669, #047857);
+          background: linear-gradient(45deg, #00d9ff, #7dd3fc, #bfdbfe);
           font-size: 0.9rem;
           animation: pulse-action 2s ease-in-out infinite alternate;
         }
@@ -305,13 +304,14 @@ export default function LucysParty() {
           position: absolute;
           width: 60px;
           height: 60px;
-          background-image: 
-            radial-gradient(circle, transparent 20%, rgba(147, 51, 234, 0.3) 20%, rgba(147, 51, 234, 0.3) 25%, transparent 25%),
-            linear-gradient(0deg, transparent 48%, rgba(147, 51, 234, 0.4) 48%, rgba(147, 51, 234, 0.4) 52%, transparent 52%),
-            linear-gradient(60deg, transparent 48%, rgba(147, 51, 234, 0.4) 48%, rgba(147, 51, 234, 0.4) 52%, transparent 52%),
-            linear-gradient(120deg, transparent 48%, rgba(147, 51, 234, 0.4) 48%, rgba(147, 51, 234, 0.4) 52%, transparent 52%);
+          background-image:
+            radial-gradient(circle, transparent 20%, rgba(0, 217, 255, 0.4) 20%, rgba(0, 217, 255, 0.4) 25%, transparent 25%),
+            linear-gradient(0deg, transparent 48%, rgba(255, 105, 180, 0.5) 48%, rgba(255, 105, 180, 0.5) 52%, transparent 52%),
+            linear-gradient(60deg, transparent 48%, rgba(0, 217, 255, 0.5) 48%, rgba(0, 217, 255, 0.5) 52%, transparent 52%),
+            linear-gradient(120deg, transparent 48%, rgba(255, 105, 180, 0.5) 48%, rgba(255, 105, 180, 0.5) 52%, transparent 52%);
           background-size: 20px 20px, 60px 60px, 60px 60px, 60px 60px;
           animation: web-shimmer 3s ease-in-out infinite;
+          filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.4));
         }
         
         .web-top-left {
@@ -337,37 +337,40 @@ export default function LucysParty() {
         /* Enhanced Typography with Spider Theme */
         .main-title {
           font-size: 2rem;
-          background: linear-gradient(135deg, #9333ea, #dc2626, #ec4899);
+          background: linear-gradient(135deg, #ff1493, #ff69b4, #ffb6d9);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           margin: 0 0 0.5rem 0;
           text-shadow: none;
-          filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+          filter: drop-shadow(2px 2px 4px rgba(255, 20, 147, 0.3)) drop-shadow(0 0 10px rgba(255, 105, 180, 0.3));
           animation: text-glow 2s ease-in-out infinite alternate;
         }
-        
+
         @keyframes text-glow {
-          from { filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3)); }
-          to { filter: drop-shadow(2px 2px 8px rgba(147, 51, 234, 0.6)); }
+          from { filter: drop-shadow(2px 2px 4px rgba(255, 20, 147, 0.3)) drop-shadow(0 0 10px rgba(255, 105, 180, 0.3)); }
+          to { filter: drop-shadow(2px 2px 8px rgba(255, 20, 147, 0.5)) drop-shadow(0 0 20px rgba(255, 105, 180, 0.5)); }
         }
-        
+
         .birthday-title {
           font-size: 1.5rem;
-          color: #ec4899;
+          background: linear-gradient(45deg, #ff1493, #ff69b4);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
           margin: 0 0 0.5rem 0;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+          filter: drop-shadow(1px 1px 3px rgba(255, 20, 147, 0.3));
         }
-        
+
         .theme-subtitle {
           font-size: 1.1rem;
-          background: linear-gradient(45deg, #14b8a6, #059669);
+          background: linear-gradient(45deg, #00d9ff, #7dd3fc, #bfdbfe);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           font-weight: bold;
           margin: 0;
-          filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+          filter: drop-shadow(1px 1px 3px rgba(0, 217, 255, 0.3));
         }
 
         /* Enhanced Spider-Themed Party Details */
@@ -406,7 +409,7 @@ export default function LucysParty() {
           left: -2px;
           right: -2px;
           bottom: -2px;
-          background: linear-gradient(135deg, #9333ea, #dc2626, #ec4899, #14b8a6);
+          background: linear-gradient(135deg, #ff69b4, #00d9ff, #ff1493, #7dd3fc);
           border-radius: 14px;
           z-index: -1;
           opacity: 0.8;
@@ -419,9 +422,9 @@ export default function LucysParty() {
           left: 5px;
           right: 5px;
           bottom: 5px;
-          background-image: 
-            linear-gradient(45deg, transparent 48%, rgba(147, 51, 234, 0.1) 48%, rgba(147, 51, 234, 0.1) 52%, transparent 52%),
-            linear-gradient(-45deg, transparent 48%, rgba(220, 38, 127, 0.1) 48%, rgba(220, 38, 127, 0.1) 52%, transparent 52%);
+          background-image:
+            linear-gradient(45deg, transparent 48%, rgba(255, 105, 180, 0.1) 48%, rgba(255, 105, 180, 0.1) 52%, transparent 52%),
+            linear-gradient(-45deg, transparent 48%, rgba(0, 217, 255, 0.1) 48%, rgba(0, 217, 255, 0.1) 52%, transparent 52%);
           background-size: 15px 15px, 15px 15px;
           border-radius: 8px;
           opacity: 0.3;
@@ -436,9 +439,9 @@ export default function LucysParty() {
 
         .detail-card:hover {
           transform: translateY(-3px) scale(1.02);
-          box-shadow: 
-            0 8px 25px rgba(147, 51, 234, 0.4),
-            0 0 20px rgba(220, 38, 127, 0.3);
+          box-shadow:
+            0 8px 25px rgba(255, 105, 180, 0.4),
+            0 0 20px rgba(0, 217, 255, 0.3);
           animation: web-pulse 0.5s ease-out;
         }
 
@@ -454,11 +457,11 @@ export default function LucysParty() {
         }
 
         @keyframes border-spin {
-          from { background: linear-gradient(135deg, #9333ea, #dc2626, #ec4899, #14b8a6); }
-          25% { background: linear-gradient(135deg, #dc2626, #ec4899, #14b8a6, #9333ea); }
-          50% { background: linear-gradient(135deg, #ec4899, #14b8a6, #9333ea, #dc2626); }
-          75% { background: linear-gradient(135deg, #14b8a6, #9333ea, #dc2626, #ec4899); }
-          to { background: linear-gradient(135deg, #9333ea, #dc2626, #ec4899, #14b8a6); }
+          from { background: linear-gradient(135deg, #ff69b4, #00d9ff, #ff1493, #7dd3fc); }
+          25% { background: linear-gradient(135deg, #00d9ff, #ff1493, #7dd3fc, #ff69b4); }
+          50% { background: linear-gradient(135deg, #ff1493, #7dd3fc, #ff69b4, #00d9ff); }
+          75% { background: linear-gradient(135deg, #7dd3fc, #ff69b4, #00d9ff, #ff1493); }
+          to { background: linear-gradient(135deg, #ff69b4, #00d9ff, #ff1493, #7dd3fc); }
         }
 
         .card-icon {
@@ -467,7 +470,10 @@ export default function LucysParty() {
         }
 
         .detail-card h3 {
-          color: #9333ea;
+          background: linear-gradient(45deg, #ff1493, #ff69b4);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
           font-size: 1.2rem;
           margin: 0.5rem 0;
           font-weight: bold;
@@ -483,27 +489,27 @@ export default function LucysParty() {
         /* Enhanced Spider Mission Special Request */
         .special-request {
           grid-column: 1 / -1;
-          background: 
-            linear-gradient(135deg, #dc2626, #9333ea, #ec4899) !important,
-            radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+          background:
+            linear-gradient(135deg, #ff1493, #ff69b4, #ffb6d9) !important,
+            radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
           border: 3px solid #ffffff !important;
           position: relative;
           overflow: visible;
         }
 
         .special-request::before {
-          background: linear-gradient(135deg, #dc2626, #9333ea, #ec4899, #14b8a6) !important;
+          background: linear-gradient(135deg, #ff1493, #ff69b4, #00d9ff, #7dd3fc) !important;
           animation: special-border-glow 3s ease-in-out infinite alternate;
         }
 
         @keyframes special-border-glow {
-          from { 
-            background: linear-gradient(135deg, #dc2626, #9333ea, #ec4899, #14b8a6);
-            box-shadow: 0 0 20px rgba(220, 38, 127, 0.6);
+          from {
+            background: linear-gradient(135deg, #ff1493, #ff69b4, #00d9ff, #7dd3fc);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
           }
-          to { 
-            background: linear-gradient(135deg, #9333ea, #ec4899, #14b8a6, #dc2626);
-            box-shadow: 0 0 30px rgba(147, 51, 234, 0.8);
+          to {
+            background: linear-gradient(135deg, #ff69b4, #00d9ff, #7dd3fc, #ff1493);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.8);
           }
         }
 
@@ -552,21 +558,20 @@ export default function LucysParty() {
           left: -2px;
           right: -2px;
           bottom: -2px;
-          background: linear-gradient(45deg, #9333ea, #dc2626, #ec4899, #14b8a6);
+          background: linear-gradient(45deg, #ff69b4, #00d9ff, #ff1493, #7dd3fc);
           border-radius: 17px;
           z-index: -1;
           opacity: 0.8;
         }
 
         .invitation-preview h3 {
-          background: linear-gradient(45deg, #9333ea, #dc2626, #ec4899);
+          background: linear-gradient(45deg, #ff1493, #ff69b4, #ffb6d9);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           font-size: 1.8rem;
           margin-bottom: 1.5rem;
-          filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-          animation: text-glow 2s ease-in-out infinite alternate;
+          filter: drop-shadow(2px 2px 4px rgba(255, 20, 147, 0.3));
         }
 
         .preview-container {
@@ -574,17 +579,17 @@ export default function LucysParty() {
           margin: 0 auto;
           border-radius: 12px;
           overflow: hidden;
-          box-shadow: 
-            0 8px 32px rgba(147, 51, 234, 0.3),
-            0 0 20px rgba(220, 38, 127, 0.2);
+          box-shadow:
+            0 8px 32px rgba(255, 105, 180, 0.3),
+            0 0 20px rgba(0, 217, 255, 0.2);
           transition: all 0.3s ease;
         }
 
         .preview-container:hover {
           transform: translateY(-3px) scale(1.02);
-          box-shadow: 
-            0 12px 40px rgba(147, 51, 234, 0.4),
-            0 0 30px rgba(220, 38, 127, 0.3);
+          box-shadow:
+            0 12px 40px rgba(255, 105, 180, 0.4),
+            0 0 30px rgba(0, 217, 255, 0.3);
         }
 
         .official-invitation {
@@ -621,20 +626,20 @@ export default function LucysParty() {
           left: -2px;
           right: -2px;
           bottom: -2px;
-          background: linear-gradient(45deg, #14b8a6, #059669, #047857);
+          background: linear-gradient(45deg, #00d9ff, #7dd3fc, #bfdbfe);
           border-radius: 14px;
           z-index: -1;
           opacity: 0.8;
         }
 
         .rsvp-info h3 {
-          background: linear-gradient(45deg, #9333ea, #14b8a6);
+          background: linear-gradient(45deg, #ff1493, #00d9ff, #ff69b4);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           font-size: 1.4rem;
           margin-bottom: 0.5rem;
-          filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+          filter: drop-shadow(1px 1px 3px rgba(255, 20, 147, 0.3));
           animation: text-wobble 3s ease-in-out infinite;
         }
 
@@ -651,24 +656,24 @@ export default function LucysParty() {
         }
 
         .contact-info a {
-          background: linear-gradient(45deg, #ec4899, #dc2626);
+          background: linear-gradient(45deg, #ff1493, #ff69b4);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           text-decoration: none;
           font-weight: bold;
-          filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
+          filter: drop-shadow(1px 1px 2px rgba(255, 20, 147, 0.3));
           transition: all 0.3s ease;
         }
 
         .contact-info a:hover {
-          filter: drop-shadow(2px 2px 4px rgba(220, 38, 127, 0.5));
+          filter: drop-shadow(2px 2px 4px rgba(255, 105, 180, 0.5));
           transform: scale(1.05);
         }
 
         /* Enhanced Spider Print Button */
         .print-btn {
-          background: linear-gradient(45deg, #dc2626, #9333ea, #ec4899);
+          background: linear-gradient(45deg, #ff1493, #ff69b4, #00d9ff, #7dd3fc);
           background-size: 200% 200%;
           color: white;
           border: 2px solid #ffffff;
@@ -677,9 +682,9 @@ export default function LucysParty() {
           font-weight: bold;
           border-radius: 25px;
           cursor: pointer;
-          box-shadow: 
-            0 4px 12px rgba(147, 51, 234, 0.3),
-            0 0 20px rgba(220, 38, 127, 0.2);
+          box-shadow:
+            0 4px 12px rgba(255, 105, 180, 0.4),
+            0 0 20px rgba(0, 217, 255, 0.3);
           transition: all 0.3s ease;
           font-family: inherit;
           position: relative;
@@ -705,9 +710,9 @@ export default function LucysParty() {
 
         .print-btn:hover {
           transform: translateY(-3px) scale(1.05);
-          box-shadow: 
-            0 8px 25px rgba(147, 51, 234, 0.5),
-            0 0 30px rgba(220, 38, 127, 0.4);
+          box-shadow:
+            0 8px 25px rgba(255, 105, 180, 0.5),
+            0 0 30px rgba(0, 217, 255, 0.4);
           animation: print-pulse 0.6s ease-out;
         }
 
@@ -743,7 +748,7 @@ export default function LucysParty() {
           left: -2px;
           right: -2px;
           bottom: -2px;
-          background: linear-gradient(45deg, #9333ea, #ec4899, #14b8a6);
+          background: linear-gradient(45deg, #ff69b4, #00d9ff, #ff1493);
           border-radius: 14px;
           z-index: -1;
           opacity: 0.6;
@@ -752,11 +757,11 @@ export default function LucysParty() {
         .spider-web-small {
           width: 40px;
           height: 40px;
-          background-image: 
-            radial-gradient(circle, #9333ea 2px, transparent 2px),
-            linear-gradient(0deg, transparent 48%, #ec4899 48%, #ec4899 52%, transparent 52%),
-            linear-gradient(60deg, transparent 48%, #14b8a6 48%, #14b8a6 52%, transparent 52%),
-            linear-gradient(120deg, transparent 48%, #dc2626 48%, #dc2626 52%, transparent 52%);
+          background-image:
+            radial-gradient(circle, #ff1493 2px, transparent 2px),
+            linear-gradient(0deg, transparent 48%, #ff69b4 48%, #ff69b4 52%, transparent 52%),
+            linear-gradient(60deg, transparent 48%, #00d9ff 48%, #00d9ff 52%, transparent 52%),
+            linear-gradient(120deg, transparent 48%, #7dd3fc 48%, #7dd3fc 52%, transparent 52%);
           background-size: 10px 10px, 40px 40px, 40px 40px, 40px 40px;
           margin: 0 auto 1rem auto;
           animation: web-spin 4s linear infinite;
@@ -776,13 +781,13 @@ export default function LucysParty() {
         }
 
         .signature {
-          background: linear-gradient(45deg, #ec4899, #9333ea);
+          background: linear-gradient(45deg, #ff1493, #ff69b4, #00d9ff);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           font-style: italic;
           font-weight: bold;
-          filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
+          filter: drop-shadow(1px 1px 2px rgba(255, 20, 147, 0.3));
         }
 
         /* Mobile Responsiveness */
