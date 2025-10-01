@@ -550,40 +550,51 @@ export default function LucysParty() {
         /* Enhanced Typography with Spider Theme */
         .main-title {
           font-size: 2rem;
-          background: linear-gradient(135deg, #ff1493, #ff69b4, #ffb6d9);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #1a0a3e;
+          font-weight: 900;
           margin: 0 0 0.5rem 0;
-          text-shadow: none;
-          filter: drop-shadow(2px 2px 4px rgba(255, 20, 147, 0.3)) drop-shadow(0 0 10px rgba(255, 105, 180, 0.3));
+          text-shadow:
+            2px 2px 0 #ff1493,
+            3px 3px 0 #00d9ff,
+            4px 4px 10px rgba(255, 20, 147, 0.5);
           animation: text-glow 2s ease-in-out infinite alternate;
         }
 
         @keyframes text-glow {
-          from { filter: drop-shadow(2px 2px 4px rgba(255, 20, 147, 0.3)) drop-shadow(0 0 10px rgba(255, 105, 180, 0.3)); }
-          to { filter: drop-shadow(2px 2px 8px rgba(255, 20, 147, 0.5)) drop-shadow(0 0 20px rgba(255, 105, 180, 0.5)); }
+          from {
+            text-shadow:
+              2px 2px 0 #ff1493,
+              3px 3px 0 #00d9ff,
+              4px 4px 10px rgba(255, 20, 147, 0.5);
+          }
+          to {
+            text-shadow:
+              2px 2px 0 #ff1493,
+              3px 3px 0 #00d9ff,
+              4px 4px 20px rgba(255, 20, 147, 0.8);
+          }
         }
 
         .birthday-title {
           font-size: 1.5rem;
-          background: linear-gradient(45deg, #ff1493, #ff69b4);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #2d0a5e;
+          font-weight: 800;
           margin: 0 0 0.5rem 0;
-          filter: drop-shadow(1px 1px 3px rgba(255, 20, 147, 0.3));
+          text-shadow:
+            1px 1px 0 #ff69b4,
+            2px 2px 0 #00d9ff,
+            3px 3px 8px rgba(255, 20, 147, 0.4);
         }
 
         .theme-subtitle {
           font-size: 1.1rem;
-          background: linear-gradient(45deg, #00d9ff, #7dd3fc, #bfdbfe);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          font-weight: bold;
+          color: #1e0a3d;
+          font-weight: 800;
           margin: 0;
-          filter: drop-shadow(1px 1px 3px rgba(0, 217, 255, 0.3));
+          text-shadow:
+            1px 1px 0 #00d9ff,
+            2px 2px 0 #ff69b4,
+            2px 2px 6px rgba(0, 217, 255, 0.4);
         }
 
         /* Enhanced Spider-Themed Party Details */
@@ -778,13 +789,14 @@ export default function LucysParty() {
         }
 
         .invitation-preview h3 {
-          background: linear-gradient(45deg, #ff1493, #ff69b4, #ffb6d9);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #1a0a3e;
           font-size: 1.8rem;
+          font-weight: 900;
           margin-bottom: 1.5rem;
-          filter: drop-shadow(2px 2px 4px rgba(255, 20, 147, 0.3));
+          text-shadow:
+            2px 2px 0 #ff1493,
+            3px 3px 0 #00d9ff,
+            4px 4px 10px rgba(255, 20, 147, 0.5);
         }
 
         .preview-container {
@@ -846,13 +858,14 @@ export default function LucysParty() {
         }
 
         .rsvp-info h3 {
-          background: linear-gradient(45deg, #ff1493, #00d9ff, #ff69b4);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #1a0a3e;
           font-size: 1.4rem;
+          font-weight: 900;
           margin-bottom: 0.5rem;
-          filter: drop-shadow(1px 1px 3px rgba(255, 20, 147, 0.3));
+          text-shadow:
+            1px 1px 0 #ff1493,
+            2px 2px 0 #00d9ff,
+            3px 3px 8px rgba(255, 20, 147, 0.5);
           animation: text-wobble 3s ease-in-out infinite;
         }
 
