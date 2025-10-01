@@ -35,13 +35,32 @@ export default function Games() {
             </div>
           </div>
 
+          <div className="dark-card game-card">
+            <h3>🐍 Snake Game</h3>
+            <p><strong>Genre:</strong> Arcade / Classic</p>
+            <p><strong>Controls:</strong> Arrow keys or WASD (Desktop), Swipe gestures (Mobile)</p>
+            <p><strong>Tech Stack:</strong> HTML5 Canvas, React Hooks, JavaScript</p>
+            <p>Guide your snake through the grid in this classic arcade game with modern features. Eat food to grow longer, collect power-ups for special abilities, and avoid hitting walls or yourself. Progressive difficulty and smooth gameplay make this a fresh take on a timeless classic.</p>
+            <p><strong>Features:</strong></p>
+            <ul>
+              <li>Classic snake mechanics with modern polish</li>
+              <li>Three unique power-ups (speed, invincibility, multiplier)</li>
+              <li>Mobile-optimized swipe controls</li>
+              <li>Progressive difficulty scaling</li>
+              <li>Particle effects and combo system</li>
+            </ul>
+            <div className="game-actions">
+              <Link href="/projects/games/snake" className="dark-card-button play-button">Play Game</Link>
+            </div>
+          </div>
+
           <div className="dark-card-secondary coming-soon">
             <h3>🎮 More Games Coming Soon!</h3>
             <p>I&apos;m constantly working on new games and interactive experiences. Here&apos;s what&apos;s in development:</p>
             <ul>
-              <li><strong>Snake Game:</strong> Classic snake with modern twists</li>
               <li><strong>Pong Evolution:</strong> The classic game reimagined</li>
               <li><strong>Memory Maze:</strong> Test your memory with pattern challenges</li>
+              <li><strong>Tetris Clone:</strong> Block-stacking puzzle action</li>
             </ul>
             <p><em>Stay tuned for more interactive experiences!</em></p>
           </div>

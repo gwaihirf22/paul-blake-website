@@ -96,6 +96,15 @@ export default function Home() {
               </div>
             </div>
             <div className="dark-card">
+              <h3>🐍 Snake Game</h3>
+              <p>Classic snake game with modern features! Swipe controls, power-ups, progressive difficulty. How long can you grow?</p>
+              <div className="project-actions">
+                <Link href="/projects/games/snake" className="btn">
+                  Play Now
+                </Link>
+              </div>
+            </div>
+            <div className="dark-card">
               <h3>🏘️ Neighborly</h3>
               <p>Community-focused web application for skill bartering and local tool sharing. Next.js 14, PostgreSQL, Docker, CI/CD, and more.</p>
             </div>

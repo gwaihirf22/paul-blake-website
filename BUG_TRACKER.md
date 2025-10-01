@@ -12,11 +12,11 @@
 
 ## Active Bugs
 
-### Bug #001 - Reading Progress Bar Scroll Event Issue
-**Status:** 🟡 **MEDIUM**  
-**Created:** January 27, 2025  
+### Bug #003 - Mobile drop down off center
+**Status:** ✅ **RESOLVED**  
+**Created:** Oct 1, 2025  
 **Reporter:** Paul Blake  
-**Environment:** Vivaldi Browser, Next.js 14.2.5, macOS 24.5.0  
+**Environment:** IOS 26 Vivaldi, Safari  
 
 **Description:**
 Reading progress bar component fails to update in real-time during scrolling. The component can detect scroll position on component update/refresh but scroll event listeners are not firing properly during user scrolling.
@@ -73,6 +73,13 @@ Medium priority - feature works with polling workaround, but not following indus
 **Resolved:** August 29, 2025  
 **Reporter:** Paul Blake  
 **Environment:** Multiple browsers, Next.js 14.2.32, macOS  
+
+### Bug #001 - Reading Progress Bar Scroll Event Issue
+**Status:** ✅ **RESOLVED**  
+**Created:** July 27, 2025  
+**Resolved:** July 29, 2025
+**Reporter:** Paul Blake  
+**Environment:** Vivaldi Browser, Next.js 14.2.5, macOS 24.5.0  
 
 **Description:**
 Desktop blog dropdown menu had incorrect spacing, padding, and would overflow past the viewport edge. styled-jsx component styles were being overridden by global CSS rules.
