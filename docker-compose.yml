@@ -7,6 +7,8 @@ services:
     ports:
       - "3010:3010" # Host port 3010 maps to container port 3010
     restart: unless-stopped
+    volumes:
+      - ./data:/app/data  # Persist RSVP data between deployments
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
