@@ -152,7 +152,7 @@ export default function LucysParty() {
             <h3>When</h3>
             <p className="detail-text">
               <strong>October 11th, 2025</strong><br />
-              4:50 PM - 6:00 PM
+              4:00 PM - 6:00 PM
             </p>
           </div>
 
@@ -160,9 +160,8 @@ export default function LucysParty() {
             <div className="card-icon">📍</div>
             <h3>Where</h3>
             <p className="detail-text">
-              <strong>Shadle Park Library</strong><br />
-              Shadle Park Studio Room<br />
-              2111 W. Wellesley Ave<br />
+              <strong>Faith Bible Church</strong><br />
+              440 W Cora Ave<br />
               Spokane, WA 99205
             </p>
           </div>
