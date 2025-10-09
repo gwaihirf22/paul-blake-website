@@ -322,6 +322,14 @@ import { Image } from '../../../components/Image.jsx';
 - Debug approach: Add colored borders to visualize which CSS rules are active
 - **Key Fix**: `left: auto !important; right: 0 !important;` for reliable positioning
 
+**Mobile Dropdown Centering Issues:**
+- Parent container `width: 100%` constraints prevent natural centering behavior
+- **Problem**: Containers stretch edge-to-edge, leaving no room for centering
+- **Solution**: Remove `width: 100%`, use `width: auto` with `margin: 0 auto`
+- **Key Lesson**: When centering fails, check parent width constraints before adding centering properties
+- **Debugging approach**: Compare working elements (top-level nav) with non-working elements (dropdowns) at container level
+- **Red herring**: `text-align: center` only centers content *inside* containers, not the containers themselves
+
 **Viewport Meta Tag Placement:**
 - ⚠️ **IMPORTANT**: Viewport meta tags must be in `_app.js`, NOT `_document.js`
 - Next.js 13+ throws warnings for viewport meta tags in `_document.js`
@@ -367,3 +375,12 @@ import { Image } from '../../../components/Image.jsx';
 - Fixed viewport meta tag placement (moved from `_document.js` to `_app.js`)
 - **Debugging approach**: Used colored borders to identify CSS specificity issues
 - Solution: Aggressive CSS positioning that overrides all conflicting rules
+
+### Mobile Navbar Dropdown Centering Fix (2025-10-09)
+- **Fixed**: Mobile dropdown items now center correctly like top-level nav buttons
+- **Root cause**: Parent containers had `width: 100%` constraints preventing natural centering
+- **Solution**: Removed `width: 100%` from `.nav-dropdown`, changed `.dropdown-menu` to `width: auto` with `margin: 0 auto`
+- **Key lesson**: Check parent container width constraints before adding centering properties
+- **Files modified**: `components/Navbar.js` (lines 565, 579, 587)
+- **Blog post**: Published comprehensive debugging guide at `/blog/technology/debugging-mobile-navbar-centering-bug`
+- **Documentation**: Added to BUG_TRACKER.md as Bug #004 (resolved)

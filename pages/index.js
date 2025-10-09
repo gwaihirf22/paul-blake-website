@@ -87,24 +87,6 @@ export default function Home() {
           <h2>Featured Projects</h2>
           <div className="projects-content">
             <div className="dark-card">
-              <h3>🚁 Helicopter Game</h3>
-              <p>Addictive browser-based arcade game with simple one-click controls. Navigate through obstacles, beat your high score!</p>
-              <div className="project-actions">
-                <Link href="/projects/games/helicopter" className="btn">
-                  Play Now
-                </Link>
-              </div>
-            </div>
-            <div className="dark-card">
-              <h3>🐍 Snake Game</h3>
-              <p>Classic snake game with modern features! Swipe controls, power-ups, progressive difficulty. How long can you grow?</p>
-              <div className="project-actions">
-                <Link href="/projects/games/snake" className="btn">
-                  Play Now
-                </Link>
-              </div>
-            </div>
-            <div className="dark-card">
               <h3>🏘️ Neighborly</h3>
               <p>Community-focused web application for skill bartering and local tool sharing. Next.js 14, PostgreSQL, Docker, CI/CD, and more.</p>
             </div>
@@ -119,6 +101,24 @@ export default function Home() {
             <div className="dark-card">
               <h3>🌐 This Website</h3>
               <p>Next.js blog with theology section, Docker deployment, and automated CI/CD</p>
+            </div>
+            <div className="dark-card">
+              <h3>🐍 Snake Game</h3>
+              <p>Classic snake game with modern features! Swipe controls, power-ups, progressive difficulty. How long can you grow?</p>
+              <div className="project-actions">
+                <Link href="/projects/games/snake" className="btn">
+                  Play Now
+                </Link>
+              </div>
+            </div>
+            <div className="dark-card">
+              <h3>🚁 Helicopter Game</h3>
+              <p>Addictive browser-based arcade game with simple one-click controls. Navigate through obstacles, beat your high score!</p>
+              <div className="project-actions">
+                <Link href="/projects/games/helicopter" className="btn">
+                  Play Now
+                </Link>
+              </div>
             </div>
             <Link href="/projects" className="btn">
               View All Projects

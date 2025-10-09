@@ -1,0 +1,210 @@
+---
+title: "The Width: 100% Mystery - Debugging a Deceptively Simple CSS Centering Bug"
+date: "2025-10-09"
+author: "Paul Blake"
+description: "How a seemingly simple mobile navigation centering issue taught me to question parent containers first. A debugging story for junior developers."
+tags: ['CSS', 'Debugging', 'Mobile', 'React', 'Next.js']
+---
+
+import { Callout } from '../../../components/Callout.jsx';
+import { CodeBlock } from '../../../components/CodeBlock.jsx';
+
+Sometimes the hardest bugs to fix are the ones that look the simplest. Yesterday, I spent way too long debugging what appeared to be a straightforward CSS centering issue on mobile. The blue navigation buttons (Blog▼, Projects▼) stayed perfectly centered, but the white dropdown items kept shifting left and aligning with the screen edges.
+
+This is the story of how I finally solved it—and more importantly, why it was so hard to spot in the first place.
+
+## The Problem: A Tale of Two Behaviors
+
+Here's what I was seeing on mobile:
+
+- **Top-level nav buttons** (Home, Blog▼, Projects▼, About): Perfectly centered ✅
+- **Dropdown items** (All Blog Posts, Technology & Development, etc.): Shifted left, hugging screen edges ❌
+
+The strange part? Both sets of elements were in the same navigation system, styled with similar CSS, and had all the "right" centering properties. Or so I thought.
+
+## The Investigation: Why Nothing Worked
+
+As any developer would, I started throwing common centering solutions at the problem:
+
+### Attempt #1: Text Alignment
+```css
+.dropdown-item {
+  text-align: center !important;
+}
+```
+**Result**: The text centered within its container, but the container itself still hugged the left edge. ❌
+
+### Attempt #2: Flexbox Centering
+```css
+.dropdown-item-content {
+  align-items: center !important;
+  justify-content: center !important;
+}
+```
+**Result**: Same problem. The content was centered inside, but the boxes were still wrong. ❌
+
+### Attempt #3: Width Constraints
+```css
+.dropdown-item {
+  width: fit-content !important;
+  max-width: calc(100% - 2rem) !important;
+}
+```
+**Result**: Better! But still not centered like the top-level buttons. ❌
+
+At this point, I was frustrated. Everything looked correct. The CSS was there. The browser DevTools showed my styles applied. Why weren't the dropdown items centering like the top-level nav buttons?
+
+## The Breakthrough: Question Your Assumptions
+
+The solution came when I stopped looking at the dropdown items themselves and started looking at their **parent containers**.
+
+Here's what I found buried in the mobile styles:
+
+```css
+/* Line 565 in Navbar.js */
+.navbar-links.open .nav-dropdown {
+  align-self: center;
+  text-align: center;
+  width: 100%;  /* 👈 THE CULPRIT */
+}
+
+/* Line 579 */
+.dropdown-menu {
+  width: 100%;  /* 👈 ALSO PROBLEMATIC */
+}
+```
+
+**There it was.** The dropdown containers had `width: 100%`, which meant they were stretching edge-to-edge across the screen. The dropdown items inside them had no choice but to follow along.
+
+Meanwhile, the top-level nav buttons? They had no width constraint at all. They sized naturally to their content and centered beautifully.
+
+## The Solution: Let Go of Control
+
+The fix was almost embarrassingly simple:
+
+```css
+/* Remove the width constraint */
+.navbar-links.open .nav-dropdown {
+  align-self: center;
+  text-align: center;
+  /* width: 100%; ❌ REMOVED */
+}
+
+/* Change to natural sizing */
+.dropdown-menu {
+  width: auto;  /* 👈 Changed from 100% */
+  max-width: calc(100vw - 2rem);  /* Prevent overflow */
+  margin: 0 auto;  /* Center the container */
+}
+```
+
+By removing the `width: 100%` constraint and letting the dropdown containers size naturally (`width: auto`), they could now center just like the top-level buttons. The `margin: 0 auto` ensured they stayed centered horizontally.
+
+## The Junior Dev Explanation: A Simple Analogy
+
+Imagine you're trying to center a picture frame on your wall:
+
+- **Scenario 1** (Top-level buttons): You have a small picture frame. You measure the wall, find the center, and hang it there. Easy! ✅
+
+- **Scenario 2** (Dropdown items with `width: 100%`): Someone gives you a picture frame that's as wide as the entire wall. Now when you try to "center" it, it just spans the whole wall edge-to-edge. You can center the picture *inside* the frame all you want, but the frame itself can't be centered because it's already touching both edges. ❌
+
+That's exactly what was happening with `width: 100%`. The container was taking up the full width, so centering had nowhere to go.
+
+<Callout type="info">
+**Key Lesson**: When CSS centering doesn't work as expected, check the parent container's width constraints *before* adding more centering properties to the child elements.
+</Callout>
+
+## Why This Bug Was So Hard to Spot
+
+Looking back, there were several factors that made this bug surprisingly difficult to debug:
+
+### 1. **The Styles Were in Different Places**
+The navigation component used styled-jsx with media queries embedded in the component file. The problematic `width: 100%` was on line 565, while the dropdown styles I kept modifying were on line 598. My eyes kept focusing on the wrong section.
+
+### 2. **Mental Model Mismatch**
+I was thinking: "The items aren't centered, so I need to add centering properties."
+
+I should have been thinking: "The items aren't centered because something is *preventing* them from centering. What constraint needs to be *removed*?"
+
+### 3. **The Top-Level Buttons Worked Perfectly**
+Since the blue buttons worked great, I assumed the mobile navigation system was fundamentally sound. I didn't think to compare how the two elements differed at the container level.
+
+### 4. **The `text-align: center` Red Herring**
+Adding `text-align: center` did *something*—it centered the text inside the boxes. This made me think I was on the right track, when actually I was solving the wrong problem.
+
+## Key Takeaways for Future Debugging
+
+Here's what I learned from this experience:
+
+### 1. **Start with Constraints, Not Properties**
+When an element won't center, check for constraints that prevent centering:
+- `width: 100%` on the element or its parents
+- `position: absolute` without proper left/right values
+- Flexbox parents without proper `justify-content`
+- Grid parents without proper alignment
+
+### 2. **Compare What Works vs. What Doesn't**
+The top-level buttons worked perfectly. I should have immediately compared their CSS with the dropdown items' CSS, focusing on *differences* rather than similarities.
+
+### 3. **Use Browser DevTools Effectively**
+Chrome DevTools shows the computed box model. I should have used it to visualize why the dropdown containers were spanning the full width.
+
+### 4. **Question "Obvious" Solutions**
+When `text-align: center` and `align-items: center` don't work, that's a signal to look upstream at container constraints, not downstream at more specific properties.
+
+### 5. **Read the Full Context**
+In complex components with media queries and multiple nested styles, it's easy to focus on one section and miss the bigger picture. Sometimes you need to step back and read the entire stylesheet with fresh eyes.
+
+## The HTML Structure (For Context)
+
+Here's what the HTML structure looked like:
+
+```jsx
+<div className="navbar-links open">
+  <div className="nav-dropdown"> {/* 👈 Had width: 100% */}
+    <Link className="nav-link">Blog ▼</Link>
+    <div className="dropdown-menu"> {/* 👈 Also had width: 100% */}
+      <Link className="dropdown-item">
+        <div className="dropdown-item-content">
+          <span className="dropdown-item-title">All Blog Posts</span>
+        </div>
+      </Link>
+    </div>
+  </div>
+</div>
+```
+
+The `width: 100%` on both `.nav-dropdown` and `.dropdown-menu` meant the containers filled the entire width of `.navbar-links`, leaving no room for centering.
+
+## A Better Debugging Checklist
+
+Next time I encounter a centering issue, here's the mental checklist I'll use:
+
+1. ✅ **Is the element constrained by its parent's width?** (`width: 100%`, fixed widths)
+2. ✅ **Is the parent a flex or grid container with the right alignment properties?**
+3. ✅ **Are there conflicting positioning values?** (`position`, `left`, `right`)
+4. ✅ **Is the element's display property compatible with centering?** (`inline`, `block`, etc.)
+5. ✅ **Are there inherited styles from global CSS or parent components?**
+
+Only after checking these should I start adding new centering properties.
+
+## Conclusion: Simple Problems, Deep Lessons
+
+This bug looked trivial on the surface: "Just center these dropdown items." But it taught me several valuable lessons about CSS debugging, mental models, and the importance of questioning assumptions.
+
+The next time you're stuck on what seems like a "simple" CSS problem, remember:
+- **Check parent constraints first**
+- **Compare what works vs. what doesn't**
+- **Question whether you need to add properties or remove constraints**
+- **Use DevTools to visualize the box model**
+- **Step back and read the full context**
+
+And most importantly: sometimes the best solution isn't adding more code—it's removing the code that's getting in the way.
+
+<Callout type="warning">
+**For Junior Developers**: Don't feel bad if CSS centering trips you up. It trips up everyone. The key is building a systematic debugging process and learning to recognize common patterns. This bug is now part of my pattern library, and it'll help me spot similar issues faster next time.
+</Callout>
+
+---
+
+*Got a CSS debugging story of your own? I'd love to hear it! Feel free to share your experiences in the comments below.*

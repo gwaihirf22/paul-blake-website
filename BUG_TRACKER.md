@@ -12,60 +12,93 @@
 
 ## Active Bugs
 
-### Bug #003 - Mobile drop down off center
-**Status:** ✅ **RESOLVED**  
-**Created:** Oct 1, 2025  
-**Reporter:** Paul Blake  
-**Environment:** IOS 26 Vivaldi, Safari  
-
-**Description:**
-Reading progress bar component fails to update in real-time during scrolling. The component can detect scroll position on component update/refresh but scroll event listeners are not firing properly during user scrolling.
-
-**Expected Behavior:**
-- Progress bar should update smoothly as user scrolls through blog posts
-- Scroll events should trigger the progress calculation function
-- Progress percentage should reflect current scroll position in real-time
-
-**Actual Behavior:**
-- Progress bar only updates when component re-renders (file changes, page refresh)
-- Console shows "SCROLL EVENT FIRED!" never appears
-- All scroll detection methods (`window.scrollY`, `document.documentElement.scrollTop`, etc.) remain at 0 during scrolling
-- Vivaldi browser shows "Prohibited blocking overflowing/scrolling of the document" warning
-
-**Technical Details:**
-- Component: `components/ReadingProgress.js`
-- Files affected: `pages/blog/[slug].js`, `pages/blog/theology/[slug].js`
-- Current workaround: Polling every 100ms (not industry standard)
-
-**Debugging Attempted:**
-1. ✅ Multiple scroll event listeners (window, document, documentElement)
-2. ✅ Different scroll position detection methods
-3. ✅ Passive event listeners
-4. ✅ RequestAnimationFrame for performance
-5. ✅ Console logging to verify event firing
-6. ✅ Polling approach (works but not optimal)
-
-**Potential Causes:**
-- CSS overflow/positioning issues preventing normal document scrolling
-- Browser-specific scroll event blocking (Vivaldi interference)
-- Next.js static generation affecting client-side scroll detection
-- CSS layout preventing scrollable document height
-
-**Current Workaround:**
-Implemented polling-based solution that checks scroll position every 100ms. Functional but not performance-optimal.
-
-**Next Steps:**
-1. Investigate CSS layout for scroll-preventing rules
-2. Test in different browsers (Chrome, Firefox, Safari)
-3. Consider Intersection Observer API as alternative
-4. Examine document structure and height calculations
-
-**Priority Justification:**
-Medium priority - feature works with polling workaround, but not following industry best practices. Should be resolved for performance and code quality.
+*No active bugs at this time.*
 
 ---
 
 ## Resolved Bugs
+
+### Bug #004 - Mobile Navbar Dropdown Items Off-Center ✅
+**Status:** ✅ **RESOLVED**
+**Created:** October 9, 2025
+**Resolved:** October 9, 2025
+**Reporter:** Paul Blake
+**Environment:** iOS 26 Vivaldi, Safari, Mobile browsers
+
+**Description:**
+Mobile navigation dropdown items (white text) were left-aligned and shifted toward screen edges, while top-level navigation buttons (blue text like "Blog▼" and "Projects▼") remained perfectly centered.
+
+**Expected Behavior:**
+- Dropdown items should center horizontally like top-level nav buttons
+- Dropdown items should maintain consistent centering across all mobile viewport sizes
+- Both top-level buttons and dropdown items should have the same centering behavior
+
+**Actual Behavior:**
+- Top-level nav buttons (Home, Blog▼, Projects▼, About) centered correctly ✅
+- Dropdown items (All Blog Posts, Technology & Development, etc.) left-aligned and edge-aligned ❌
+- Adding `text-align: center` only centered text *inside* containers, not the containers themselves
+- Viewport changes caused dropdown items to shift and align with screen edges
+
+**Root Cause:**
+Parent containers (`.nav-dropdown` and `.dropdown-menu`) had `width: 100%` constraints in mobile media queries. This forced the containers to span edge-to-edge, preventing them from centering naturally like the top-level buttons which had no width constraints.
+
+**The Problem:**
+```css
+/* Line 565 - THE CULPRIT */
+.navbar-links.open .nav-dropdown {
+  width: 100%; /* ❌ Forced edge-to-edge width */
+}
+
+/* Line 579 - ALSO PROBLEMATIC */
+.dropdown-menu {
+  width: 100%; /* ❌ Prevented natural centering */
+}
+```
+
+**Solution:**
+Removed `width: 100%` constraint from `.nav-dropdown` and changed `.dropdown-menu` to use natural sizing with centering:
+
+```css
+/* Line 565 - FIXED */
+.navbar-links.open .nav-dropdown {
+  align-self: center;
+  text-align: center;
+  /* width: 100%; ✅ REMOVED */
+}
+
+/* Line 579 - FIXED */
+.dropdown-menu {
+  width: auto; /* ✅ Natural sizing */
+  max-width: calc(100vw - 2rem); /* Prevent overflow */
+  margin: 0 auto; /* ✅ Center the container */
+}
+```
+
+**Files Changed:**
+- `components/Navbar.js` (lines 565, 579, 587)
+
+**Why This Was Hard to Debug:**
+1. **Styles scattered across component**: Mobile media query styles were embedded in styled-jsx, making it hard to see all related styles together
+2. **Mental model mismatch**: Kept adding centering properties instead of removing width constraints
+3. **Red herring solutions**: `text-align: center` did *something* (centered text inside boxes), making it seem like the right approach
+4. **Working comparison**: Top-level buttons worked perfectly, so didn't think to compare container-level differences
+
+**Lessons Learned:**
+- When CSS centering fails, check parent container width constraints *first* before adding more centering properties
+- `width: 100%` on containers prevents natural centering behavior
+- Compare what works vs. what doesn't at the container level, not just the element level
+- Sometimes the best solution is removing constraining code, not adding more properties
+
+**Testing:**
+- ✅ Tested on iOS Safari
+- ✅ Tested on iOS Vivaldi
+- ✅ Verified across multiple mobile viewport sizes
+- ✅ Confirmed dropdown items now center like top-level nav buttons
+
+**Blog Post:**
+Detailed debugging story and junior developer explanation published at: `/blog/technology/debugging-mobile-navbar-centering-bug`
+
+---
 
 ### Bug #002 - Desktop Blog Dropdown Spacing and Edge Overflow ✅
 **Status:** ✅ **RESOLVED**  

@@ -562,7 +562,7 @@ export default function Navbar() {
             /* Center Blog trigger and keep top-level links tight */
             .navbar-links.open { align-items: center; gap: 0.25rem; }
             .navbar-links.open .nav-link { padding: 0.6rem 0.75rem; text-align: center; }
-            .navbar-links.open .nav-dropdown { align-self: center; text-align: center; width: 100%; }
+            .navbar-links.open .nav-dropdown { align-self: center; text-align: center; }
             .navbar-links.open .nav-link-with-dropdown { margin: 0 auto; }
             .nav-link-with-dropdown.mobile-open .dropdown-arrow { transform: rotate(180deg); }
 
@@ -576,14 +576,15 @@ export default function Navbar() {
               visibility: hidden;
               transform: none;
               min-width: auto;
-              width: 100%;
+              width: auto;
+              max-width: calc(100vw - 2rem);
               background: transparent;
               border: none;
               border-radius: 0;
               box-shadow: none;
               padding: 1rem; /* Better edge spacing for touch */
               backdrop-filter: none;
-              margin-top: 0;
+              margin: 0 auto;
             }
 
             .nav-link-with-dropdown.mobile-open + .dropdown-menu {
