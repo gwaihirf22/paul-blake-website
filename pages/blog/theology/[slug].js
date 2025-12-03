@@ -15,11 +15,14 @@ export default function TheologyPost({ post, showProgress }) {
   const Component = useMemo(() => getMDXComponent(post.code), [post.code]);
   
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    // Parse date string (YYYY-MM-DD) directly to avoid timezone issues
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC'
     }).format(date);
   };
   
@@ -100,19 +103,12 @@ export async function getStaticProps({ params }) {
     },
   });
   
-  // Ensure date is consistently formatted as YYYY-MM-DD string
-  const dateObj = new Date(frontmatter.date);
-  const formattedDate = dateObj.getFullYear() + '-' + 
-    String(dateObj.getMonth() + 1).padStart(2, '0') + '-' + 
-    String(dateObj.getDate()).padStart(2, '0');
-  
   return {
     props: {
       post: {
         code,
         frontmatter: {
           ...frontmatter,
-          date: formattedDate,
           readingTime: readingTimeMinutes,
         },
       },

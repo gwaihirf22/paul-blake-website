@@ -7,11 +7,14 @@ import SubscriptionForm from "../../../components/SubscriptionForm";
 
 export default function TheologyIndex({ posts }) {
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    // Parse date string (YYYY-MM-DD) directly to avoid timezone issues
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(Date.UTC(year, month - 1, day));
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC'
     }).format(date);
   };
 
@@ -146,16 +149,10 @@ export async function getStaticProps() {
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const { data } = matter(fileContents);
       
-      // Ensure date is consistently formatted as YYYY-MM-DD string
-      const dateObj = new Date(data.date);
-      const formattedDate = dateObj.getFullYear() + '-' + 
-        String(dateObj.getMonth() + 1).padStart(2, '0') + '-' + 
-        String(dateObj.getDate()).padStart(2, '0');
-      
       return {
         slug,
         title: data.title,
-        date: formattedDate,
+        date: data.date, // Keep original date string from frontmatter
       };
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
