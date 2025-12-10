@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import SubscriptionForm from "../../components/SubscriptionForm";
+import BlogPostCard from "../../components/BlogPostCard";
 
 export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) {
   const formatDate = (dateString) => {
@@ -53,17 +54,15 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
           </div>
           <div className="posts-grid">
             {technologyPosts.slice(0, 3).map((post) => (
-              <div key={post.slug} className="dark-card">
-                <div className="category-badge technology">Technology & Development</div>
-                <h3>
-                  <Link href={`/blog/technology/${post.slug}`}>
-                    {post.title}
-                  </Link>
-                </h3>
-                <p className="post-date" suppressHydrationWarning>
-                  Published: {formatDate(post.date)}
-                </p>
-              </div>
+              <BlogPostCard
+                key={post.slug}
+                slug={post.slug}
+                title={post.title}
+                date={formatDate(post.date)}
+                category="technology"
+                thumbnail={post.thumbnail}
+                basePath="/blog/technology"
+              />
             ))}
           </div>
         </section>
@@ -76,17 +75,15 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
           </div>
           <div className="posts-grid">
             {theologyPosts.slice(0, 3).map((post) => (
-              <div key={post.slug} className="dark-card">
-                <div className="category-badge theology">Theology & Faith</div>
-                <h3>
-                  <Link href={`/blog/theology/${post.slug}`}>
-                    {post.title}
-                  </Link>
-                </h3>
-                <p className="post-date" suppressHydrationWarning>
-                  Published: {formatDate(post.date)}
-                </p>
-              </div>
+              <BlogPostCard
+                key={post.slug}
+                slug={post.slug}
+                title={post.title}
+                date={formatDate(post.date)}
+                category="theology"
+                thumbnail={post.thumbnail}
+                basePath="/blog/theology"
+              />
             ))}
           </div>
         </section>
@@ -98,17 +95,15 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
           </div>
           <div className="posts-grid">
             {allPosts.slice(0, 6).map((post) => (
-              <div key={`${post.category}-${post.slug}`} className="dark-card">
-                <div className={`category-badge ${post.category}`}>{post.category === 'technology' ? 'Technology & Development' : 'Theology & Faith'}</div>
-                <h3>
-                  <Link href={`/blog/${post.category}/${post.slug}`}>
-                    {post.title}
-                  </Link>
-                </h3>
-                <p className="post-date" suppressHydrationWarning>
-                  Published: {formatDate(post.date)}
-                </p>
-              </div>
+              <BlogPostCard
+                key={`${post.category}-${post.slug}`}
+                slug={post.slug}
+                title={post.title}
+                date={formatDate(post.date)}
+                category={post.category}
+                thumbnail={post.thumbnail}
+                basePath={`/blog/${post.category}`}
+              />
             ))}
           </div>
         </section>
@@ -284,6 +279,7 @@ export async function getStaticProps() {
         title: data.title,
         date: formattedDate,
         category: 'technology',
+        thumbnail: data.thumbnail || null,
       };
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -310,6 +306,7 @@ export async function getStaticProps() {
         title: data.title,
         date: formattedDate,
         category: 'theology',
+        thumbnail: data.thumbnail || null,
       };
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date));

@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import SubscriptionForm from "../../../components/SubscriptionForm";
+import BlogPostCard from "../../../components/BlogPostCard";
 
 export default function TechnologyIndex({ posts }) {
   const formatDate = (dateString) => {
@@ -44,16 +45,15 @@ export default function TechnologyIndex({ posts }) {
         
         <div className="posts-grid">
           {posts.map((post) => (
-            <div key={post.slug} className="dark-card">
-              <h3>
-                <Link href={`/blog/technology/${post.slug}`}>
-                  {post.title}
-                </Link>
-              </h3>
-              <p className="post-date" suppressHydrationWarning>
-                Published: {formatDate(post.date)}
-              </p>
-            </div>
+            <BlogPostCard
+              key={post.slug}
+              slug={post.slug}
+              title={post.title}
+              date={formatDate(post.date)}
+              category="technology"
+              thumbnail={post.thumbnail}
+              basePath="/blog/technology"
+            />
           ))}
         </div>
         
@@ -156,6 +156,7 @@ export async function getStaticProps() {
         slug,
         title: data.title,
         date: formattedDate,
+        thumbnail: data.thumbnail || null,
       };
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
