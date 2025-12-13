@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 const ReadingProgress = () => {
   const [progress, setProgress] = useState(0);
+  const [hasTrackedCompletion, setHasTrackedCompletion] = useState(false);
 
   useEffect(() => {
     const calculateProgress = () => {
@@ -27,6 +28,17 @@ const ReadingProgress = () => {
       
       const clampedProgress = Math.min(100, Math.max(0, scrollProgress));
       setProgress(clampedProgress);
+
+      // Cloudflare Web Analytics: Track blog post read completion at 90% scroll
+      // Note: Passive tracking only (Cloudflare doesn't support custom events)
+      // Time-on-page metrics automatically tracked by beacon serve as engagement proxy
+      if (clampedProgress >= 90 && !hasTrackedCompletion) {
+        setHasTrackedCompletion(true);
+        console.log('[Analytics] Blog post read completion:', {
+          scrollDepth: clampedProgress,
+          timestamp: new Date().toISOString()
+        });
+      }
     };
 
     // Check scroll position every 100ms (polling approach due to Bug #001)
@@ -36,7 +48,7 @@ const ReadingProgress = () => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [hasTrackedCompletion]);
 
   return (
     <div className="reading-progress-container">

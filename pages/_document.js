@@ -21,6 +21,19 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico?v=16" type="image/x-icon" />
         <link rel="shortcut icon" href="/favicon.ico?v=16" />
         <link rel="apple-touch-icon" href="/favicon.ico?v=16" />
+
+        {/* Cloudflare Web Analytics */}
+        {/* Privacy-first analytics with no cookies or fingerprinting */}
+        {/* Automatically tracks page views including SPA navigation */}
+        {process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN && (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({
+              token: process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
+            })}
+          />
+        )}
       </Head>
       <body>
         <Main />
