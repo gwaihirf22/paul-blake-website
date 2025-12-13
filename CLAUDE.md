@@ -92,6 +92,14 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - Navigation integration: Games dropdown in Projects navbar section
 - Featured game integration on homepage with direct play link
 
+**Analytics:**
+- Cloudflare Web Analytics for privacy-first tracking
+- Automatic page view tracking (including SPA navigation)
+- Blog engagement tracking via scroll depth monitoring (90% completion threshold)
+- No cookies, no fingerprinting, GDPR compliant
+- Configured in `pages/_document.js` with conditional loading based on env var
+- Reading progress tracking in `components/ReadingProgress.js`
+
 **Deployment:**
 - Docker multi-stage builds with standalone output
 - GitHub Actions CI/CD to Docker Hub
@@ -186,6 +194,49 @@ NOTIFICATION_SECRET=ml_blog_notification_secret_2025_v1
 - Draft campaigns include subject line and target the correct subscriber groups
 - Manual step required: Complete campaign content and send from MailerLite dashboard
 - This approach works with MailerLite's free plan limitations
+
+## Analytics Configuration
+
+**Cloudflare Web Analytics:** ✅ **PRIVACY-FIRST TRACKING**
+- Free, GDPR-compliant analytics with no cookies or fingerprinting
+- Automatic page view tracking across entire site (including SPA navigation)
+- Blog engagement signals via scroll depth monitoring
+- Dashboard: https://dash.cloudflare.com → Web Analytics → paul-blake.com
+
+**Implementation:**
+- Beacon script: `pages/_document.js` (conditional loading via env var)
+- Blog engagement: `components/ReadingProgress.js` (tracks 90% scroll completion)
+- Environment variable: `NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN`
+
+**Environment Variables Required:**
+```env
+NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN=your_cloudflare_analytics_token
+```
+
+**GitHub Actions Secret Required:**
+- `CLOUDFLARE_ANALYTICS_TOKEN` - Analytics beacon token from Cloudflare dashboard
+
+**What Gets Tracked:**
+- ✅ Page views (initial loads + client-side navigation)
+- ✅ Time on page (per URL)
+- ✅ Traffic sources and referrers
+- ✅ Geographic data (country-level only)
+- ✅ Browser/device breakdown
+- ✅ Performance metrics (TTFB, FCP, LCP, INP)
+- ⚠️ Blog engagement: Console logs for 90% scroll (time-on-page serves as primary engagement metric)
+
+**Privacy Features:**
+- No cookies or local storage
+- No device/browser fingerprinting
+- IP addresses anonymized
+- GDPR compliant by design
+- Safe by default: missing token = no tracking
+
+**Setup Instructions:**
+1. Get token from Cloudflare Dashboard: Web Analytics → Add Site → JavaScript Snippet
+2. Add to GitHub Secrets: `CLOUDFLARE_ANALYTICS_TOKEN`
+3. Deploy via GitHub Actions (token auto-injected into Docker container)
+4. Verify in Cloudflare dashboard after 10-15 minutes
 
 ### Key Files to Understand
 
@@ -417,3 +468,18 @@ import { Image } from '../../../components/Image.jsx';
 - **Implementation**: Static content in `pages/blog/index.js` with custom CSS styling
 - **Styling**: Uses existing color scheme variables for consistency
 - **Files modified**: `pages/blog/index.js` (added pinned-post section and CSS)
+
+### Cloudflare Web Analytics Integration (2025-12-13)
+- **Added**: Privacy-first analytics with Cloudflare Web Analytics
+- **Features**: Automatic page view tracking, blog engagement monitoring (90% scroll depth), performance metrics
+- **Privacy**: No cookies, no fingerprinting, GDPR compliant, IP addresses anonymized
+- **Implementation**: Conditional beacon loading in `pages/_document.js` based on `NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN` env var
+- **Blog engagement**: Enhanced `components/ReadingProgress.js` to track scroll completion at 90% threshold
+- **Deployment**: Token managed via GitHub Secrets and injected during Docker deployment
+- **Files modified**:
+  - `pages/_document.js` (beacon script injection)
+  - `components/ReadingProgress.js` (scroll tracking)
+  - `.env.example` (documentation)
+  - `docker-compose.yml` (environment variable)
+  - `.github/workflows/deploy.yml` (secret injection)
+- **Dashboard**: https://dash.cloudflare.com → Web Analytics → paul-blake.com
