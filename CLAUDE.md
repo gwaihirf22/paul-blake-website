@@ -40,10 +40,18 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - `/about` - About page
 
 **Component Architecture:**
-- Global app wrapper in `_app.js` with fixed navbar and scrollbar visibility
+- Global app wrapper in `_app.js` with fixed navbar, scrollbar visibility, and scroll restoration control
 - Reusable components in `components/`: Navbar, Logo, ReadingProgress, Comments, YouTube, etc.
 - Styled-jsx for component-scoped CSS
 - CSS custom properties for theming in `globals.css`
+
+**Scroll Behavior:**
+- Custom scroll restoration implemented in `_app.js` to fix percentage-based scroll persistence bug
+- Manual scroll control using `window.history.scrollRestoration = "manual"`
+- Multi-stage scroll-to-top on navigation to override Next.js's internal scroll restoration
+- Smooth scrolling (`scroll-behavior: smooth`) temporarily disabled during navigation to prevent animation conflicts
+- All new pages load at scroll position 0 (top of page)
+- See Bug #005 in BUG_TRACKER.md for detailed implementation notes
 
 **Navigation System:**
 - Responsive dropdown navigation with viewport-aware positioning
@@ -70,6 +78,11 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - Reading progress bar for posts >2 minutes
 - Syntax highlighting with `rehype-prism-plus`
 - Date formatting and sorting by publication date
+- Pinned "Welcome" post at top of blog index (`/blog`) with distinctive styling
+  - Always visible regardless of post dates
+  - Gradient background with accent color border
+  - "📌 Pinned" badge for clear identification
+  - Introduces visitors to blog content and categories
 
 **Games System:**
 - Interactive browser games built with HTML5 Canvas and React
@@ -384,3 +397,23 @@ import { Image } from '../../../components/Image.jsx';
 - **Files modified**: `components/Navbar.js` (lines 565, 579, 587)
 - **Blog post**: Published comprehensive debugging guide at `/blog/technology/debugging-mobile-navbar-centering-bug`
 - **Documentation**: Added to BUG_TRACKER.md as Bug #004 (resolved)
+
+### Scroll Position Bug Fix (2025-12-13)
+- **Fixed**: Pages now always load at scroll position 0 (top) instead of persisting scroll percentage from previous page
+- **Root cause**: Next.js's internal scroll restoration fired after `routeChangeComplete` event, combined with `scroll-behavior: smooth` CSS causing percentage-based scroll calculations
+- **Solution**: Implemented multi-stage scroll-to-top in `_app.js` using `requestAnimationFrame` and setTimeout to catch deferred scroll restoration
+- **Key changes**:
+  - Set `window.history.scrollRestoration = "manual"` for manual control
+  - Temporarily disable smooth scrolling during navigation
+  - Three sequential scroll-to-top calls at strategic intervals
+  - Re-enable smooth scrolling after navigation completes
+- **Files modified**: `pages/_app.js` (added useEffect hook with router event handlers)
+- **Documentation**: Added to BUG_TRACKER.md as Bug #005 (resolved)
+
+### Blog Pinned Post Feature (2025-12-13)
+- **Added**: Permanent "Welcome to My Blog" pinned post at top of `/blog` index
+- **Design**: Elegant gradient background with cyan accent border, "📌 Pinned" badge, and distinctive styling
+- **Purpose**: Provides immediate context to visitors about blog content and categories
+- **Implementation**: Static content in `pages/blog/index.js` with custom CSS styling
+- **Styling**: Uses existing color scheme variables for consistency
+- **Files modified**: `pages/blog/index.js` (added pinned-post section and CSS)

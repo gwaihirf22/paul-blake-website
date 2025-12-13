@@ -28,10 +28,15 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
       </Head>
       <div>
         <h1>Blog</h1>
-        <div className="dark-profile-section">
-          <p>Welcome to my blog! Here you'll find my thoughts on technology, theology, and the intersection of faith and innovation. Browse by category below or view all posts.</p>
+
+        {/* Pinned Welcome Post */}
+        <div className="pinned-post">
+          <div className="pinned-badge">📌 Pinned</div>
+          <h2>Welcome to My Blog</h2>
+          <p>Here you'll find my thoughts on technology, theology, and the intersection of faith and innovation. This blog is a space where I explore how modern development practices intersect with timeless truths, share technical insights, and reflect on matters of faith.</p>
+          <p>Browse by category below, subscribe to stay updated, or dive into the recent posts. Thanks for stopping by!</p>
         </div>
-        
+
         <div className="blog-navigation">
           <p>
             <strong>Categories:</strong> 
@@ -116,6 +121,61 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
       </div>
       
       <style jsx>{`
+        .pinned-post {
+          position: relative;
+          margin: 2rem 0;
+          padding: 2rem;
+          background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, rgba(0, 188, 212, 0.02) 100%);
+          border: 2px solid var(--color-accent);
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 188, 212, 0.1);
+        }
+
+        .pinned-badge {
+          display: inline-block;
+          padding: 0.4rem 1rem;
+          background: var(--color-accent);
+          color: var(--color-background);
+          font-size: 0.85rem;
+          font-weight: 600;
+          border-radius: 20px;
+          margin-bottom: 1rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .pinned-post h2 {
+          color: var(--color-accent);
+          font-size: 1.8rem;
+          font-weight: 700;
+          margin: 0 0 1rem 0;
+        }
+
+        .pinned-post p {
+          color: var(--color-text-primary);
+          line-height: 1.7;
+          margin: 0.75rem 0;
+          font-size: 1.05rem;
+        }
+
+        .pinned-post p:last-child {
+          margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+          .pinned-post {
+            padding: 1.5rem;
+          }
+
+          .pinned-post h2 {
+            font-size: 1.5rem;
+          }
+
+          .pinned-post p {
+            font-size: 1rem;
+          }
+        }
+
         .blog-navigation {
           display: flex;
           justify-content: space-between;

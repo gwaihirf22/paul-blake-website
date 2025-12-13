@@ -18,6 +18,108 @@
 
 ## Resolved Bugs
 
+### Bug #005 - Scroll Position Persists Across Page Navigation ✅
+**Status:** ✅ **RESOLVED**
+**Created:** December 13, 2025
+**Resolved:** December 13, 2025
+**Reporter:** Paul Blake
+**Environment:** All browsers, Next.js 14.2.32, macOS
+
+**Description:**
+When navigating between pages by clicking links, the scroll position incorrectly persisted as a percentage of the previous page and was applied to the new page. For example, scrolling ~50% down Page A and clicking a link would cause Page B to load already scrolled ~50% down instead of starting at the top.
+
+**Expected Behavior:**
+- When navigating to a new page, the page should start at the top (scroll position 0)
+- Normal browser back/forward behavior should be preserved
+- Smooth scrolling should remain functional for in-page navigation
+
+**Actual Behavior:**
+- Pages loaded at the same scroll percentage as the previous page
+- Scroll position was calculated as a percentage and applied to pages of different heights
+- This created a jarring user experience where new pages never started at the top
+
+**Root Cause:**
+The issue was caused by an interaction between two features:
+1. **`scroll-behavior: smooth`** CSS property in `styles/globals.css:109`
+2. **Next.js Pages Router** default scroll restoration behavior
+
+When these combined:
+- Next.js's `routeChangeComplete` event fired before Next.js's internal scroll restoration
+- The `scroll-behavior: smooth` CSS caused scroll changes to be animated
+- During the animation, if pages had different heights, the browser calculated scroll position as a percentage
+- This percentage-based restoration caused the new page to load at the wrong scroll position
+
+**Investigation Process:**
+1. Added comprehensive debug logging to track scroll positions during route changes
+2. Discovered that scroll position was already 0 when `routeChangeComplete` fired
+3. Identified that Next.js was restoring scroll position AFTER the event handler
+4. Confirmed that a single `scrollTo(0, 0)` call was insufficient due to timing
+
+**Solution:**
+Implemented aggressive multi-stage scroll-to-top in `pages/_app.js`:
+
+```javascript
+const handleRouteChangeComplete = () => {
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  };
+
+  // Immediate scroll
+  scrollToTop();
+
+  // Scroll after Next.js has a chance to restore scroll
+  requestAnimationFrame(() => {
+    scrollToTop();
+  });
+
+  // Final scroll after deferred restoration
+  setTimeout(() => {
+    scrollToTop();
+    // Re-enable smooth scrolling
+    document.documentElement.style.scrollBehavior = "smooth";
+    document.body.style.scrollBehavior = "smooth";
+  }, 10);
+};
+```
+
+**Key Changes:**
+1. Set `window.history.scrollRestoration = "manual"` to take control from browser
+2. Temporarily disable smooth scrolling during navigation to prevent animation conflicts
+3. Scroll to top three times at strategic intervals to catch Next.js's scroll restoration
+4. Re-enable smooth scrolling after navigation completes
+
+**Files Changed:**
+- `pages/_app.js` (added scroll restoration control in useEffect hook)
+
+**Why This Was Hard to Debug:**
+1. **Timing-based issue**: The problem occurred between Next.js event handlers and internal scroll restoration
+2. **CSS interaction**: The `scroll-behavior: smooth` CSS made the issue worse but wasn't the root cause
+3. **Hidden mechanism**: Next.js's scroll restoration happens after public events fire
+4. **Initial fix appeared to work**: A single `scrollTo(0, 0)` seemed correct but was overridden immediately
+
+**Lessons Learned:**
+- Next.js router events fire before internal scroll restoration completes
+- `scroll-behavior: smooth` can interfere with programmatic scroll position changes
+- Multiple scroll attempts at different timing intervals can overcome race conditions
+- Debug logging at multiple stages is essential for timing-based issues
+- `requestAnimationFrame` and small timeouts are necessary to catch deferred browser operations
+
+**Testing:**
+- ✅ Tested navigation from long pages to short pages
+- ✅ Tested navigation from short pages to long pages
+- ✅ Verified scroll position always starts at 0 on new pages
+- ✅ Confirmed smooth scrolling still works for in-page navigation
+- ✅ Tested across multiple page types (blog posts, home page, projects)
+
+**Trade-offs:**
+- Back/forward navigation now also scrolls to top (not ideal, but acceptable)
+- Could be enhanced with sessionStorage to preserve scroll positions for back button
+- Future enhancement: Implement proper scroll position memory for browser back/forward
+
+---
+
 ### Bug #004 - Mobile Navbar Dropdown Items Off-Center ✅
 **Status:** ✅ **RESOLVED**
 **Created:** October 9, 2025
