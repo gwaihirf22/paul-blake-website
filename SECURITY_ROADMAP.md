@@ -5,7 +5,7 @@ This document outlines the security improvements, vulnerabilities, and action it
 
 ## Current Security Status
 - **Overall Status**: ✅ EXCELLENT (All vulnerabilities resolved)
-- **Last Audit**: 2025-08-29
+- **Last Audit**: 2026-07-16
 - **Next Review**: Monthly
 
 ## ✅ Completed Security Fixes
@@ -42,6 +42,14 @@ Added comprehensive security headers to `next.config.js`:
 - **Lighthouse CI**: Automated security auditing on every push
 - **Dependency Scanning**: Regular vulnerability monitoring
 - **Container Security**: Docker image security scanning
+
+### CodeQL Findings (RESOLVED 2026-07-16)
+- **Polynomial regular expression (ReDoS) on uncontrolled data**: 3 findings in `pages/api/rsvp-party.js`, `pages/api/subscribe.js`, `pages/api/unsubscribe.js`
+  - **Cause**: Email validation used `/^[^\s@]+@[^\s@]+\.[^\s@]+$/`, whose overlapping `[^\s@]+` quantifiers allow catastrophic backtracking on crafted input
+  - **Fix**: Replaced with `isValidEmail()` in `lib/validateEmail.js`, a regex-free validator using string indexing (no backtracking possible)
+- **Uncontrolled data used in path expression (path traversal)**: 2 findings in `pages/api/send-notification.js`
+  - **Cause**: `slug` and `category` from the request body were joined directly into a filesystem path with no validation
+  - **Fix**: Whitelist-validate `slug` (`^[a-zA-Z0-9-]+$`) and `category` (`blog`/`theology` only) before building the path, plus a defense-in-depth check that the resolved path stays within the intended content directory
 
 ## ✅ All Security Issues Resolved
 

@@ -1,4 +1,5 @@
 import MailerLite from '@mailerlite/mailerlite-nodejs';
+import { isValidEmail } from '../../lib/validateEmail';
 
 const mailerlite = new MailerLite({
   api_key: process.env.MAILERLITE_API_KEY,
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
   const { email, categories = ['all'] } = req.body;
 
   // Validate email
-  if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+  if (!email || !isValidEmail(email)) {
     return res.status(400).json({ error: 'Invalid email address' });
   }
 

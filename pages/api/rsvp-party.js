@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { isValidEmail } from '../../lib/validateEmail';
 
 // Path to store RSVPs
 const RSVP_FILE = path.join(process.cwd(), 'data', 'party-rsvps.json');
@@ -50,7 +51,7 @@ export default async function handler(req, res) {
   }
 
   // Validate email if provided
-  if (email && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+  if (email && !isValidEmail(email)) {
     return res.status(400).json({ error: 'Invalid email address' });
   }
 

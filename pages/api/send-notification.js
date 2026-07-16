@@ -207,15 +207,25 @@ export default async function handler(req, res) {
 
   const { slug, category = 'blog' } = req.body;
 
-  if (!slug) {
-    return res.status(400).json({ error: 'Post slug is required' });
+  if (!slug || typeof slug !== 'string' || !/^[a-zA-Z0-9-]+$/.test(slug)) {
+    return res.status(400).json({ error: 'Post slug is required and must be alphanumeric with hyphens only' });
+  }
+
+  if (category !== 'blog' && category !== 'theology') {
+    return res.status(400).json({ error: 'Invalid category' });
   }
 
   try {
     // Read the post file
-    const postPath = category === 'theology' 
-      ? path.join(process.cwd(), 'content/blog/theology', `${slug}.mdx`)
-      : path.join(process.cwd(), 'content/blog', `${slug}.mdx`);
+    const contentDir = category === 'theology'
+      ? path.join(process.cwd(), 'content/blog/theology')
+      : path.join(process.cwd(), 'content/blog');
+    const postPath = path.join(contentDir, `${slug}.mdx`);
+
+    // Defense in depth: ensure the resolved path never escapes contentDir
+    if (!postPath.startsWith(contentDir + path.sep)) {
+      return res.status(400).json({ error: 'Invalid post slug' });
+    }
 
     if (!fs.existsSync(postPath)) {
       return res.status(404).json({ error: 'Post not found' });
