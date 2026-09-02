@@ -546,12 +546,10 @@ select:focus-visible {
 }
 
 /* Show scrollbar only when hovering directly over the scrollbar area */
-::-webkit-scrollbar:hover ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-track:hover {
   background: #1a1a1a;
 }
 
-::-webkit-scrollbar:hover ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(45deg, #143253, #194e58);
   border: 2px solid #1a1a1a;

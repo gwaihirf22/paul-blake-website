@@ -2,10 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone',
-  // Ensure static assets are properly handled in standalone mode
-  experimental: {
-    outputFileTracingRoot: __dirname,
-  },
+  // Next 15 moved this out of `experimental` to the top level.
+  outputFileTracingRoot: __dirname,
   // Disable image optimization to avoid issues with static serving
   images: {
     unoptimized: true,
@@ -40,10 +38,10 @@ const nextConfig = {
       },
     ];
   },
-  // Custom webpack config to ensure public assets are included
-  webpack: (config, { isServer }) => {
-    return config;
-  },
+  // NOTE: the previous `webpack: (config) => config` hook was removed.
+  // It was a no-op (returned config unchanged), but its mere presence made
+  // Next 16 refuse to build, because Turbopack is now the default and a
+  // webpack config implies an unmigrated custom build. Nothing was lost.
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;
