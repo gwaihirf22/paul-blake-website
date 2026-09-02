@@ -79,6 +79,10 @@ export default function Home() {
               <h3>Problem Solving</h3>
               <p>Systematic debugging and troubleshooting approach developed through aircraft maintenance experience.</p>
             </div>
+            <div className="skill-card">
+              <h3>Python Development</h3>
+              <p>Building cross-platform desktop applications with PyQt6, computer vision with OpenCV, and packaging for Windows, macOS, and Linux.</p>
+            </div>
           </div>
         </section>
 
@@ -86,6 +90,15 @@ export default function Home() {
         <section className="projects">
           <h2>Featured Projects</h2>
           <div className="projects-content">
+            <div className="dark-card">
+              <h3>⚔️ Loom — AoE2 Build Order Assistant</h3>
+              <p>A real-time overlay for Age of Empires II that reads the game&apos;s HUD with computer vision and guides you through build orders. Python + PyQt6 + OpenCV, shipped for Windows, Linux, and macOS.</p>
+              <div className="project-actions">
+                <a href="https://github.com/gwaihirf22/loom_AOE" target="_blank" rel="noopener noreferrer" className="btn">
+                  View on GitHub
+                </a>
+              </div>
+            </div>
             <div className="dark-card">
               <h3>🏘️ Neighborly</h3>
               <p>Community-focused web application for skill bartering and local tool sharing. Next.js 14, PostgreSQL, Docker, CI/CD, and more.</p>
@@ -140,7 +153,7 @@ export default function Home() {
             </div>
             <div className="technology-card">
               <h3>Python</h3>
-              <p>A versatile language I've used for scripting and introductory computer science concepts.</p>
+              <p>Cross-platform desktop apps, computer vision, and automation — including a real-time game overlay built with PyQt6 and OpenCV.</p>
             </div>
             <div className="technology-card">
               <h3>C</h3>

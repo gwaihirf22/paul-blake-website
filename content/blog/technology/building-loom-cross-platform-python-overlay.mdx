@@ -1,0 +1,92 @@
+---
+title: "Building Loom: A Cross-Platform Python Game Overlay with Claude Code"
+date: "2026-09-01"
+author: "Paul Blake"
+excerpt: "Weeks of Python, PyQt6, and computer vision — plus what I learned about CI/CD, cross-platform packaging, and maintaining an app that real users report bugs against."
+tags: ["Python", "PyQt6", "OpenCV", "Claude Code", "CI/CD", "Open Source"]
+---
+
+import { Callout } from '../../../components/Callout.jsx';
+
+Most of my projects so far have lived in the browser — this website, Neighborly, a couple of canvas games. My latest project, [Loom](https://github.com/gwaihirf22/loom_AOE), is different: it's a desktop application, written in Python, that ships as a real binary to Windows, Linux, and (with caveats) macOS. It took several weeks of evenings, taught me more about Python than anything I'd done before, and — the part I'm proudest of — it now has actual users reporting actual bugs that I actually fix.
+
+This is the story of building it.
+
+## What Loom Is (and the Rule That Shaped Everything)
+
+If you've ever played Age of Empires II competitively, you know about build orders: precise sequences of "at this villager count, at this game time, do this thing" that separate a decent opening from a sloppy one. Players memorize them from guides, or alt-tab to check a wiki mid-game, which goes about as well as you'd expect.
+
+Loom is a real-time build-order assistant. It watches the game's HUD, reads your villager count and the game clock, and displays the current step of your chosen build order in a small overlay — along with pace warnings when you're falling behind and post-game stats afterward. It reads build orders in the RTS Overlay JSON format, so the community's existing library of builds imports without modification.
+
+One constraint shaped the entire architecture: **Loom never touches the game.** No memory reading, no code injection, no modified files. It reads pixels from the screen and draws a window on top. That's it.
+
+<Callout type="info">
+This wasn't just about fair play compliance (though it was that too). Deciding early that "the screen is the only interface" simplified every design conversation afterward. When you can't cheat your way to the data, the question is always the same: can we extract this reliably from pixels? Sometimes the answer was no, and the feature got cut. Constraints are clarifying.
+</Callout>
+
+## The Python Stack
+
+I chose Python deliberately. My earlier exposure to it was scripting and coursework-level exercises, and I wanted to find out what it felt like to build a *real* application with it — long-running, GUI, threads, packaging, the works.
+
+The stack ended up being:
+
+- **PyQt6** for the GUI and the overlay itself — a frameless, transparent, always-on-top window that has to coexist peacefully with a fullscreen game.
+- **OpenCV + numpy** for the computer vision: capturing the HUD region, isolating the villager counter and game clock, and turning pixels into numbers.
+- **PyInstaller** to build the Windows executable, and **Flatpak** to package for Linux.
+
+The computer vision was the part I expected to be hard, and it was — but not in the way I expected. Getting OpenCV to read a number off the screen once is easy. Getting it to read the *right* number, every second, across different resolutions, UI scales, and even a popular UI mod (Loom supports both the stock HUD and the Anne_HK Better UI mod) is where the real work lived. Template matching that works beautifully on your machine falls apart on someone else's 1080p laptop. You learn humility fast.
+
+## Working with Claude Code
+
+I built Loom with Claude Code as my pair programmer, the same way I built this site's [CI/CD pipeline with an AI assistant](/blog/technology/building-cicd-pipeline-with-ai) before it. A few weeks of daily sessions gave me a much clearer picture of where that workflow shines and where it doesn't.
+
+**Where it shone:**
+
+- **Unfamiliar APIs.** I had never used PyQt6 or OpenCV before this project. Instead of spending days in documentation before writing a line, I could describe what I wanted — "a click-through transparent overlay that stays above a fullscreen game" — and get working scaffolding to learn from and refine. The feedback loop from *idea* to *thing on screen* was hours, not days.
+- **Platform quirks.** Wayland vs. X11 screen capture, Windows DPI awareness, why a hotkey library behaves differently under Flatpak sandboxing — these are exactly the kind of scattered, forum-post-shaped problems where an AI assistant that has seen a thousand variations of the issue saves enormous time.
+- **Refactoring courage.** When the prototype's single-file spaghetti needed to become a real module structure, having an assistant made the tedious-but-risky reorganization fast enough that I actually did it instead of living with the mess.
+
+**Where it didn't:**
+
+- **The vision tuning.** No AI could tell me the right threshold values for *my* capture pipeline on *my* users' screens. That was empirical work: capture, test, adjust, repeat, with real screenshots from real machines.
+- **Knowing what to build.** Claude Code is excellent at building what you describe. Deciding that pace alerts mattered more than another stats screen, or that macOS support wasn't worth blocking the release for — that judgment stayed firmly on my side of the desk.
+
+The lesson from the CI/CD post still holds: the AI is a force multiplier on execution, not a substitute for direction. But the multiplier is real. Loom would have taken me months alone, if I'd finished it at all.
+
+## Shipping to Three Platforms
+
+Here's the thing nobody tells you about desktop apps: writing the program is maybe half the project. The other half is getting it onto other people's computers in a form that runs.
+
+"Python runs everywhere" is true right up until you ask a user to install Python, create a virtual environment, and pip install your dependencies. Nobody's doing that to try a game overlay. So Loom ships as binaries:
+
+- **Windows:** PyInstaller bundles everything into a zip with an `.exe`. Download, extract, run. This is the primary platform (it's where the game lives, after all) and it's fully supported on Windows 10 1903+.
+- **Linux:** A Flatpak, which was a genuinely interesting rabbit hole — sandboxing permissions for screen capture, XWayland interaction, and playing nicely with the game running under Proton. Fullscreen mode required, but it works.
+- **macOS:** Honest status — limited. The game itself is awkward on macOS (the Feral port is windowed-only, CrossOver works better), and some features like APM tracking aren't available. I'd rather document the limitation clearly than pretend.
+
+<Callout type="warning">
+If you're planning your first cross-platform Python app: budget as much time for packaging as for features. PyInstaller hidden imports, Flatpak manifests, and platform-specific screen-capture paths will each eat an evening or three. It's not glamorous work, but "it works on Linux, Mac, and Windows" is a sentence that carries weight precisely because it's expensive to say.
+</Callout>
+
+## CI/CD and Version Control
+
+Building this site taught me to love automated pipelines, and Loom got the same treatment scaled to fit. Every push to GitHub runs the test suite through a GitHub Actions workflow — nothing exotic, just the discipline of knowing within minutes whether a change broke the vision pipeline's parsing or a build-order import.
+
+That discipline matters more on a project like this than on a website. When a bug fix for one user's resolution can silently break detection for another's, a regression suite is the difference between confidence and superstition. Releases are tagged and published as versioned binaries (`Loom-x.y.z-windows.zip`, `Loom-x.y.z-x86_64.flatpak`), so when a user says "I'm on 1.2," we both know exactly what code they're running.
+
+## The Best Part: Real Users, Real Bugs
+
+Here's the milestone that meant the most to me, and it isn't a feature.
+
+Not long after sharing Loom, issues started arriving from an actual user — someone I'd never met, playing on hardware I don't own, using the app in ways I hadn't anticipated. The issue tracker filled up with exactly the kind of reports every maintainer knows: *"ctrl+c hotkey not working." "Overlay transparency preview doesn't match the real overlay." "The app creates too many stats files." "There's no content in the How to Use section"* (ouch — fair).
+
+Thirteen of those issues are now closed. Each one followed the same rhythm: reproduce it from the report, ask follow-up questions when I couldn't, fix it, ship a release, confirm with the reporter. Some were five-minute fixes. Some — like an overlay value desync that only appeared during real matches — took real detective work, because I couldn't reproduce the user's game state on demand.
+
+My aircraft mechanic years turn out to be surprisingly good training for this. A bug report is a squawk sheet: the reporter tells you the symptom, and your job is systematic troubleshooting from symptom to root cause, with the added constraint that the aircraft is on someone else's continent. You learn to ask precise questions and to trust the process over guesswork.
+
+Maintaining software for real people feels completely different from building it for yourself. Your own bugs are annoyances; other people's bugs are broken promises. I understand open-source maintainers a lot better now.
+
+## What's Next
+
+Loom isn't finished — there's an open issue about overlay desync I'm working through right now, features I've deliberately deferred, and polish the app still needs. I've made my peace with that. "Not fully fleshed out, but genuinely works on three platforms with real users" beats "perfect and unreleased" every single time.
+
+If you play AoE2 and want to try it, the [releases page](https://github.com/gwaihirf22/loom_AOE/releases) has downloads for Windows and Linux — no Python installation required. And if something breaks, please open an issue. Apparently, I fix those now.

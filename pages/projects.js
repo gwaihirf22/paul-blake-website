@@ -28,7 +28,18 @@ export default function Projects() {
 
         <div className="projects-grid">
           <h2>Featured Projects</h2>
-          
+
+          <div className="dark-card">
+            <h3>⚔️ Loom — AoE2 Build Order Assistant</h3>
+            <p><strong>Tech Stack:</strong> Python, PyQt6, OpenCV</p>
+            <p><strong>Platforms:</strong> Windows (.exe), Linux (Flatpak), macOS (limited)</p>
+            <p>A real-time build-order assistant for Age of Empires II: Definitive Edition. Captures the game&apos;s HUD, extracts villager count and game clock via computer vision, and overlays step-by-step build instructions with pace and resource alerts — all without touching the game&apos;s memory or files. Includes automated tests via GitHub Actions and binary releases so players need no Python install.</p>
+            <div className="project-links">
+              <a href="https://github.com/gwaihirf22/loom_AOE" target="_blank" rel="noopener noreferrer" className="dark-card-button">View on GitHub</a>
+              <a href="https://github.com/gwaihirf22/loom_AOE/releases" target="_blank" rel="noopener noreferrer" className="dark-card-button">Download</a>
+            </div>
+          </div>
+
           <div className="dark-card">
             <h3>🏘️ Neighborly</h3>
             <p><strong>Tech Stack:</strong> Frontend: Next.js 14 with TypeScript, React, Tailwind CSS</p>
