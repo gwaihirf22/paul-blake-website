@@ -8,7 +8,7 @@ tags: ["Python", "PyQt6", "OpenCV", "Claude Code", "CI/CD", "Open Source"]
 
 import { Callout } from '../../../components/Callout.jsx';
 
-Most of my projects so far have lived in the browser — this website, Neighborly, a couple of canvas games. My latest project, [Loom](https://github.com/gwaihirf22/loom_AOE), is different: it's a desktop application, written in Python, that ships as a real binary to Windows, Linux, and (with caveats) macOS. It took several weeks of evenings, taught me more about Python than anything I'd done before, and — the part I'm proudest of — it now has actual users reporting actual bugs that I actually fix.
+Most of my projects so far have lived in the browser — this website, Neighborly, a couple of canvas games. My latest project, [Loom](https://github.com/gwaihirf22/loom_AOE), is different: it's a desktop application, written in Python, that ships as a real binary to Windows, Linux, and (with caveats) macOS. It began as my final project for Harvard's CS50, and after completing the course — certificate in hand — I kept going, spending several more weeks of evenings expanding it with Claude Code. It taught me more about Python than anything I'd done before, and — the part I'm proudest of — it now has actual users reporting actual bugs that I actually fix.
 
 This is the story of building it.
 
@@ -26,7 +26,7 @@ This wasn't just about fair play compliance (though it was that too). Deciding e
 
 ## The Python Stack
 
-I chose Python deliberately. My earlier exposure to it was scripting and coursework-level exercises, and I wanted to find out what it felt like to build a *real* application with it — long-running, GUI, threads, packaging, the works.
+I chose Python deliberately. My exposure to it up to that point was scripting and CS50's coursework, and I wanted to find out what it felt like to build a *real* application with it — long-running, GUI, threads, packaging, the works. A final project is the perfect excuse.
 
 The stack ended up being:
 
@@ -38,7 +38,7 @@ The computer vision was the part I expected to be hard, and it was — but not i
 
 ## Working with Claude Code
 
-I built Loom with Claude Code as my pair programmer, the same way I built this site's [CI/CD pipeline with an AI assistant](/blog/technology/building-cicd-pipeline-with-ai) before it. A few weeks of daily sessions gave me a much clearer picture of where that workflow shines and where it doesn't.
+The version of Loom I submitted for CS50 proved the core concept: capture the HUD, read the numbers, show the build order. Everything that came after the course — the pace alerts, the stats, the packaging, most of the platform support — I built with Claude Code as my pair programmer, the same way I built this site's [CI/CD pipeline with an AI assistant](/blog/technology/building-cicd-pipeline-with-ai) before it. A few weeks of daily sessions gave me a much clearer picture of where that workflow shines and where it doesn't.
 
 **Where it shone:**
 

@@ -91,6 +91,12 @@ export default function Projects() {
             </div>
           </div>
 
+          <div className="dark-card">
+            <h3>🎓 CS50 Coding Projects</h3>
+            <p><strong>Tech Stack:</strong> C, Python, Web Development</p>
+            <p>A collection of projects and exercises from Harvard&apos;s CS50 course, spanning fundamental computer science concepts across multiple languages. Course completed and certificate earned — and the final project grew into Loom, the AoE2 build-order assistant featured above.</p>
+          </div>
+
           <h2>Works in Progress</h2>
           
           <div className="dark-card-secondary">
@@ -98,13 +104,6 @@ export default function Projects() {
             <p><strong>Tech Stack:</strong> Docker, Shell Scripts, System Administration</p>
             <p>A collection of scripts and tools for maintaining and automating tasks on Linux servers. Includes backup automation, system monitoring, and deployment workflows.</p>
             <p><em>Status: Active Development</em></p>
-          </div>
-
-          <div className="dark-card-secondary">
-            <h3>🎓 CS50 Coding Projects</h3>
-            <p><strong>Tech Stack:</strong> C, Python, Web Development</p>
-            <p>A collection of projects and exercises from Harvard's CS50 course, showcasing fundamental computer science concepts and programming skills across multiple languages.</p>
-            <p><em>Status: Learning in Progress</em></p>
           </div>
 
           <div className="dark-card-secondary">
