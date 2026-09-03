@@ -110,7 +110,7 @@ jobs:
           Xvfb :99 -screen 0 1024x768x24 -ac +extension GLX +render -noreset &
           sleep 3
           npm install -g lighthouse
-          lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --only-categories=security --chrome-flags="--headless --no-sandbox --disable-gpu --disable-dev-shm-usage"
+          lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --only-categories=best-practices --chrome-flags="--headless --no-sandbox --disable-gpu --disable-dev-shm-usage"
           
       - name: Upload Lighthouse report
         uses: actions/upload-artifact@v4
@@ -210,10 +210,10 @@ jobs:
           echo "" >> security-summary.md
           
           if [ -f "reports/lighthouse-security-report/lighthouse-report.json" ]; then
-            echo "### Lighthouse Security Score" >> security-summary.md
-            cat reports/lighthouse-security-report/lighthouse-report.json | jq -r 'if .categories.security.score == null then "Security Score: N/A (audit failed)" else (.categories.security.score * 100 | "Security Score: \(.)%") end' >> security-summary.md || echo "Failed to parse Lighthouse security results" >> security-summary.md
+            echo "### Lighthouse Best Practices Score" >> security-summary.md
+            cat reports/lighthouse-security-report/lighthouse-report.json | jq -r 'if .categories["best-practices"].score == null then "Best Practices Score: N/A (audit failed)" else (.categories["best-practices"].score * 100 | "Best Practices Score: \(.)%") end' >> security-summary.md || echo "Failed to parse Lighthouse results" >> security-summary.md
           else
-            echo "### Lighthouse Security Score" >> security-summary.md
+            echo "### Lighthouse Best Practices Score" >> security-summary.md
             echo "Lighthouse security report not found" >> security-summary.md
           fi
           
