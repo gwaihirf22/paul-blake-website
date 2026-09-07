@@ -28,7 +28,7 @@ jobs:
       new-posts: ${{ steps.detect.outputs.new-posts }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2  # Fetch current and previous commit
       
