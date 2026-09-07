@@ -16,7 +16,7 @@
     "@mailerlite/mailerlite-nodejs": "^1.4.1",
     "@types/react-syntax-highlighter": "^15.5.13",
     "esbuild": "^0.25.5",
-    "feed": "^5.1.0",
+    "feed": "^6.0.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.514.0",
     "mdx-bundler": "^10.1.1",
