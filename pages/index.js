@@ -109,7 +109,12 @@ export default function Home() {
             </div>
             <div className="dark-card">
               <h3>🦁 Lion Tails</h3>
-              <p>AI-powered platform for generating personalized and interactive children's Bible stories with illustrations and narration. React, Next.js, OpenAI API, and more.</p>
+              <p>Christian bedtime stories starring your own kids, with AI illustrations that keep them looking like themselves. React, TypeScript, Express, Postgres, OpenAI.</p>
+              <div className="project-actions">
+                <a href="https://liontails.paul-blake.com" target="_blank" rel="noopener noreferrer" className="btn">
+                  Try It
+                </a>
+              </div>
             </div>
             <div className="dark-card">
               <h3>🌐 This Website</h3>
