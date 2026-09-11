@@ -65,10 +65,11 @@ export default function Projects() {
 
           <div className="dark-card">
             <h3>🦁 Lion Tails</h3>
-            <p><strong>Tech Stack:</strong> React, Next.js, CSS Modules, OpenAI API (GPT-4, DALL-E 3, TTS), Node.js</p>
-            <p>An innovative AI-powered platform that generates personalized and interactive children's Bible stories. Features dynamic story generation, interactive customization, AI-generated illustrations with DALL-E 3, and engaging narration with text-to-speech functionality. Hosted on Replit.</p>
+            <p><strong>Tech Stack:</strong> TypeScript, React, Express, Postgres, Drizzle, Tailwind, OpenAI API, Docker</p>
+            <p>Christian bedtime stories written around characters you save and reuse, so a child can be the hero of every one. Set a story in a real biblical account or send a character on a Quest with the Timekeeper; illustrate any passage you like, with pictures built from each character&rsquo;s own portrait so they look the same every time. Parent Mode gates the things that should not be one tap from a seven-year-old. Self-hosted on my own server, deployed by GitHub Actions.</p>
             <div className="project-links">
-              <a href="https://lions-tails.replit.app" target="_blank" rel="noopener noreferrer" className="dark-card-button">Visit App</a>
+              <a href="https://liontails.paul-blake.com" target="_blank" rel="noopener noreferrer" className="dark-card-button">Visit App</a>
+              <a href="/blog/technology/how-to-use-lion-tails" className="dark-card-button">How to Use It</a>
               <a href="https://github.com/gwaihirf22/lion-tails" target="_blank" rel="noopener noreferrer" className="dark-card-button">View on GitHub</a>
             </div>
           </div>
