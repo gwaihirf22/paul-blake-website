@@ -79,7 +79,6 @@ export default function ProjectCard({ project, compact = false }) {
           display: flex;
           flex-direction: column;
           min-width: 0;
-          height: 100%;
           background-color: var(--color-card-background);
           border: 1px solid var(--color-border);
           border-radius: 10px;
@@ -91,10 +90,6 @@ export default function ProjectCard({ project, compact = false }) {
           border-color: var(--color-accent);
           transform: translateY(-2px);
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-
-        .project-card.compact {
-          height: auto;
         }
 
         .project-card.compact:hover {
@@ -118,7 +113,7 @@ export default function ProjectCard({ project, compact = false }) {
         }
 
         .project-card-body {
-          flex: 1;
+          flex: 1 1 auto;
           padding: 1rem 1.25rem 0.75rem;
         }
 
@@ -164,6 +159,7 @@ export default function ProjectCard({ project, compact = false }) {
         }
 
         .tech-chip {
+          margin: 0;
           display: inline-flex;
           align-items: center;
           gap: 0.3rem;

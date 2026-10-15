@@ -32,7 +32,7 @@ export const projects = [
   {
     slug: "neighborly",
     title: "Neighborly",
-    blurb: "Skill bartering and tool sharing for neighbours, with messaging, reservations and friend connections.",
+    blurb: "Skill bartering and tool sharing for neighbours, with messaging and reservations.",
     image: "/screenshots/neighborly.webp",
     imageAlt: "Neighborly home page",
     tech: ["nextjs", "typescript", "postgresql", "prisma", "tailwindcss", "docker"],
