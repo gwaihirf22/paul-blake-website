@@ -81,7 +81,7 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - Pinned "Welcome" post at top of blog index (`/blog`) with distinctive styling
   - Always visible regardless of post dates
   - Gradient background with accent color border
-  - "📌 Pinned" badge for clear identification
+  - "Pinned" badge for clear identification
   - Introduces visitors to blog content and categories
 
 **Games System:**
@@ -463,11 +463,19 @@ import { Image } from '../../../components/Image.jsx';
 
 ### Blog Pinned Post Feature (2025-12-13)
 - **Added**: Permanent "Welcome to My Blog" pinned post at top of `/blog` index
-- **Design**: Elegant gradient background with cyan accent border, "📌 Pinned" badge, and distinctive styling
+- **Design**: Elegant gradient background with cyan accent border, "Pinned" badge, and distinctive styling
 - **Purpose**: Provides immediate context to visitors about blog content and categories
 - **Implementation**: Static content in `pages/blog/index.js` with custom CSS styling
 - **Styling**: Uses existing color scheme variables for consistency
 - **Files modified**: `pages/blog/index.js` (added pinned-post section and CSS)
+
+### Portfolio refresh (2026-10-15)
+- **Project cards, tech stack and contact links are data-driven.** `data/projects.js` feeds `/`, `/projects` and `/projects/games` through `components/ProjectCard.jsx`; `data/techStack.js` feeds `components/TechStack.jsx`; `data/site.js` holds the email, GitHub, LinkedIn (empty hides the button) and resume filename. Edit the data, not the pages.
+- Screenshots live in `public/screenshots/<slug>.webp` at 1200x750. Tech logos are devicon SVGs in `public/tech/` (MIT, licence file alongside); black logos carry `mono: true` and are inverted in CSS.
+- The resume button downloads `public/Paul_Blake_Resume.pdf`; the homepage only renders it when the file exists at build time.
+- `components/SocialLinks.jsx` and `components/Footer.jsx` (mounted in `_app.js`) carry the email/LinkedIn/GitHub icons. GitHub and LinkedIn marks are inline SVG because lucide deprecated its brand icons.
+- The homepage Skills and Technologies prose sections were replaced by the Tech Stack grid. Emojis were removed from all UI chrome; blog post bodies and the party pages were left alone.
+- **Rule**: new cards use their own classes (`.project-card`, `.pbtn`). Never place `.btn`/`.pbtn` inside `.dark-card`, whose `a` rule overrides button styling.
 
 ### Cloudflare Web Analytics Integration (2025-12-13)
 - **Added**: Privacy-first analytics with Cloudflare Web Analytics

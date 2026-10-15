@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { Zap, Shield, Sparkles } from "lucide-react";
 import SnakeGame from "../../../components/games/SnakeGame";
 
 export default function Snake() {
@@ -18,8 +19,8 @@ export default function Snake() {
       </Head>
 
       <div>
-        <h1>🐍 Snake Game</h1>
-        <p>Guide your snake through the grid, eating food to grow longer. Avoid hitting walls and yourself in this classic arcade game with modern features!</p>
+        <h1>Snake</h1>
+        <p>Guide your snake through the grid, eating food to grow longer. Avoid the walls and your own tail.</p>
 
         <SnakeGame />
 
@@ -30,39 +31,9 @@ export default function Snake() {
               <li><strong>Objective:</strong> Eat food to grow your snake and achieve the highest score possible</li>
               <li><strong>Controls:</strong> Use arrow keys or WASD to change direction. Spacebar to pause.</li>
               <li><strong>Mobile:</strong> Swipe in any direction to move the snake</li>
-              <li><strong>Rules:</strong> Avoid hitting walls or your own body, or it's game over!</li>
+              <li><strong>Rules:</strong> Avoid hitting walls or your own body, or it&apos;s game over</li>
               <li><strong>Growth:</strong> Each food item makes your snake one segment longer</li>
             </ul>
-          </div>
-
-          <div className="dark-card">
-            <h2>Game Features</h2>
-            <div className="features-grid">
-              <div className="feature">
-                <h4>🎮 Classic Gameplay</h4>
-                <p>Timeless snake mechanics that never get old</p>
-              </div>
-              <div className="feature">
-                <h4>✨ Power-Ups</h4>
-                <p>Collect special items for temporary abilities</p>
-              </div>
-              <div className="feature">
-                <h4>📱 Mobile Responsive</h4>
-                <p>Swipe controls optimized for touch devices</p>
-              </div>
-              <div className="feature">
-                <h4>🏆 High Score Tracking</h4>
-                <p>Your best score is saved locally</p>
-              </div>
-              <div className="feature">
-                <h4>⚡ Progressive Difficulty</h4>
-                <p>Speed increases as you score more points</p>
-              </div>
-              <div className="feature">
-                <h4>🎨 Modern Graphics</h4>
-                <p>Clean neon aesthetic with particle effects</p>
-              </div>
-            </div>
           </div>
 
           <div className="dark-card">
@@ -70,17 +41,17 @@ export default function Snake() {
             <p>Collect special power-ups for temporary advantages:</p>
             <div className="powerups-grid">
               <div className="powerup">
-                <span className="powerup-icon" style={{color: '#ff6b35'}}>⚡</span>
+                <span className="powerup-icon" style={{color: '#ff6b35'}}><Zap size={32} aria-hidden="true" /></span>
                 <h4>Speed Boost</h4>
                 <p>Move faster for a short time - risk vs reward!</p>
               </div>
               <div className="powerup">
-                <span className="powerup-icon" style={{color: '#ffd700'}}>🛡️</span>
+                <span className="powerup-icon" style={{color: '#ffd700'}}><Shield size={32} aria-hidden="true" /></span>
                 <h4>Invincibility Shield</h4>
                 <p>Pass through walls and yourself safely</p>
               </div>
               <div className="powerup">
-                <span className="powerup-icon" style={{color: '#00ff88'}}>✨</span>
+                <span className="powerup-icon" style={{color: '#00ff88'}}><Sparkles size={32} aria-hidden="true" /></span>
                 <h4>Score Multiplier</h4>
                 <p>Earn double points for each food collected</p>
               </div>
@@ -106,23 +77,23 @@ export default function Snake() {
             <h2>Tips & Strategy</h2>
             <div className="tips">
               <div className="tip">
-                <strong>🎯 Plan Your Path:</strong>
+                <strong>Plan Your Path:</strong>
                 <p>Think several moves ahead - avoid boxing yourself into corners</p>
               </div>
               <div className="tip">
-                <strong>🌀 Spiral Pattern:</strong>
+                <strong>Spiral Pattern:</strong>
                 <p>Create a spiral path to maximize space utilization as you grow</p>
               </div>
               <div className="tip">
-                <strong>⚡ Power-Up Timing:</strong>
-                <p>Save invincibility for when you're long and need to navigate tight spaces</p>
+                <strong>Power-Up Timing:</strong>
+                <p>Save invincibility for when you&apos;re long and need to navigate tight spaces</p>
               </div>
               <div className="tip">
-                <strong>🎮 Smooth Movements:</strong>
+                <strong>Smooth Movements:</strong>
                 <p>Use gentle direction changes instead of sharp turns to maintain control</p>
               </div>
               <div className="tip">
-                <strong>🏃 Speed Management:</strong>
+                <strong>Speed Management:</strong>
                 <p>As speed increases, stick to the edges for more reaction time</p>
               </div>
             </div>

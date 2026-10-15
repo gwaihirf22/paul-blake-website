@@ -1,5 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
+import SocialLinks from "../components/SocialLinks";
+import { site } from "../data/site";
 
 export default function About() {
   return (
@@ -28,7 +30,7 @@ export default function About() {
           <h2>My Journey</h2>
           
           <div className="career-section">
-            <h3>🔧 From Aircraft Mechanic to Software Engineer</h3>
+            <h3>From Aircraft Mechanic to Software Engineer</h3>
             <p>
               My career began in the highly regulated world of aircraft maintenance, where precision isn't just important—it's literally a matter of life and death. Working on complex aircraft systems taught me invaluable lessons about:
             </p>
@@ -45,7 +47,7 @@ export default function About() {
           </div>
 
           <div className="transition-section">
-            <h3>💻 The Transition to Technology</h3>
+            <h3>The Transition to Technology</h3>
             <p>
               My fascination with technology and problem-solving naturally led me toward software development. What started as a personal interest in understanding how systems work evolved into a passion for building them.
             </p>
@@ -59,28 +61,28 @@ export default function About() {
           <h2>What Drives Me</h2>
           
           <div className="dark-card">
-            <h3>🏘️ Community-Focused Development</h3>
+            <h3>Community-Focused Development</h3>
             <p>
               I believe technology should strengthen communities rather than isolate us. Projects like Neighborly reflect my commitment to building tools that help people connect and share resources locally.
             </p>
           </div>
 
           <div className="dark-card">
-            <h3>⚡ Incremental Progress</h3>
+            <h3>Incremental Progress</h3>
             <p>
               Whether it's through my Atomic Momentum habit tracker or my approach to learning new technologies, I'm passionate about the power of small, consistent improvements over time.
             </p>
           </div>
 
           <div className="dark-card">
-            <h3>🎯 Purpose-Driven Technology</h3>
+            <h3>Purpose-Driven Technology</h3>
             <p>
               Every line of code should serve a purpose. I strive to build solutions that solve real problems and have a positive impact on people's lives.
             </p>
           </div>
 
           <div className="dark-card">
-            <h3>📚 Faith and Philosophy</h3>
+            <h3>Faith and Philosophy</h3>
             <p>
               My Christian faith deeply influences how I approach both technology and life. I'm particularly interested in exploring how biblical principles can inform our approach to craftsmanship, work, and innovation.
             </p>
@@ -108,10 +110,9 @@ export default function About() {
           </p>
           
           <div className="connect-links">
-            <p>Find me on:</p>
+            <SocialLinks />
             <ul>
-              <li><a href="https://github.com/gwaihirf22" target="_blank" rel="noopener noreferrer">GitHub</a> - Check out my code</li>
-              <li><a href="https://hub.docker.com/repositories/flyingoat03" target="_blank" rel="noopener noreferrer">Docker Hub</a> - My containerized applications</li>
+              <li><a href={site.dockerHub} target="_blank" rel="noopener noreferrer">Docker Hub</a> - My containerized applications</li>
               <li><Link href="/blog">My Blog</Link> - Thoughts on development and faith</li>
               <li><Link href="/projects">My Projects</Link> - See what I'm building</li>
             </ul>

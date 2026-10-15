@@ -18,8 +18,8 @@ export default function Helicopter() {
       </Head>
       
       <div>
-        <h1>🚁 Helicopter Game</h1>
-        <p>Navigate your helicopter through challenging obstacles in this classic arcade-style game. Simple one-click controls make it easy to learn but hard to master!</p>
+        <h1>Helicopter</h1>
+        <p>Navigate your helicopter through challenging obstacles in this classic arcade-style game. One button: hold to climb, release to dive.</p>
         
         <HelicopterGame />
         
@@ -30,38 +30,8 @@ export default function Helicopter() {
               <li><strong>Objective:</strong> Navigate through as many obstacles as possible without crashing</li>
               <li><strong>Controls:</strong> Hold to make the helicopter ascend, release to descend</li>
               <li><strong>Scoring:</strong> Earn 1 point for each obstacle you successfully pass</li>
-              <li><strong>Physics:</strong> The helicopter has realistic momentum - plan your movements!</li>
+              <li><strong>Physics:</strong> The helicopter has realistic momentum, so plan your movements</li>
             </ul>
-          </div>
-
-          <div className="dark-card">
-            <h2>Game Features</h2>
-            <div className="features-grid">
-              <div className="feature">
-                <h4>🎮 Simple Controls</h4>
-                <p>One-click control system works on any device</p>
-              </div>
-              <div className="feature">
-                <h4>📱 Mobile Responsive</h4>
-                <p>Touch controls optimized for mobile devices</p>
-              </div>
-              <div className="feature">
-                <h4>🏆 High Score Tracking</h4>
-                <p>Your best score is saved locally</p>
-              </div>
-              <div className="feature">
-                <h4>⚡ Smooth Performance</h4>
-                <p>60fps gameplay with particle effects</p>
-              </div>
-              <div className="feature">
-                <h4>🎨 Modern Graphics</h4>
-                <p>Clean, responsive design with animations</p>
-              </div>
-              <div className="feature">
-                <h4>🔄 Progressive Difficulty</h4>
-                <p>Obstacles become more challenging over time</p>
-              </div>
-            </div>
           </div>
 
           <div className="dark-card">
@@ -83,19 +53,19 @@ export default function Helicopter() {
             <h2>Tips & Strategy</h2>
             <div className="tips">
               <div className="tip">
-                <strong>🎯 Timing is Everything:</strong>
+                <strong>Timing is Everything:</strong>
                 <p>Don&apos;t hold the controls too long - small, controlled movements work best</p>
               </div>
               <div className="tip">
-                <strong>👀 Look Ahead:</strong>
+                <strong>Look Ahead:</strong>
                 <p>Plan your path through upcoming obstacles rather than reacting at the last moment</p>
               </div>
               <div className="tip">
-                <strong>🌊 Use Momentum:</strong>
+                <strong>Use Momentum:</strong>
                 <p>The helicopter has realistic physics - use its momentum to glide through tight spaces</p>
               </div>
               <div className="tip">
-                <strong>💎 Stay Centered:</strong>
+                <strong>Stay Centered:</strong>
                 <p>Try to fly through the middle of gaps when possible for maximum safety margin</p>
               </div>
             </div>
