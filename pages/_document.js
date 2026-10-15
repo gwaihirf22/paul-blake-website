@@ -1,16 +1,23 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
+// Runs before first paint so the right theme is applied without a flash.
+// Stored choice wins; otherwise follow the OS. Keep in sync with ThemeProvider.
+const themeInit = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}var d=document.documentElement;d.setAttribute('data-theme',t);d.style.colorScheme=t}catch(e){}})();`;
+
 export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <meta name="color-scheme" content="light dark" />
         {/* iOS Web App Configuration */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Paul Blake Games" />
         
         {/* Mobile theme and display */}
-        <meta name="theme-color" content="#1e3a8a" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a" />
         <meta name="mobile-web-app-capable" content="yes" />
         
         {/* Prevent mobile browser UI interference */}
