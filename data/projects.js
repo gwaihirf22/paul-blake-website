@@ -107,7 +107,7 @@ export const projects = [
   },
   {
     slug: "bezalel-book",
-    title: "Book on Bezalel and Ohliab",
+    title: "Book on Bezalel and Oholiab",
     blurb: "A theological study of the Tabernacle's craftsmen.",
     tech: [],
     links: {},
