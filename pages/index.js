@@ -103,20 +103,21 @@ export default function Home({ hasResume }) {
 
       <style jsx>{`
         main {
-          padding: 2rem 0;
+          padding: 0 0 2rem;
         }
 
         /* Hero Section */
         .hero {
           text-align: center;
-          padding: 4rem 0 5rem;
+          padding: 2.5rem 1rem 2.75rem;
           background: linear-gradient(135deg, rgba(0, 188, 212, 0.1) 0%, rgba(107, 70, 193, 0.1) 100%);
           border-radius: 12px;
-          margin-bottom: 4rem;
+          margin-bottom: 2.5rem;
         }
 
         .hero-content h1 {
-          margin-bottom: 1.5rem;
+          margin-top: 0;
+          margin-bottom: 1rem;
           background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent) 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -126,7 +127,7 @@ export default function Home({ hasResume }) {
         .hero-tagline {
           font-size: 1.3rem;
           color: var(--color-text-secondary);
-          margin-bottom: 2.5rem;
+          margin-bottom: 1.75rem;
           max-width: 640px;
           margin-left: auto;
           margin-right: auto;
@@ -142,7 +143,7 @@ export default function Home({ hasResume }) {
         .hero-social {
           display: flex;
           justify-content: center;
-          margin-top: 2rem;
+          margin-top: 1.25rem;
         }
 
         /* About Section */
@@ -225,7 +226,7 @@ export default function Home({ hasResume }) {
         /* Responsive Design */
         @media (max-width: 768px) {
           .hero {
-            padding: 3rem 1rem 4rem;
+            padding: 2rem 1rem 2.25rem;
           }
 
           .hero-content h1 {
