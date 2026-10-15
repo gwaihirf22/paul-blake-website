@@ -31,7 +31,7 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
 
         {/* Pinned Welcome Post */}
         <div className="pinned-post">
-          <div className="pinned-badge">📌 Pinned</div>
+          <div className="pinned-badge">Pinned</div>
           <h2>Welcome to My Blog</h2>
           <p>Here you'll find my thoughts on technology, theology, and the intersection of faith and innovation. This blog is a space where I explore how modern development practices intersect with timeless truths, share technical insights, and reflect on matters of faith.</p>
           <p>Browse by category below, subscribe to stay updated, or dive into the recent posts. Thanks for stopping by!</p>
@@ -135,7 +135,7 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
           display: inline-block;
           padding: 0.4rem 1rem;
           background: var(--color-accent);
-          color: var(--color-background);
+          color: var(--color-on-accent);
           font-size: 0.85rem;
           font-weight: 600;
           border-radius: 20px;
@@ -263,13 +263,13 @@ export default function BlogIndex({ technologyPosts, theologyPosts, allPosts }) 
 
         .category-badge.technology {
           background-color: rgba(59, 130, 246, 0.15);
-          color: #60a5fa;
+          color: var(--color-badge-tech);
           border: 1px solid rgba(59, 130, 246, 0.3);
         }
 
         .category-badge.theology {
           background-color: rgba(147, 51, 234, 0.15);
-          color: #a78bfa;
+          color: var(--color-badge-theology);
           border: 1px solid rgba(147, 51, 234, 0.3);
         }
         

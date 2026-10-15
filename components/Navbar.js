@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const router = useRouter();
@@ -54,16 +55,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <button
-          type="button"
-          className="menu-toggle"
-          aria-label="Toggle navigation menu"
-          aria-expanded={isMenuOpen}
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-        >
-          <span className="menu-bars" />
-        </button>
-
+        <div className="navbar-right">
         <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
           <Link
             href="/"
@@ -142,6 +134,19 @@ export default function Navbar() {
             About
           </Link>
         </div>
+        <div className="navbar-actions">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="menu-toggle"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+          >
+            <span className="menu-bars" />
+          </button>
+        </div>
+        </div>
       </div>
 
       <style jsx>{`
@@ -211,6 +216,18 @@ export default function Navbar() {
 
         .brand-link:hover :global(.logo-svg) {
            color: var(--color-accent);
+        }
+
+        .navbar-right {
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
+        }
+
+        .navbar-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
         }
 
         .navbar-links {
@@ -305,7 +322,7 @@ export default function Navbar() {
           background: var(--color-card-background);
           border: 1px solid var(--color-border);
           border-radius: 12px;
-          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 12px 32px var(--color-shadow);
           width: 280px !important;
           max-width: calc(100vw - 3rem) !important;
           padding: 0.75rem 0;
@@ -393,7 +410,7 @@ export default function Navbar() {
           margin: 0.75rem 1rem;
           border: none;
           height: 1px;
-          background: rgba(255, 255, 255, 0.15);
+          background: var(--color-border);
         }
 
         .nav-link.active {
@@ -518,6 +535,13 @@ export default function Navbar() {
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+          }
+
+          .navbar-right,
+          .navbar-actions {
+            gap: 0.5rem;
           }
 
           /* Override SVG size for compact header */

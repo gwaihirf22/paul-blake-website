@@ -5,24 +5,78 @@ on:
     branches:
       - main
   workflow_dispatch:
+
+# Merging several PRs in a row otherwise queues a full image build and a
+# container restart for each one, on a single self-hosted runner. Superseded
+# runs are cancelled so a burst of merges deploys the final state once.
+#
+# The cancellation window includes the SSH step, so a run can in principle be
+# killed inside `docker compose up -d`. That is seconds out of a multi-minute
+# run and self-correcting -- the superseding run re-runs the same idempotent
+# command. Set cancel-in-progress to false to serialise instead, at the cost of
+# building every commit.
+#
+# Mirrors Lion-Tails/.github/workflows/deploy.yml (commit 379ae5d).
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
 jobs:
+  # Gate the deploy on a dependency audit.
+  #
+  # deploy.yml used to be the whole story: it triggered on push to main and
+  # shipped, while lighthouse-ci.yml and security-scan.yml ran alongside it on
+  # the same commit with nothing reading their conclusion. needs: cannot reach
+  # across workflow files, so the check that matters has to live in this one.
+  #
+  # Only the audit is duplicated here, not the build. A dependency bump that
+  # breaks the build already fails the deploy, because the Dockerfile runs
+  # `next build` -- the audit was the actual gap.
+  #
+  # Level is `critical`, not `moderate`: as of 2026-10-15 two advisories with
+  # no non-breaking fix (braces via next-sitemap, sprintf-js via gray-matter)
+  # made the moderate gate unsatisfiable on any lockfile. Blake chose to keep a
+  # gate for the worst class only rather than make the audit report-only.
+  verify:
+    name: Verify dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Production dependencies only -- dev tooling advisories should not block
+      # a deploy. Passes as of the toml override on this branch; before that,
+      # this gate would have been red.
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=critical
+
   deploy:
+    needs: verify
     runs-on: [self-hosted, linux, x64, unraid-paul-blake]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Build and Push Docker Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64
@@ -35,7 +89,7 @@ jobs:
           cache-to: type=gha,mode=max
           
       - name: Start SSH Agent
-        uses: webfactory/ssh-agent@v0.8.0
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_RAW }}
 

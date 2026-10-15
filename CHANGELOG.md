@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Light mode with a Sun/Moon switch in the navbar. Follows the OS preference by default; the choice is remembered. Theme is applied before first paint, comments follow it, code blocks and the games stay dark.
+- Theme tokens for both palettes in `styles/globals.css`; `--color-on-accent` for text on accent fills.
+
+### Fixed
+- `--card-bg`, `--card-border` and `--bg-color` were used but never defined, so the subscription form and blog index boxes had no background.
+- White-on-blue subscribe buttons and the warning callout text now meet WCAG AA contrast.
+
 ### Planned
 - Content pagination for large blog posts
 - CSP headers implementation

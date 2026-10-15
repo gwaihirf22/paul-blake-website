@@ -1,26 +1,79 @@
 # Dependabot configuration for automated dependency updates
 # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+#
+# Shape mirrors Lion-Tails, which was tuned after its first run opened 16 PRs.
+# The lessons that shape cost are encoded in the group comments below.
+#
+# Deploy-risk note: deploy.yml runs on push to main -- it builds an image, pushes
+# it, then SSHes to Unraid and restarts the production container. No test
+# workflow gates it (lighthouse-ci and security-scan do not appear in a `needs:`)
+# and there is no `concurrency:` block, so a burst of merges queues one full
+# build and one container restart each. Fewer, larger PRs is the cheaper shape
+# here, which is what the grouping below is for.
 
 version: 2
 updates:
-  # Enable version updates for npm dependencies
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 10
-    # Group minor and patch updates together to reduce PR noise
+    open-pull-requests-limit: 5
     groups:
+      # Dependabot puts each dependency in the FIRST group it matches, so the
+      # order of these entries matters and the catch-all has to come last.
+      #
+      # From the options reference: "applies-to ... When undefined, defaults to
+      # version updates." A normal group therefore does NOT cover security
+      # updates, and without this entry each advisory arrives as its own PR.
+      # Grouping does not delay them: security PRs still open the moment an
+      # advisory lands, ignoring the weekly schedule above, and
+      # open-pull-requests-limit does not apply to them either.
+      security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
       development-dependencies:
         dependency-type: "development"
+        patterns:
+          - "*"
         update-types:
           - "minor"
           - "patch"
-      production-dependencies:
+
+      # Safest production tier: no behaviour change intended.
+      production-patch:
         dependency-type: "production"
+        patterns:
+          - "*"
         update-types:
+          - "patch"
+
+      # Minors can change behaviour, so they are batched separately rather than
+      # folded in with the patches. The point is fewer PRs, not one
+      # undifferentiated PR -- a production minor deserves a different glance
+      # from a dev patch.
+      production-minor:
+        dependency-type: "production"
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+
+      # Catch-all, deliberately LAST. Every group above filters on
+      # dependency-type, which matches DIRECT dependencies only, so a
+      # lockfile-only bump matches none of them and would arrive as its own PR.
+      #
+      # Production MAJORS are deliberately NOT swept in here. They also fall
+      # through the tiers above, but batching them would defeat the point: a
+      # major is the one update that most needs reviewing on its own.
+      indirect-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
           - "patch"
     labels:
       - "dependencies"
@@ -46,20 +99,25 @@ updates:
       - dependency-name: "mdx-bundler"
         update-types: ["version-update:semver-major"]
 
-  # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "09:00"
+    # One PR for all action bumps rather than one per action. Without this the
+    # four workflows here produce a separate PR per action version.
+    groups:
+      github-actions:
+        patterns:
+          - "*"
     labels:
       - "dependencies"
       - "github-actions"
     commit-message:
       prefix: "ci"
 
-  # Enable version updates for Docker
+  # Picks up the root Dockerfile (node:22-alpine in all three stages).
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
@@ -71,3 +129,11 @@ updates:
       - "docker"
     commit-message:
       prefix: "chore(docker)"
+    # The base image tracks the Node version the app is actually tested against.
+    # CI was moved to Node 22 deliberately for Next 16 (15ef745, df4e8a6), so a
+    # major bump here would put production on a runtime nothing has verified --
+    # and this repo deploys to production with no human step. Move engines/, CI
+    # and the Dockerfile together, on purpose.
+    ignore:
+      - dependency-name: "node"
+        update-types: ["version-update:semver-major"]

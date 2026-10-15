@@ -13,7 +13,7 @@ const calloutConfig = {
     icon: <AlertTriangle size={20} style={{ color: '#f97316' }} />,
     backgroundColor: 'rgba(249, 115, 22, 0.1)',
     borderColor: '#f97316',
-    textColor: '#ea580c'
+    textColor: 'var(--color-warning-text)'
   },
 };
 

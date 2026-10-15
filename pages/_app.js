@@ -3,6 +3,8 @@ import Head from "next/head";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { ThemeProvider } from "../components/ThemeProvider";
 import ScrollbarVisibility from "../components/ScrollbarVisibility";
 
 export default function App({ Component, pageProps }) {
@@ -59,7 +61,7 @@ export default function App({ Component, pageProps }) {
   }, [router.events]);
 
   return (
-    <>
+    <ThemeProvider>
       <Head>
         {/* Mobile-optimized viewport for gaming */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
@@ -71,6 +73,7 @@ export default function App({ Component, pageProps }) {
           <Component {...pageProps} />
         </div>
       </div>
+      <Footer />
 
       <style jsx>{`
         .main-content {
@@ -88,6 +91,6 @@ export default function App({ Component, pageProps }) {
           }
         }
       `}</style>
-    </>
+    </ThemeProvider>
   );
 }

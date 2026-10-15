@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { Pointer, Keyboard, Pause } from "lucide-react";
 
 export default function SnakeGame() {
   const canvasRef = useRef(null);
@@ -46,17 +47,17 @@ export default function SnakeGame() {
   // Website-themed reward messages
   const WEBSITE_TIDBITS = [
     { score: 5, message: "Nice! Did you know this site has a theology section?", type: "discovery" },
-    { score: 10, message: "From fixing aircraft to fixing bugs 🚁➡️💻", type: "story" },
+    { score: 10, message: "From fixing aircraft to fixing bugs", type: "story" },
     { score: 15, message: "Check out the AI Bible story app in projects!", type: "hint" },
     { score: 20, message: "The blog covers both code AND faith topics", type: "discovery" },
-    { score: 25, message: "Docker keeps this site running smooth 🐳", type: "tech" },
+    { score: 25, message: "Docker keeps this site running smooth", type: "tech" },
     { score: 30, message: "Newsletter subscribers get the latest posts first!", type: "hint" },
     { score: 40, message: "This Snake game uses HTML5 Canvas & React Hooks", type: "meta" },
-    { score: 50, message: "Comments powered by GitHub Discussions! 💬", type: "tech" },
+    { score: 50, message: "Comments are powered by GitHub Discussions", type: "tech" },
     { score: 60, message: "Neighborly app: skill bartering for communities", type: "hint" },
     { score: 75, message: "From mechanical precision to code precision", type: "story" },
-    { score: 90, message: "You're a Snake master! Check out the blog? 📚", type: "hint" },
-    { score: 100, message: "LEGEND! 🏆 You've conquered the Snake! 🐍", type: "celebration" }
+    { score: 90, message: "Snake master. Have you read the blog?", type: "hint" },
+    { score: 100, message: "Legend. You have conquered the Snake.", type: "celebration" }
   ];
 
   // Power-up types
@@ -614,13 +615,13 @@ export default function SnakeGame() {
 
       switch (state.powerUpActive.effect) {
         case 'speed':
-          powerUpText = `⚡ Speed: ${timeLeft}s`;
+          powerUpText = `Speed: ${timeLeft}s`;
           break;
         case 'invincible':
-          powerUpText = `🛡️ Shield: ${timeLeft}s`;
+          powerUpText = `Shield: ${timeLeft}s`;
           break;
         case 'multiplier':
-          powerUpText = `✨ 2x Score: ${timeLeft}s`;
+          powerUpText = `2x Score: ${timeLeft}s`;
           break;
       }
 
@@ -819,7 +820,7 @@ export default function SnakeGame() {
 
   return (
     <div className="snake-game">
-      <div className="game-container">
+      <div className="game-container" data-theme="dark">
         <canvas
           ref={canvasRef}
           className="game-canvas"
@@ -835,20 +836,20 @@ export default function SnakeGame() {
 
         {showFullscreenToast && (
           <div className="fullscreen-toast">
-            🎮 Immersive Mode Active! Tap the ⊟ button to exit.
+            Immersive mode on. Tap the ⊟ button to exit.
           </div>
         )}
 
         {!gameState.isPlaying && (
           <div className="game-overlay">
             <div className="game-menu">
-              <h2>🐍 Snake Game</h2>
+              <h2>Snake</h2>
               {gameState.score > 0 && (
                 <div className="final-score">
                   <p>Final Score: <span className="score">{gameState.score}</span></p>
                   <p>Length: <span className="score">{gameState.score + 1}</span></p>
                   {gameState.score === gameState.highScore && gameState.highScore > 0 && (
-                    <p className="new-high-score">🎉 New High Score! 🎉</p>
+                    <p className="new-high-score">New high score!</p>
                   )}
                 </div>
               )}
@@ -861,7 +862,7 @@ export default function SnakeGame() {
                   {gameState.score > 0 ? 'Play Again' : 'Start Game'}
                 </button>
                 <button onClick={toggleFullscreen} className="fullscreen-menu-button">
-                  📺 {isFullscreen ? 'Exit Fullscreen' : isMobile ? 'Immersive Mode' : 'Fullscreen Mode'}
+                  {isFullscreen ? 'Exit Fullscreen' : isMobile ? 'Immersive Mode' : 'Fullscreen Mode'}
                 </button>
               </div>
             </div>
@@ -871,22 +872,22 @@ export default function SnakeGame() {
 
       <div className="mobile-instructions">
         <div className="instruction-card">
-          <h3>🎮 How to Play</h3>
+          <h3>How to Play</h3>
           <div className="controls-grid">
             <div className="control-item">
-              <span className="control-icon">👆</span>
+              <span className="control-icon"><Pointer size={20} aria-hidden="true" /></span>
               <span>Swipe to Move (Mobile)</span>
             </div>
             <div className="control-item">
-              <span className="control-icon">⌨️</span>
+              <span className="control-icon"><Keyboard size={20} aria-hidden="true" /></span>
               <span>Arrow Keys / WASD</span>
             </div>
             <div className="control-item">
-              <span className="control-icon">⏸️</span>
+              <span className="control-icon"><Pause size={20} aria-hidden="true" /></span>
               <span>Spacebar to Pause</span>
             </div>
           </div>
-          <p className="game-tip">Collect power-ups for special abilities! Speed increases every 5 points!</p>
+          <p className="game-tip">Collect power-ups for special abilities. Speed increases every 5 points.</p>
         </div>
       </div>
 
@@ -999,7 +1000,7 @@ export default function SnakeGame() {
 
         .play-button {
           background: linear-gradient(135deg, var(--color-accent), var(--color-hover));
-          color: var(--color-background);
+          color: var(--color-on-accent);
           border: none;
           padding: 1rem 2rem;
           border-radius: 8px;
@@ -1023,7 +1024,7 @@ export default function SnakeGame() {
           top: 10px;
           right: 10px;
           background: rgba(0, 188, 212, 0.8);
-          color: var(--color-background);
+          color: var(--color-on-accent);
           border: none;
           border-radius: 6px;
           width: 40px;
@@ -1116,7 +1117,7 @@ export default function SnakeGame() {
           left: 50%;
           transform: translateX(-50%);
           background: rgba(0, 188, 212, 0.95);
-          color: var(--color-background);
+          color: var(--color-on-accent);
           padding: 12px 24px;
           border-radius: 25px;
           font-size: 14px;

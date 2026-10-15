@@ -1,0 +1,2 @@
+claude.svg and cursor.svg are from Simple Icons (https://simpleicons.org), released under CC0 1.0.
+The marks remain the trademarks of their owners and are used here only to identify the tools.

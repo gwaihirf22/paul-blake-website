@@ -7,8 +7,8 @@
 }
 
 pre[class*="language-"] {
-  background-color: #2d3748 !important;
-  border: 1px solid var(--color-border);
+  background-color: var(--color-code-block-background) !important;
+  border: 1px solid var(--color-code-block-border);
   border-radius: 8px;
   padding: 1.5rem;
   margin: 1.5rem 0;
@@ -19,7 +19,7 @@ pre[class*="language-"] {
 
 code[class*="language-"] {
   background: none !important;
-  color: #e2e8f0 !important;
+  color: var(--color-code-block-text) !important;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', 'Courier New', monospace;
 }
 
@@ -40,7 +40,7 @@ pre[class*="language-"]:before {
   top: 0;
   right: 0;
   background: var(--color-accent);
-  color: var(--color-background);
+  color: var(--color-on-accent);
   padding: 0.25rem 0.75rem;
   font-size: 0.75rem;
   font-weight: 600;
@@ -71,38 +71,160 @@ html, body {
 
 
 
-/* CSS Variables - Dark Code Theme */
+/* Theme tokens.
+   Light values live in :root; dark values under [data-theme="dark"], which the
+   bootstrap script in pages/_document.js sets before first paint. The media
+   block at the end is a no-JS fallback and must stay in sync with the dark block.
+   Code blocks and the games keep fixed dark colours in both themes. */
 :root {
+  color-scheme: light;
+
+  --color-background: #f8fafc;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-accent: #0e7490;
+  --color-link: #0e7490;
+  --color-hover: #155e75;
+  --color-on-accent: #ffffff;
+  --color-border: #e2e8f0;
+  --color-card-background: #ffffff;
+  --color-code-background: #f1f5f9;   /* inline code chip */
+  --color-shadow: rgba(15, 23, 42, 0.12);
+  --color-progress-track: rgba(148, 163, 184, 0.3);
+
+  /* Fixed in both themes: code blocks stay dark */
+  --color-code-block-background: #2d3748;
+  --color-code-block-text: #e2e8f0;
+  --color-code-block-border: #334155;
+
+  /* Badges, callouts, form alerts */
+  --color-badge-tech: #1d4ed8;
+  --color-badge-theology: #6d28d9;
+  --color-warning-text: #9a3412;
+  --color-success-bg: #d4edda;
+  --color-success-text: #155724;
+  --color-success-border: #c3e6cb;
+  --color-error-bg: #f8d7da;
+  --color-error-text: #721c24;
+  --color-error-border: #f1aeb5;
+
+  /* Scrollbar */
+  --scrollbar-track: #e2e8f0;
+  --scrollbar-thumb: linear-gradient(45deg, #cbd5e1, #94a3b8);
+  --scrollbar-glow: rgba(14, 116, 144, 0.25);
+
+  /* Card family (.dark-card etc.; the class names predate light mode) */
+  --card-bg-primary: #ffffff;
+  --card-bg-secondary: #f1f5f9;
+  --card-bg-accent: #d1fae5;
+  --card-text-primary: #0f172a;
+  --card-text-secondary: #334155;
+  --card-text-accent: #047857;
+  --card-border-primary: #cbd5e1;
+  --card-border-secondary: #94a3b8;
+  --card-shadow-dark: rgba(15, 23, 42, 0.08);
+  --card-button-bg: #1d4ed8;
+  --card-button-hover: #1e40af;
+  --card-link-color: #1d4ed8;
+  --card-link-hover: #1e40af;
+
+  /* Aliases used by SubscriptionForm and the blog index boxes */
+  --card-bg: var(--card-bg-primary);
+  --card-border: var(--card-border-primary);
+  --bg-color: var(--color-background);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
   --color-background: #0f172a;
   --color-text-primary: #e2e8f0;
   --color-text-secondary: #a0aec0;
   --color-accent: #00bcd4;
   --color-link: #00bcd4;
-  --color-code-background: #1e293b;
+  --color-hover: #0891b2;
+  --color-on-accent: #0f172a;
   --color-border: #334155;
   --color-card-background: #1e293b;
-  --color-hover: #0891b2;
-  
-  /* Dark card colors */
-  --card-bg-primary: #1f2937;      /* Dark blue-gray */
-  --card-bg-secondary: #374151;     /* Lighter blue-gray for WIP/special cards */
-  --card-bg-accent: #065f46;       /* Dark green for highlighted cards */
-  
-  /* Light text colors for dark backgrounds */
-  --card-text-primary: #f9fafb;    /* Almost white for main text */
-  --card-text-secondary: #d1d5db;  /* Light gray for secondary text */
-  --card-text-accent: #10b981;     /* Green accent for links/highlights */
-  
-  /* Borders and shadows for dark theme */
-  --card-border-primary: #4b5563;     /* Medium gray border */
-  --card-border-secondary: #6b7280;   /* Slightly lighter for secondary cards */
-  --card-shadow-dark: rgba(0, 0, 0, 0.4);  /* Darker shadow for depth */
-  
-  /* Button and link colors for dark cards */
-  --card-button-bg: #3b82f6;          /* Blue button background */
-  --card-button-hover: #2563eb;       /* Darker blue on hover */
-  --card-link-color: #60a5fa;         /* Light blue for links */
-  --card-link-hover: #93c5fd;         /* Even lighter blue on hover */
+  --color-code-background: #1e293b;
+  --color-shadow: rgba(0, 0, 0, 0.35);
+  --color-progress-track: rgba(52, 65, 85, 0.3);
+
+  --color-badge-tech: #60a5fa;
+  --color-badge-theology: #a78bfa;
+  --color-warning-text: #ea580c;
+  --color-success-bg: rgba(16, 185, 129, 0.15);
+  --color-success-text: #6ee7b7;
+  --color-success-border: rgba(16, 185, 129, 0.4);
+  --color-error-bg: rgba(239, 68, 68, 0.15);
+  --color-error-text: #fca5a5;
+  --color-error-border: rgba(239, 68, 68, 0.4);
+
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: linear-gradient(45deg, #143253, #194e58);
+  --scrollbar-glow: rgba(74, 158, 255, 0.3);
+
+  --card-bg-primary: #1f2937;
+  --card-bg-secondary: #374151;
+  --card-bg-accent: #065f46;
+  --card-text-primary: #f9fafb;
+  --card-text-secondary: #d1d5db;
+  --card-text-accent: #10b981;
+  --card-border-primary: #4b5563;
+  --card-border-secondary: #6b7280;
+  --card-shadow-dark: rgba(0, 0, 0, 0.4);
+  --card-button-bg: #2563eb;
+  --card-button-hover: #1d4ed8;
+  --card-link-color: #60a5fa;
+  --card-link-hover: #93c5fd;
+}
+
+/* No-JS fallback: same values as [data-theme="dark"], keep in sync */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --color-background: #0f172a;
+    --color-text-primary: #e2e8f0;
+    --color-text-secondary: #a0aec0;
+    --color-accent: #00bcd4;
+    --color-link: #00bcd4;
+    --color-hover: #0891b2;
+    --color-on-accent: #0f172a;
+    --color-border: #334155;
+    --color-card-background: #1e293b;
+    --color-code-background: #1e293b;
+    --color-shadow: rgba(0, 0, 0, 0.35);
+    --color-progress-track: rgba(52, 65, 85, 0.3);
+
+    --color-badge-tech: #60a5fa;
+    --color-badge-theology: #a78bfa;
+    --color-warning-text: #ea580c;
+    --color-success-bg: rgba(16, 185, 129, 0.15);
+    --color-success-text: #6ee7b7;
+    --color-success-border: rgba(16, 185, 129, 0.4);
+    --color-error-bg: rgba(239, 68, 68, 0.15);
+    --color-error-text: #fca5a5;
+    --color-error-border: rgba(239, 68, 68, 0.4);
+
+    --scrollbar-track: #1a1a1a;
+    --scrollbar-thumb: linear-gradient(45deg, #143253, #194e58);
+    --scrollbar-glow: rgba(74, 158, 255, 0.3);
+
+    --card-bg-primary: #1f2937;
+    --card-bg-secondary: #374151;
+    --card-bg-accent: #065f46;
+    --card-text-primary: #f9fafb;
+    --card-text-secondary: #d1d5db;
+    --card-text-accent: #10b981;
+    --card-border-primary: #4b5563;
+    --card-border-secondary: #6b7280;
+    --card-shadow-dark: rgba(0, 0, 0, 0.4);
+    --card-button-bg: #2563eb;
+    --card-button-hover: #1d4ed8;
+    --card-link-color: #60a5fa;
+    --card-link-hover: #93c5fd;
+  }
 }
 
 html {
@@ -206,19 +328,19 @@ code {
 }
 
 pre {
-  background-color: var(--color-code-background);
+  background-color: var(--color-code-block-background);
   padding: 1.5rem;
   border-radius: 8px;
   overflow-x: auto;
   margin-bottom: 2rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-code-block-border);
 }
 
 pre code {
   background: none;
   padding: 0;
   border: none;
-  color: var(--color-text-primary);
+  color: var(--color-code-block-text);
 }
 
 /* Buttons and CTAs */
@@ -226,7 +348,7 @@ pre code {
   display: inline-block;
   padding: 0.75rem 2rem;
   background-color: var(--color-accent);
-  color: var(--color-background);
+  color: var(--color-on-accent);
   border: none;
   border-radius: 6px;
   font-weight: 600;
@@ -241,7 +363,7 @@ pre code {
   background-color: var(--color-hover);
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 188, 212, 0.2);
-  color: var(--color-background);
+  color: var(--color-on-accent);
 }
 
 .btn-secondary {
@@ -252,7 +374,13 @@ pre code {
 
 .btn-secondary:hover {
   background-color: var(--color-accent);
-  color: var(--color-background);
+  color: var(--color-on-accent);
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* Cards */
@@ -267,7 +395,7 @@ pre code {
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 40px var(--color-shadow);
 }
 
 /* Article styling */
@@ -351,7 +479,13 @@ select:focus-visible {
 
 /* Smooth transitions for theme changes */
 * {
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }
 
 /* Base card styles - can be used across all components */
@@ -427,7 +561,7 @@ select:focus-visible {
 /* Button styles for dark cards */
 .dark-card .btn {
   background-color: var(--color-accent);
-  color: var(--color-background);
+  color: var(--color-on-accent);
   border: none;
   text-decoration: none;
   border-bottom: none;
@@ -435,15 +569,15 @@ select:focus-visible {
 
 .dark-card .btn:hover {
   background-color: var(--color-hover);
-  color: var(--color-background);
+  color: var(--color-on-accent);
   border-bottom-color: transparent;
 }
 
 .dark-card-button {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, var(--color-code-background), var(--color-hover));
-  color: var(--color-background);
+  background: linear-gradient(135deg, var(--color-hover), var(--color-accent));
+  color: var(--color-on-accent);
   text-decoration: none;
   border: none;
   border-radius: 6px;
@@ -458,8 +592,8 @@ select:focus-visible {
 }
 
 .dark-card-button:hover {
-  background: linear-gradient(135deg, var(--color-hover), var(--color-code-background));
-  color: var(--color-background);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-hover));
+  color: var(--color-on-accent);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 188, 212, 0.3);
 }
@@ -501,7 +635,7 @@ select:focus-visible {
   left: 0;
   width: 100%;
   height: 4px;
-  background: rgba(52, 65, 85, 0.3);
+  background: var(--color-progress-track);
   z-index: 1000;
   backdrop-filter: blur(10px);
 }
@@ -547,13 +681,13 @@ select:focus-visible {
 
 /* Show scrollbar only when hovering directly over the scrollbar area */
 ::-webkit-scrollbar-track:hover {
-  background: #1a1a1a;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(45deg, #143253, #194e58);
-  border: 2px solid #1a1a1a;
-  box-shadow: 0 0 8px rgba(74, 158, 255, 0.3);
+  background: var(--scrollbar-thumb);
+  border: 2px solid var(--scrollbar-track);
+  box-shadow: 0 0 8px var(--scrollbar-glow);
 }
 
 ::-webkit-scrollbar-corner {
@@ -562,22 +696,22 @@ select:focus-visible {
 }
 
 ::-webkit-scrollbar-corner:hover {
-  background: #1a1a1a;
+  background: var(--scrollbar-track);
 }
 
 /* JavaScript-controlled classes for smooth transitions */
 body.show-webkit-scrollbar ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: var(--scrollbar-track);
 }
 
 body.show-webkit-scrollbar ::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #143253, #194e58);
-  border: 2px solid #1a1a1a;
-  box-shadow: 0 0 8px rgba(74, 158, 255, 0.3);
+  background: var(--scrollbar-thumb);
+  border: 2px solid var(--scrollbar-track);
+  box-shadow: 0 0 8px var(--scrollbar-glow);
 }
 
 body.show-webkit-scrollbar ::-webkit-scrollbar-corner {
-  background: #1a1a1a;
+  background: var(--scrollbar-track);
 }
 
 /* Firefox scrollbar styling - controlled by JavaScript */
@@ -590,84 +724,6 @@ html {
 html.show-scrollbar {
   scrollbar-width: auto;
   scrollbar-color: var(--color-accent) var(--color-card-background);
-}
-
-/* Technologies Section - Global Fallback Styles */
-.technologies-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.technology-card {
-  background-color: var(--color-card-background);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1rem;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.technology-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-hover));
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.technology-card:hover::before {
-  opacity: 1;
-}
-
-.technology-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 188, 212, 0.15);
-  border-color: var(--color-accent);
-}
-
-.technology-card h3 {
-  color: var(--color-accent);
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  transition: color 0.2s ease;
-}
-
-.technology-card:hover h3 {
-  color: var(--color-hover);
-}
-
-.technology-card p {
-  color: var(--color-text-secondary);
-  margin-bottom: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-/* Responsive adjustments for technologies */
-@media (max-width: 768px) {
-  .technologies-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .technologies-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .technology-card {
-    padding: 1.25rem;
-  }
 }
 
 /* Desktop overrides to ensure dropdown spacing/rounding apply consistently */

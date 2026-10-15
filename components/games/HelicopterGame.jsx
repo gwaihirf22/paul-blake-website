@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { Smartphone, Keyboard, Maximize2 } from "lucide-react";
 
 export default function HelicopterGame() {
   const canvasRef = useRef(null);
@@ -47,20 +48,20 @@ export default function HelicopterGame() {
   // Website-themed reward messages (coy and subtle)
   const WEBSITE_TIDBITS = [
     { score: 5, message: "Fun fact: This site has a theology section!", type: "discovery" },
-    { score: 10, message: "Paul went from fixing aircraft to fixing bugs 🚁➡️💻", type: "story" },
+    { score: 10, message: "Paul went from fixing aircraft to fixing bugs", type: "story" },
     { score: 15, message: "There's an AI-powered Bible story app in the projects...", type: "hint" },
     { score: 20, message: "The blog has posts about both code AND faith", type: "discovery" },
     { score: 25, message: "Docker containers keep this site running smooth", type: "tech" },
-    { score: 30, message: "Newsletter subscribers get the good stuff first 📧", type: "hint" },
+    { score: 30, message: "Newsletter subscribers get the good stuff first", type: "hint" },
     { score: 35, message: "From mechanical precision to code precision", type: "story" },
-    { score: 40, message: "Next.js + MDX = ❤️ for this developer", type: "tech" },
+    { score: 40, message: "This site is built on Next.js and MDX", type: "tech" },
     { score: 45, message: "Comments powered by GitHub Discussions!", type: "tech" },
     { score: 50, message: "This helicopter game was built with HTML5 Canvas", type: "meta" },
     { score: 60, message: "There's a whole community app called Neighborly...", type: "hint" },
     { score: 70, message: "Paul writes about intersecting faith and technology", type: "discovery" },
-    { score: 80, message: "The site's CI/CD pipeline is pretty slick 🚀", type: "tech" },
-    { score: 90, message: "Want more games? Maybe if you ask nicely... 😉", type: "meta" },
-    { score: 100, message: "Legend! You've mastered the art of digital flight! ✈️", type: "celebration" }
+    { score: 80, message: "Every push to main deploys this site automatically", type: "tech" },
+    { score: 90, message: "Want more games? Ask nicely.", type: "meta" },
+    { score: 100, message: "Legend. You have mastered digital flight.", type: "celebration" }
   ];
 
   // Game constants - Starting easy, gets harder
@@ -894,7 +895,7 @@ export default function HelicopterGame() {
 
   return (
     <div className="helicopter-game">
-      <div className="game-container">
+      <div className="game-container" data-theme="dark">
         <canvas 
           ref={canvasRef}
           className="game-canvas"
@@ -912,19 +913,19 @@ export default function HelicopterGame() {
         {/* Mobile fullscreen toast notification */}
         {showFullscreenToast && (
           <div className="fullscreen-toast">
-            🎮 Immersive Mode Active! Tap the ⊟ button to exit.
+            Immersive mode on. Tap the ⊟ button to exit.
           </div>
         )}
         
         {!gameState.isPlaying && (
           <div className="game-overlay">
             <div className="game-menu">
-              <h2>🚁 Helicopter Game</h2>
+              <h2>Helicopter</h2>
               {gameState.score > 0 && (
                 <div className="final-score">
                   <p>Final Score: <span className="score">{gameState.score}</span></p>
                   {gameState.score === gameState.highScore && gameState.highScore > 0 && (
-                    <p className="new-high-score">🎉 New High Score! 🎉</p>
+                    <p className="new-high-score">New high score!</p>
                   )}
                 </div>
               )}
@@ -937,7 +938,7 @@ export default function HelicopterGame() {
                   {gameState.score > 0 ? 'Play Again' : 'Start Game'}
                 </button>
                 <button onClick={toggleFullscreen} className="fullscreen-menu-button">
-                  📺 {isFullscreen ? 'Exit Fullscreen' : isMobile ? 'Immersive Mode' : 'Fullscreen Mode'}
+                  {isFullscreen ? 'Exit Fullscreen' : isMobile ? 'Immersive Mode' : 'Fullscreen Mode'}
                 </button>
               </div>
             </div>
@@ -947,22 +948,22 @@ export default function HelicopterGame() {
 
       <div className="mobile-instructions">
         <div className="instruction-card">
-          <h3>🎮 How to Play</h3>
+          <h3>How to Play</h3>
           <div className="controls-grid">
             <div className="control-item">
-              <span className="control-icon">📱</span>
+              <span className="control-icon"><Smartphone size={20} aria-hidden="true" /></span>
               <span>Tap & Hold Screen</span>
             </div>
             <div className="control-item">
-              <span className="control-icon">⌨️</span>
+              <span className="control-icon"><Keyboard size={20} aria-hidden="true" /></span>
               <span>Spacebar (Desktop)</span>
             </div>
             <div className="control-item">
-              <span className="control-icon">📺</span>
+              <span className="control-icon"><Maximize2 size={20} aria-hidden="true" /></span>
               <span>Fullscreen Mode</span>
             </div>
           </div>
-          <p className="game-tip">Hold to ascend, release to descend! Try fullscreen for the best mobile experience!</p>
+          <p className="game-tip">Hold to ascend, release to descend. Fullscreen works best on a phone.</p>
         </div>
       </div>
 
@@ -1066,7 +1067,7 @@ export default function HelicopterGame() {
 
         .play-button {
           background: linear-gradient(135deg, var(--color-accent), var(--color-hover));
-          color: var(--color-background);
+          color: var(--color-on-accent);
           border: none;
           padding: 1rem 2rem;
           border-radius: 8px;
@@ -1097,7 +1098,7 @@ export default function HelicopterGame() {
           top: 10px;
           right: 10px;
           background: rgba(0, 188, 212, 0.8);
-          color: var(--color-background);
+          color: var(--color-on-accent);
           border: none;
           border-radius: 6px;
           width: 40px;
@@ -1186,7 +1187,7 @@ export default function HelicopterGame() {
           left: 50%;
           transform: translateX(-50%);
           background: rgba(0, 188, 212, 0.95);
-          color: var(--color-background);
+          color: var(--color-on-accent);
           padding: 12px 24px;
           border-radius: 25px;
           font-size: 14px;

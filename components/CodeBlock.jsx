@@ -18,7 +18,7 @@ export function CodeBlock({ children, language, title }) {
     <div style={{
       margin: '1.5rem 0',
       borderRadius: '8px',
-      border: '1px solid var(--color-border)',
+      border: '1px solid var(--color-code-block-border)',
       backgroundColor: '#0d1117',
       color: 'white',
       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
