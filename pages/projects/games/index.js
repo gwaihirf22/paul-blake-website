@@ -13,7 +13,7 @@ export default function Games() {
       </Head>
       <div>
         <h1>Games</h1>
-        <p className="intro">Small browser games built with HTML5 Canvas and React. They work on desktop and on a phone.</p>
+        <p className="intro">Two small browser games I had AI write from my prompts, as a test of what it could do. They work on desktop and on a phone.</p>
 
         <div className="project-grid">
           {gameProjects.map((project) => (

@@ -2,12 +2,12 @@ import Head from "next/head";
 import Link from "next/link";
 import ProjectCard from "../components/ProjectCard";
 import SocialLinks from "../components/SocialLinks";
-import { projects } from "../data/projects";
+import { projects, experimentProjects } from "../data/projects";
 import { site } from "../data/site";
 
 export default function Projects() {
-  const withScreenshots = projects.filter((p) => p.image);
-  const more = projects.filter((p) => !p.image && !p.status);
+  const withScreenshots = projects.filter((p) => p.image && !p.experiment);
+  const more = projects.filter((p) => !p.image && !p.status && !p.experiment);
   const inProgress = projects.filter((p) => p.status);
 
   return (
@@ -32,9 +32,6 @@ export default function Projects() {
               <ProjectCard key={project.slug} project={project} />
             ))}
           </div>
-          <p className="games-link">
-            <Link href="/projects/games">All games →</Link>
-          </p>
         </section>
 
         <section>
@@ -44,6 +41,22 @@ export default function Projects() {
               <ProjectCard key={project.slug} project={project} compact />
             ))}
           </div>
+        </section>
+
+        <section>
+          <h2>Fun with AI Programming</h2>
+          <p className="section-note">
+            Small projects I had AI write from my prompts, to see what it could do. They are tests, not my own
+            work, and are listed here for honesty. I plan to add more as the tools change.
+          </p>
+          <div className="project-grid">
+            {experimentProjects.map((project) => (
+              <ProjectCard key={project.slug} project={project} />
+            ))}
+          </div>
+          <p className="games-link">
+            <Link href="/projects/games">All games →</Link>
+          </p>
         </section>
 
         <section>
@@ -100,6 +113,12 @@ export default function Projects() {
           grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 1rem;
           margin-top: 1.5rem;
+        }
+
+        .section-note {
+          color: var(--color-text-secondary);
+          max-width: 720px;
+          margin: 0.5rem 0 0;
         }
 
         .games-link {

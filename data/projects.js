@@ -1,6 +1,8 @@
 // Single source of truth for project cards on /, /projects and /projects/games.
 // Buttons render only for the link keys present. `image` is a 1200x750 webp in
 // public/screenshots/; entries without one render as compact rows.
+// `experiment: true` marks AI-written test projects ("Fun with AI Programming"),
+// listed separately and never featured.
 
 const GH = "https://github.com/gwaihirf22";
 
@@ -51,24 +53,26 @@ export const projects = [
   {
     slug: "snake",
     title: "Snake",
-    blurb: "Classic snake with power-ups, swipe controls and progressive speed.",
+    blurb: "Snake with power-ups and swipe controls, written almost entirely by AI from my prompts.",
     image: "/screenshots/snake.webp",
     imageAlt: "Snake game in play",
     tech: ["javascript", "react"],
     links: { play: "/projects/games/snake" },
-    featured: true,
+    featured: false,
     game: true,
+    experiment: true,
   },
   {
     slug: "helicopter",
     title: "Helicopter",
-    blurb: "One-button arcade flyer with physics, particles and a saved high score.",
+    blurb: "One-button arcade flyer, built the same way to see how far prompts could carry a small game.",
     image: "/screenshots/helicopter.webp",
     imageAlt: "Helicopter game in play",
     tech: ["javascript", "react"],
     links: { play: "/projects/games/helicopter" },
-    featured: true,
+    featured: false,
     game: true,
+    experiment: true,
   },
   {
     slug: "this-website",
@@ -118,3 +122,4 @@ export const projects = [
 
 export const featuredProjects = projects.filter((p) => p.featured);
 export const gameProjects = projects.filter((p) => p.game);
+export const experimentProjects = projects.filter((p) => p.experiment);
