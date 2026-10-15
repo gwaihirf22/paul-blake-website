@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import ScrollbarVisibility from "../components/ScrollbarVisibility";
 
 export default function App({ Component, pageProps }) {
@@ -71,6 +72,7 @@ export default function App({ Component, pageProps }) {
           <Component {...pageProps} />
         </div>
       </div>
+      <Footer />
 
       <style jsx>{`
         .main-content {

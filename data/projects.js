@@ -42,12 +42,11 @@ export const projects = [
   {
     slug: "atomic-momentum",
     title: "Atomic Momentum",
-    blurb: "Offline-first habit tracker built around streaks and small daily wins.",
-    image: "/screenshots/atomic-momentum.webp",
-    imageAlt: "Atomic Momentum habit tracker dashboard",
+    blurb: "Offline-first habit tracker built around streaks and small daily wins. Very early; changing daily.",
     tech: ["html5", "javascript", "flutter"],
     links: { source: `${GH}/atomic-momentum` },
-    featured: true,
+    featured: false,
+    status: "Early development",
   },
   {
     slug: "snake",
