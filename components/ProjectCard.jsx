@@ -89,7 +89,7 @@ export default function ProjectCard({ project, compact = false }) {
         .project-card:hover {
           border-color: var(--color-accent);
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 8px 24px var(--color-shadow);
         }
 
         .project-card.compact:hover {
@@ -178,7 +178,7 @@ export default function ProjectCard({ project, compact = false }) {
           height: 14px;
         }
 
-        .tech-chip img.mono {
+        :global([data-theme="dark"]) .tech-chip img.mono {
           filter: invert(1);
         }
 
@@ -206,12 +206,12 @@ export default function ProjectCard({ project, compact = false }) {
 
         .project-card :global(.pbtn-solid) {
           background-color: var(--color-accent);
-          color: var(--color-background);
+          color: var(--color-on-accent);
         }
 
         .project-card :global(.pbtn-solid:hover) {
           background-color: var(--color-hover);
-          color: var(--color-background);
+          color: var(--color-on-accent);
         }
 
         .project-card :global(.pbtn-outline) {

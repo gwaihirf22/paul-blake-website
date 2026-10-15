@@ -127,8 +127,8 @@ export default function SubscriptionForm({ categories = ['all'], compact = false
 
           .form-row button {
             padding: 0.75rem 1.5rem;
-            background: var(--card-link-color);
-            color: white;
+            background: var(--card-button-bg);
+            color: #ffffff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -138,7 +138,7 @@ export default function SubscriptionForm({ categories = ['all'], compact = false
           }
 
           .form-row button:hover:not(:disabled) {
-            background: var(--card-link-hover);
+            background: var(--card-button-hover);
           }
 
           .form-row button:disabled {
@@ -154,15 +154,15 @@ export default function SubscriptionForm({ categories = ['all'], compact = false
           }
 
           .status-message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background: var(--color-success-bg);
+            color: var(--color-success-text);
+            border: 1px solid var(--color-success-border);
           }
 
           .status-message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f1aeb5;
+            background: var(--color-error-bg);
+            color: var(--color-error-text);
+            border: 1px solid var(--color-error-border);
           }
         `}</style>
       </div>
@@ -300,8 +300,8 @@ export default function SubscriptionForm({ categories = ['all'], compact = false
 
         .email-section button {
           padding: 0.875rem 2rem;
-          background: var(--card-link-color);
-          color: white;
+          background: var(--card-button-bg);
+          color: #ffffff;
           border: none;
           border-radius: 6px;
           cursor: pointer;
@@ -311,7 +311,7 @@ export default function SubscriptionForm({ categories = ['all'], compact = false
         }
 
         .email-section button:hover:not(:disabled) {
-          background: var(--card-link-hover);
+          background: var(--card-button-hover);
         }
 
         .email-section button:disabled {
@@ -327,15 +327,15 @@ export default function SubscriptionForm({ categories = ['all'], compact = false
         }
 
         .status-message.success {
-          background: #d4edda;
-          color: #155724;
-          border: 1px solid #c3e6cb;
+          background: var(--color-success-bg);
+          color: var(--color-success-text);
+          border: 1px solid var(--color-success-border);
         }
 
         .status-message.error {
-          background: #f8d7da;
-          color: #721c24;
-          border: 1px solid #f1aeb5;
+          background: var(--color-error-bg);
+          color: var(--color-error-text);
+          border: 1px solid var(--color-error-border);
         }
 
         .rss-links {
@@ -367,8 +367,8 @@ export default function SubscriptionForm({ categories = ['all'], compact = false
         }
 
         .rss-options a:hover {
-          background: var(--card-link-color);
-          color: white;
+          background: var(--card-button-bg);
+          color: #ffffff;
           text-decoration: none;
         }
 
