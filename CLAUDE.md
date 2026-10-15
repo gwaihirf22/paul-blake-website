@@ -71,7 +71,7 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - Giscus integration with GitHub Discussions backend
 - Comments component automatically loaded on all blog post pages
 - Repository: `gwaihirf22/paul-blake-website` with "General" category
-- Theme follows system preference (dark/light mode)
+- Theme follows the site's light/dark switch
 
 **Blog Post Processing:**
 - Automatic reading time calculation (200 words/minute)
@@ -129,7 +129,7 @@ The app runs on port 3010 in production. The Dockerfile uses Next.js standalone 
 - Category: "General" 
 - Category ID: `DIC_kwDOO36vbM4CtvQt`
 - Mapping: `pathname` (each blog post gets its own discussion)
-- Theme: `preferred_color_scheme` (adapts to user's system)
+- Theme: follows the site theme via `useTheme()` (was `preferred_color_scheme`)
 
 **Dependencies:**
 - `@giscus/react` - React component for Giscus integration
@@ -280,53 +280,64 @@ import { Image } from '../../../components/Image.jsx';
 
 ## Color Scheme
 
-### Primary Colors
-- **Background**: `#0f172a` (Dark blue-gray)
-- **Text Primary**: `#e2e8f0` (Light gray/white)
-- **Text Secondary**: `#a0aec0` (Medium gray)
-- **Accent**: `#00bcd4` (Light blue/cyan)
-- **Hover**: `#0891b2` (Darker blue)
+The site has a light and a dark theme. A blocking script in `pages/_document.js` sets
+`<html data-theme="light|dark">` before first paint (stored choice in `localStorage.theme`,
+otherwise the OS preference). `components/ThemeProvider.jsx` exposes `useTheme()` and
+`components/ThemeToggle.jsx` is the Sun/Moon button in the navbar. Giscus follows the active
+theme. Code blocks and the two games keep fixed dark colours in both themes.
 
-### UI Elements
-- **Border**: `#334155` (Medium gray)
-- **Card Background**: `#1e293b` (Dark gray)
-- **Code Background**: `#1e293b` (Dark gray)
-- **Link**: `#00bcd4` (Same as accent)
+### Tokens (`styles/globals.css`)
+Light values live in `:root`, dark values under `[data-theme="dark"]`, and a no-JS fallback
+repeats the dark block under `@media (prefers-color-scheme: dark)`. Keep the two dark blocks in sync.
 
-### CSS Variables
-```css
-:root {
-  --color-background: #0f172a;
-  --color-text-primary: #e2e8f0;
-  --color-text-secondary: #a0aec0;
-  --color-accent: #00bcd4;
-  --color-link: #00bcd4;
-  --color-code-background: #1e293b;
-  --color-border: #334155;
-  --color-card-background: #1e293b;
-  --color-hover: #0891b2;
-}
-```
+| token | light | dark |
+|---|---|---|
+| `--color-background` | `#f8fafc` | `#0f172a` |
+| `--color-text-primary` | `#0f172a` | `#e2e8f0` |
+| `--color-text-secondary` | `#475569` | `#a0aec0` |
+| `--color-accent` / `--color-link` | `#0e7490` | `#00bcd4` |
+| `--color-hover` | `#155e75` | `#0891b2` |
+| `--color-on-accent` (text on accent fills) | `#ffffff` | `#0f172a` |
+| `--color-border` | `#e2e8f0` | `#334155` |
+| `--color-card-background` | `#ffffff` | `#1e293b` |
+| `--color-code-background` (inline code chip) | `#f1f5f9` | `#1e293b` |
+| `--color-code-block-*` (fixed) | `#2d3748` / `#e2e8f0` / `#334155` | same |
+| `--color-shadow` | `rgba(15,23,42,.12)` | `rgba(0,0,0,.35)` |
+| `--color-badge-tech` / `--color-badge-theology` | `#1d4ed8` / `#6d28d9` | `#60a5fa` / `#a78bfa` |
+| `--color-warning-text` | `#9a3412` | `#ea580c` |
+| `--card-*` family (used by `.dark-card`) | white cards, slate text and borders | the original dark values |
+
+The light accent is darker than the dark-theme cyan on purpose: `#00bcd4` is 2.3:1 against
+white, `#0e7490` is 5.1:1. Every text pair in both themes meets WCAG AA.
+
+### Rules
+- Never hard-code a page, card, text, border or shadow colour. Use a token. Brand tints such as
+  `rgba(0, 188, 212, 0.1)` and the games' neon colours are fine as literals.
+- Text on an accent fill is `var(--color-on-accent)`, never `var(--color-background)`.
+- Inside `<style jsx>`, theme-specific rules need `:global()`:
+  `:global([data-theme="dark"]) .tech-chip img.mono { filter: invert(1); }`. A bare
+  `[data-theme="dark"] .x` gets scoped by styled-jsx and never matches.
+- To pin a subtree dark (the games do this), put `data-theme="dark"` on its root element; the dark
+  token block cascades into it.
+- Theme state lives only on `<html data-theme>`. Use the `data-theme` attribute, never
+  `className=`, because `ScrollbarVisibility` toggles classes on `<html>` too.
 
 ### Usage Guidelines
 
 #### Navigation
-- **Top-level links** (Home, Blog, Projects, About): Use `var(--color-accent)` (light blue)
-- **Dropdown items** (Blog submenu): Use `var(--color-text-primary)` (white)
-- **Hover states**: Use `rgba(0, 188, 212, 0.05)` for subtle feedback
-- **Active states**: Use `rgba(0, 188, 212, 0.1)` for touch feedback
+- **Top-level links** (Home, Blog, Projects, About): `var(--color-accent)`
+- **Dropdown items**: `var(--color-text-primary)`
+- **Hover states**: `rgba(0, 188, 212, 0.05)`; **active**: `rgba(0, 188, 212, 0.1)`
 
 #### Content
-- **Headings**: Use `var(--color-text-primary)` (white)
-- **Body text**: Use `var(--color-text-primary)` (white)
-- **Secondary text**: Use `var(--color-text-secondary)` (gray)
-- **Links**: Use `var(--color-accent)` (light blue)
-- **Code blocks**: Use `var(--color-code-background)` background
+- **Headings and body text**: `var(--color-text-primary)`; **secondary text**: `var(--color-text-secondary)`
+- **Links**: `var(--color-accent)`
+- **Code blocks**: the fixed `--color-code-block-*` tokens (dark in both themes)
 
 #### Interactive Elements
-- **Buttons**: Use `var(--color-accent)` background with `var(--color-background)` text
-- **Hover effects**: Use `var(--color-hover)` for darker blue
-- **Focus states**: Use `var(--color-accent)` outline
+- **Buttons**: `var(--color-accent)` background with `var(--color-on-accent)` text
+- **Hover effects**: `var(--color-hover)`
+- **Focus states**: `var(--color-accent)` outline
 
 ## Mobile Navigation Guidelines
 

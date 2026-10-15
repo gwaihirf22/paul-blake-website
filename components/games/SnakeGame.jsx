@@ -820,7 +820,7 @@ export default function SnakeGame() {
 
   return (
     <div className="snake-game">
-      <div className="game-container">
+      <div className="game-container" data-theme="dark">
         <canvas
           ref={canvasRef}
           className="game-canvas"
@@ -1000,7 +1000,7 @@ export default function SnakeGame() {
 
         .play-button {
           background: linear-gradient(135deg, var(--color-accent), var(--color-hover));
-          color: var(--color-background);
+          color: var(--color-on-accent);
           border: none;
           padding: 1rem 2rem;
           border-radius: 8px;
@@ -1024,7 +1024,7 @@ export default function SnakeGame() {
           top: 10px;
           right: 10px;
           background: rgba(0, 188, 212, 0.8);
-          color: var(--color-background);
+          color: var(--color-on-accent);
           border: none;
           border-radius: 6px;
           width: 40px;
@@ -1117,7 +1117,7 @@ export default function SnakeGame() {
           left: 50%;
           transform: translateX(-50%);
           background: rgba(0, 188, 212, 0.95);
-          color: var(--color-background);
+          color: var(--color-on-accent);
           padding: 12px 24px;
           border-radius: 25px;
           font-size: 14px;

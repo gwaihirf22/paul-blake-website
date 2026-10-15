@@ -142,13 +142,13 @@ export default function About() {
           height: 200px;
           object-fit: cover;
           border-radius: 10px;
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 8px 25px var(--color-shadow);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .profile-image img:hover {
           transform: scale(1.02);
-          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 12px 35px var(--color-shadow);
         }
 
         .intro-text {

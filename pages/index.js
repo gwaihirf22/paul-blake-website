@@ -167,7 +167,7 @@ export default function Home({ hasResume }) {
           height: 220px;
           object-fit: cover;
           border-radius: 12px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 10px 30px var(--color-shadow);
         }
 
         .about-text {

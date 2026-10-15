@@ -90,7 +90,7 @@ export default function TechStack() {
           height: 2rem;
         }
 
-        .tech-tile-icon img.mono {
+        :global([data-theme="dark"]) .tech-tile-icon img.mono {
           filter: invert(1);
         }
 

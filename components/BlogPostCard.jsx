@@ -5,12 +5,12 @@ export default function BlogPostCard({ slug, title, date, category, thumbnail = 
   const categoryColors = {
     technology: {
       bg: 'rgba(59, 130, 246, 0.15)',
-      color: '#60a5fa',
+      color: 'var(--color-badge-tech)',
       border: 'rgba(59, 130, 246, 0.3)',
     },
     theology: {
       bg: 'rgba(147, 51, 234, 0.15)',
-      color: '#a78bfa',
+      color: 'var(--color-badge-theology)',
       border: 'rgba(147, 51, 234, 0.3)',
     },
   };

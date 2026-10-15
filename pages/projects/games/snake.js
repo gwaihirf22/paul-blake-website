@@ -167,9 +167,13 @@ export default function Snake() {
         }
 
         .powerup-icon {
-          font-size: 2.5rem;
-          display: block;
-          margin-bottom: 0.5rem;
+          width: 64px;
+          height: 64px;
+          margin: 0 auto 0.5rem;
+          display: grid;
+          place-items: center;
+          background: #0f172a;
+          border-radius: 12px;
           filter: drop-shadow(0 0 8px currentColor);
         }
 
