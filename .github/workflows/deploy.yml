@@ -32,6 +32,11 @@ jobs:
   # Only the audit is duplicated here, not the build. A dependency bump that
   # breaks the build already fails the deploy, because the Dockerfile runs
   # `next build` -- the audit was the actual gap.
+  #
+  # Level is `critical`, not `moderate`: as of 2026-10-15 two advisories with
+  # no non-breaking fix (braces via next-sitemap, sprintf-js via gray-matter)
+  # made the moderate gate unsatisfiable on any lockfile. Blake chose to keep a
+  # gate for the worst class only rather than make the audit report-only.
   verify:
     name: Verify dependencies
     runs-on: ubuntu-latest
@@ -52,7 +57,7 @@ jobs:
       # a deploy. Passes as of the toml override on this branch; before that,
       # this gate would have been red.
       - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=moderate
+        run: npm audit --omit=dev --audit-level=critical
 
   deploy:
     needs: verify
