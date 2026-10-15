@@ -1,30 +1,63 @@
-import { TECH, TECH_STACK } from "../data/techStack";
+import { TECH, TECH_STACK_GROUPS } from "../data/techStack";
 
 export default function TechStack() {
   return (
-    <div className="tech-grid">
-      {TECH_STACK.map(({ key, subtitle }) => {
-        const tool = TECH[key];
-        return (
-          <div className="tech-tile" key={key}>
-            <div className="tech-tile-icon">
-              <img src={tool.icon} alt="" className={tool.mono ? "mono" : ""} loading="lazy" />
-            </div>
-            <div className="tech-tile-text">
-              <span className="tech-tile-name">{tool.name}</span>
-              <span className="tech-tile-sub">{subtitle}</span>
-            </div>
+    <div className="tech-stack-groups">
+      {TECH_STACK_GROUPS.map((group, gi) => (
+        <section className="tech-group" key={gi}>
+          {group.title && <h3 className="tech-group-title">{group.title}</h3>}
+          {group.note && <p className="tech-group-note">{group.note}</p>}
+          <div className="tech-grid">
+            {group.items.map(({ key, subtitle }) => {
+              const tool = TECH[key];
+              return (
+                <div className="tech-tile" key={key}>
+                  <div className="tech-tile-icon">
+                    <img src={tool.icon} alt="" className={tool.mono ? "mono" : ""} loading="lazy" />
+                  </div>
+                  <div className="tech-tile-text">
+                    <span className="tech-tile-name">{tool.name}</span>
+                    <span className="tech-tile-sub">{subtitle}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
+        </section>
+      ))}
 
       <style jsx>{`
+        .tech-stack-groups {
+          max-width: 960px;
+          margin: 0 auto;
+        }
+
+        .tech-group {
+          margin: 0;
+          padding: 0;
+        }
+
+        .tech-group + .tech-group {
+          margin-top: 2rem;
+        }
+
+        .tech-group-title {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: var(--color-text-primary);
+          margin: 0 0 0.25rem;
+        }
+
+        .tech-group-note {
+          font-size: 0.9rem;
+          color: var(--color-text-secondary);
+          margin: 0 0 1rem;
+        }
+
         .tech-grid {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 1rem;
-          max-width: 960px;
-          margin: 0 auto;
         }
 
         .tech-tile {
