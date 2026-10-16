@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - `--card-bg`, `--card-border` and `--bg-color` were used but never defined, so the subscription form and blog index boxes had no background.
 - White-on-blue subscribe buttons and the warning callout text now meet WCAG AA contrast.
+- RSS: the technology feed (`/api/rss/blog.xml`) was empty and the combined feed only carried theology, because both read the top level of `content/blog` where no posts live. The three routes now share `lib/rss.js`, which reads `content/blog/<category>`. Item descriptions come from front matter (`description`/`excerpt`) or a plain-text excerpt instead of raw MDX, and the feed's author email and fallback URL are the site's real ones.
 
 ### Planned
 - Content pagination for large blog posts
