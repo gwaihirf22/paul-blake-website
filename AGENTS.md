@@ -1,6 +1,8 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+This file provides guidance to AI coding agents other than Claude Code (Codex, Cursor, etc.) when working with code in this repository.
+
+`AGENTS.md` is the same document for other agents. Edit this file, then copy it over `AGENTS.md` keeping only that file's first three lines; the two must not drift.
 
 ## Development Commands
 
@@ -18,12 +20,12 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Architecture Overview
 
-This is a Next.js 14 personal website using the Pages Router with MDX blog functionality. The site features a main blog and a dedicated theology section.
+This is a Next.js 16 (React 19) personal website using the Pages Router with MDX blog functionality. The site features a main blog and a dedicated theology section.
 
 ### Key Architecture Patterns
 
 **Content Management:**
-- Blog posts are MDX files in `content/blog/` (regular posts) and `content/blog/theology/` (theology posts)
+- Blog posts are MDX files in `content/blog/technology/` and `content/blog/theology/`. The top level of `content/blog/` holds no posts and nothing reads it: every page, the three RSS routes (`lib/rss.js`) and the notification workflow read the category folders.
 - Static generation at build time using `getStaticProps()` and `getStaticPaths()`
 - MDX bundling with `mdx-bundler` for rich content with React components
 - Gray-matter for frontmatter parsing
@@ -33,6 +35,7 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - `/blog` - Main blog index listing regular posts
 - `/blog/technology` - Technology section index
 - `/blog/technology/[slug]` - Individual technology posts
+- `/blog/<slug>` - the pre-2025-08-28 URLs of the four oldest posts; permanent redirects in `next.config.js` to `/blog/technology/<slug>`. Explicit slugs on purpose: a wildcard would also catch the two section indexes.
 - `/blog/theology` - Theology section index
 - `/blog/theology/[slug]` - Individual theology posts
 - `/projects` - Project showcase page
@@ -82,7 +85,7 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 - Pinned "Welcome" post at top of blog index (`/blog`) with distinctive styling
   - Always visible regardless of post dates
   - Gradient background with accent color border
-  - "📌 Pinned" badge for clear identification
+  - "Pinned" badge for clear identification
   - Introduces visitors to blog content and categories
 
 **Games System:**
@@ -145,9 +148,11 @@ If you need to change categories or repository settings, update the configuratio
 ## Blog Subscription System
 
 **RSS Feeds:**
-- `/api/rss/blog.xml` - Main blog posts (excluding theology)
-- `/api/rss/theology.xml` - Theology posts only
-- `/api/rss/all.xml` - All posts combined
+- `/api/rss/blog.xml` - technology posts (historical route name; linked from the blog pages, the subscription form and `<link rel="alternate">` tags, so do not rename it)
+- `/api/rss/theology.xml` - theology posts
+- `/api/rss/all.xml` - both categories, newest first, 30 items
+- All three routes are thin wrappers over `lib/rss.js`: `loadPosts(category)` reads `content/blog/<category>/` (literal prefix on purpose, see the comment: Turbopack otherwise traces the whole project into the standalone output), `buildFeed()` builds the `feed` document, `rssHandler()` is the GET-only handler with a one-day edge cache. Item description = `description` or `excerpt` front matter, else a plain-text excerpt. Author email and site URL come from `data/site.js` and `NEXT_PUBLIC_SITE_URL`.
+- History: until 2026-10-16 the technology and combined feeds read the top level of `content/blog/` and were empty or theology-only. A new category means one entry in `CATEGORIES` in `lib/rss.js` and one new route file.
 
 **MailerLite Integration:** ✅ **FULLY MIGRATED FROM MAILGUN**
 - Repository: Uses `@mailerlite/mailerlite-nodejs` for email subscription management
@@ -179,7 +184,7 @@ NOTIFICATION_SECRET=ml_blog_notification_secret_2025_v1
 **Subscription API Endpoints:**
 - `POST /api/subscribe` - Handle new subscriptions ✅ **WORKING**
 - `POST /api/unsubscribe` - Handle unsubscription requests ✅ **WORKING** 
-- `POST /api/send-notification` - Create draft campaigns for new posts ✅ **WORKING**
+- `POST /api/send-notification` - Create draft campaigns for new posts ✅ **WORKING**. Category names are the MailerLite group names: `blog` means the technology posts. `categoryDir()` in the route maps `blog` to `content/blog/technology` and builds every URL in the email as `/blog/technology/<slug>`; keep that map the single place the mapping lives.
 
 **Migration Status:**
 - ✅ Mailgun completely removed
@@ -195,6 +200,8 @@ NOTIFICATION_SECRET=ml_blog_notification_secret_2025_v1
 - Draft campaigns include subject line and target the correct subscriber groups
 - Manual step required: Complete campaign content and send from MailerLite dashboard
 - This approach works with MailerLite's free plan limitations
+- Detection: `.github/workflows/blog-notifications.yml` classifies a changed file as `theology` when it is under `content/blog/theology/` and as `blog` when it is under `content/blog/technology/`; anything else is skipped. Keep the patterns explicit: bash `*` spans `/`, and a plain `content/blog/*.mdx` pattern once matched the technology folder while the API looked in the wrong place, so every technology post notification 404ed from 2025-08-28 to 2026-10-16 (last failure: `how-to-use-lion-tails`, run 34599014851).
+- Re-sending by hand: run the workflow with `workflow_dispatch`, giving the slug and the category (`blog` for technology).
 
 ## Analytics Configuration
 
@@ -370,7 +377,9 @@ white, `#0e7490` is 5.1:1. Every text pair in both themes meets WCAG AA.
 - **Components**: `/components/`
 - **Pages**: `/pages/`
 - **Styles**: `/styles/globals.css`
-- **Content**: `/content/blog/`
+- **Content**: `/content/blog/technology/` and `/content/blog/theology/`
+- **Data**: `/data/` (projects, tech stack, site links)
+- **Lib**: `/lib/` (RSS loader, email validation)
 
 ### Best Practices
 - Always use CSS variables for colors
@@ -475,11 +484,30 @@ white, `#0e7490` is 5.1:1. Every text pair in both themes meets WCAG AA.
 
 ### Blog Pinned Post Feature (2025-12-13)
 - **Added**: Permanent "Welcome to My Blog" pinned post at top of `/blog` index
-- **Design**: Elegant gradient background with cyan accent border, "📌 Pinned" badge, and distinctive styling
+- **Design**: Elegant gradient background with cyan accent border, "Pinned" badge, and distinctive styling
 - **Purpose**: Provides immediate context to visitors about blog content and categories
 - **Implementation**: Static content in `pages/blog/index.js` with custom CSS styling
 - **Styling**: Uses existing color scheme variables for consistency
 - **Files modified**: `pages/blog/index.js` (added pinned-post section and CSS)
+
+### Portfolio refresh (2026-10-15)
+- **Project cards, tech stack and contact links are data-driven.** `data/projects.js` feeds `/`, `/projects` and `/projects/games` through `components/ProjectCard.jsx`; `data/techStack.js` feeds `components/TechStack.jsx`; `data/site.js` holds the email, GitHub, LinkedIn (empty hides the button) and resume filename. Edit the data, not the pages.
+- Screenshots live in `public/screenshots/<slug>.webp` at 1200x750. Tech logos are devicon SVGs in `public/tech/` (MIT, licence file alongside); black logos carry `mono: true` and are inverted in CSS.
+- The resume button downloads `public/Paul_Blake_Resume.pdf`; the homepage only renders it when the file exists at build time.
+- `components/SocialLinks.jsx` and `components/Footer.jsx` (mounted in `_app.js`) carry the email/LinkedIn/GitHub icons. GitHub and LinkedIn marks are inline SVG because lucide deprecated its brand icons.
+- The homepage Skills and Technologies prose sections were replaced by the Tech Stack grid. Emojis were removed from all UI chrome; blog post bodies and the party pages were left alone.
+- **Rule**: new cards use their own classes (`.project-card`, `.pbtn`). Never place `.btn`/`.pbtn` inside `.dark-card`, whose `a` rule overrides button styling.
+
+### CI gate and Dependabot (2026-10-15)
+- **Audit gate is `critical`** in both `deploy.yml` (Verify dependencies job) and `security-scan.yml`. Two production advisories have no non-breaking fix: `braces` (via `next-sitemap` 4.2.3; npm's only "fix" is a downgrade to 4.0.9) and `sprintf-js` (via `argparse` → `js-yaml` → `gray-matter`). A `moderate` gate therefore failed every commit. Blake chose to wait for upstream patches rather than replace `next-sitemap`. When `npm audit --omit=dev` comes back clean at `moderate`, lower both gates again.
+- **Dependabot PRs**: they merge cleanly against `main` one at a time but conflict with each other on `package-lock.json`. Merge one, let Dependabot rebase the rest (comment `@dependabot rebase` if it does not), repeat. Before merging, test-merge the PR onto `main` in a scratch worktree and run `npm ci --ignore-scripts`: a textually clean lockfile merge can still be inconsistent, and `npm ci` is what the verify job runs. If Dependabot ignores a rebase request (it did for #16 for 17+ minutes), merge `main` into the PR branch, take `main`'s `package.json`/lockfile, re-apply the bump with `npm install`, and push to the PR branch; Dependabot then stops managing that PR, which is fine for a single bump.
+- Deploys queue per push with no `concurrency` block; GitHub cancels superseded runs on its own, and the last push always deployed green during the 2026-10-15 batch. Dependency state after the batch: Next 16.4.1, React 19.3.0, feed 6.0.0, ESLint 10.9.1 (lint still reports the same 50 pre-existing problems; lint is not a deploy gate).
+
+### Maintenance (2026-10-16): feeds, notifications, dead route
+- **RSS** fixed, see "Blog Subscription System" above: technology feed was empty and the combined feed theology-only since the posts moved into category folders (commit 36610b5, 2025-08-28).
+- **Notifications** for technology posts fixed, see "Notification Workflow" above.
+- **`pages/blog/[slug].js` removed.** It read the empty top level of `content/blog/`, generated zero pages, and `/blog/<slug>` had returned 404 since the move. Permanent redirects for the four slugs that lived there are in `next.config.js`.
+- Verification pattern used for all of it: `npm run build`, start on a spare port (`PORT=3012 HOSTNAME=0.0.0.0 npm start`), then curl the routes. For the notification API, a request with `Authorization: Bearer undefined` passes the auth check when `NOTIFICATION_SECRET` is unset locally, so "Post not found" versus a MailerLite error tells you whether the file lookup works without a real key.
 
 ### Cloudflare Web Analytics Integration (2025-12-13)
 - **Added**: Privacy-first analytics with Cloudflare Web Analytics

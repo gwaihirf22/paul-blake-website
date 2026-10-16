@@ -1,13 +1,15 @@
 # Upgrade Roadmap
 
+> **Status note (2026-10-16):** this document is a snapshot from its original date. Every migration it plans is done. The site now runs Next.js 16.4.1, React 19.3.0, Node 22 and ESLint 10.9.1; the Next 16 / React 19 migration landed on 2026-09-02 (commit 1ff15d1) and the 2026-10-15 Dependabot batch brought the rest current. For the live audit picture and the deploy gate see `SECURITY_ROADMAP.md`, "Known advisories without a fix". Treat the task lists below as history, not a backlog.
+
 ## Overview
 This document outlines the planned upgrades, migrations, and technical improvements for the Paul Blake Website project.
 
 ## Current Technology Stack
-- **Next.js**: 14.2.32
-- **React**: 18.3.1
-- **Node.js**: 18 (Docker)
-- **ESLint**: 8.57.0
+- **Next.js**: 16.4.1 (was 14.2.32 when this plan was written)
+- **React**: 19.3.0 (was 18.3.1)
+- **Node.js**: 22 (Docker and CI; was 18)
+- **ESLint**: 10.9.1 (was 8.57.0)
 
 ## 🎯 Upgrade Priorities
 

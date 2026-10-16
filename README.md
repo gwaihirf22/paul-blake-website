@@ -43,11 +43,18 @@ This is a personal website and blog built with [Next.js](https://nextjs.org) usi
 │   │   │   ├── index.js         # Games showcase page
 │   │   │   └── helicopter.js    # Helicopter Game page
 │   │   └── index.js             # Main projects page
+│   └── api/
+│       ├── rss/                 # blog.xml (technology), theology.xml, all.xml
+│       └── send-notification.js # MailerLite draft campaign for a new post
 ├── components/
 │   ├── games/                   # Game-specific components
 │   │   └── HelicopterGame.jsx   # Helicopter game engine and UI
 │   ├── Navbar.js                # Main navigation with games dropdown
 │   └── ...                      # other reusable components
+├── data/                        # Build-time data: projects, tech stack, site links/resume
+├── lib/
+│   ├── rss.js                   # Shared loader + builder behind the three RSS routes
+│   └── validateEmail.js
 ├── styles/
 │   └── globals.css
 ├── .github/workflows/           # CI/CD and security automation
@@ -113,8 +120,10 @@ docker compose up
 
 ### Writing Blog Posts
 
-- **Regular Posts**: Add `.mdx` files to `content/blog/`
-- **Theology Posts**: Add `.mdx` files to `content/blog/theology/`
+- **Technology Posts**: Add `.mdx` files to `content/blog/technology/` (served at `/blog/technology/<slug>`)
+- **Theology Posts**: Add `.mdx` files to `content/blog/theology/` (served at `/blog/theology/<slug>`)
+
+The top level of `content/blog/` holds no posts. A file placed there is ignored by every page, every feed and the notification workflow.
 
 Each post requires frontmatter:
 
@@ -125,6 +134,14 @@ date: "2025-01-27"
 author: "Paul Blake"
 ---
 ```
+
+### RSS Feeds
+
+- `/api/rss/blog.xml` - technology posts. The route keeps its historical name because the blog pages, the subscription form and existing subscribers link to it.
+- `/api/rss/theology.xml` - theology posts
+- `/api/rss/all.xml` - both categories, newest first
+
+All three are built by `lib/rss.js`, which reads `content/blog/<category>/`. An item's description is the post's `description` or `excerpt` front matter field, falling back to a plain-text excerpt of the body.
 
 ### Theology Section
 
@@ -138,7 +155,7 @@ The theology section (`/blog/theology`) is dedicated to:
 - **[Changelog](CHANGELOG.md)** - Version history, security fixes, and feature updates
 
 ### Technical Planning
-- **[Upgrade Roadmap](UPGRADE_ROADMAP.md)** - Next.js 15, React 19, and other major version migrations
+- **[Upgrade Roadmap](UPGRADE_ROADMAP.md)** - Historical migration plan; the Next 16 / React 19 migration landed 2026-09-02
 - **[Performance Optimization](PERFORMANCE_OPTIMIZATION.md)** - Content optimization, build improvements, and performance strategies
 
 ### Project Management
@@ -224,6 +241,10 @@ services:
     # ... other configuration
 ```
 
+### Dependency gate
+
+The deploy workflow's `Verify dependencies` job runs `npm audit --omit=dev --audit-level=critical` before anything is built, and the Security Scan workflow uses the same level. The gate sits at *critical*, not *moderate*, because two advisories in production dependencies have no non-breaking fix as of 2026-10-15: `braces` (via `next-sitemap` 4.2.3) and `sprintf-js` (via `gray-matter`). See `SECURITY_ROADMAP.md` for the list and the conditions for tightening the gate again.
+
 ### Manual Deployment
 
 You can also deploy manually:
@@ -238,7 +259,8 @@ docker build -t paul-blake-site:latest .
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (Pages Router)
+- **Framework**: Next.js 16.4.1 (Pages Router), React 19.3.0
+- **Runtime**: Node 22 (Docker image and CI)
 - **Content**: MDX with gray-matter
 - **Styling**: Plain CSS
 - **Deployment**: Docker + GitHub Actions

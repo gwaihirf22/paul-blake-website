@@ -18,6 +18,44 @@
 
 ## Resolved Bugs
 
+### Bug #007 - Technology Post Notifications Always 404 ✅
+**Status:** ✅ **RESOLVED**
+**Created:** 2025-08-28 (latent since the content move) / noticed 2026-10-16
+**Resolved:** 2026-10-16 (commit 0b1ae83)
+**Reporter:** Claude Code, while fixing Bug #006
+**Environment:** GitHub Actions `blog-notifications.yml` + `pages/api/send-notification.js`
+
+**Description:**
+Every push of a technology post failed the notification workflow with `404 {"error":"Post not found"}`; the last failure was `how-to-use-lion-tails` on 2026-09-11 (run 34599014851). Theology posts worked.
+
+**Root Cause:**
+Two halves of one bug. The workflow's `[[ $file == content/blog/*.mdx ]]` pattern also matched `content/blog/technology/...` (bash `*` spans `/`) and tagged the post as category `blog`; the API then looked for `content/blog/<slug>.mdx`, the folder the posts left in commit 36610b5. The email template also linked to `/blog/<slug>`, a URL that 404s.
+
+**Solution:**
+`categoryDir()` in the API maps `blog` → `content/blog/technology` and drives every path and URL; the workflow matches `content/blog/technology/*.mdx` explicitly. Verified on a local build: a technology slug is found (the request reaches MailerLite), an unknown slug still 404s.
+
+---
+
+### Bug #006 - Technology RSS Feed Empty, Combined Feed Theology-Only ✅
+**Status:** ✅ **RESOLVED**
+**Created:** 2025-08-28 (latent since the content move) / noticed 2026-10-15
+**Resolved:** 2026-10-16 (commit 1e0cb66)
+**Reporter:** Claude Code, during the portfolio refresh
+**Environment:** `pages/api/rss/*.js`, production
+
+**Description:**
+`/api/rss/blog.xml` returned a valid feed with zero items and `/api/rss/all.xml` carried only the ten theology posts. Item descriptions in every feed were the first 500 characters of raw MDX, and the feed metadata used the placeholder domain `paulblake.dev`.
+
+**Root Cause:**
+Both routes read the top level of `content/blog/`, where no posts have lived since commit 36610b5 moved them into `technology/`. Only the theology route pointed at a category folder.
+
+**Solution:**
+The three routes are now thin wrappers over `lib/rss.js`, which reads `content/blog/<category>/`, takes the description from front matter (`description`/`excerpt`) with a plain-text fallback, and sources the site URL and author email from `data/site.js`. Live counts after deploy: technology 7, theology 10, all 17.
+
+**Related:** the dead route `pages/blog/[slug].js` read the same empty folder and was removed in the same pass; permanent redirects cover the four pre-move URLs.
+
+---
+
 ### Bug #005 - Scroll Position Persists Across Page Navigation ✅
 **Status:** ✅ **RESOLVED**
 **Created:** December 13, 2025

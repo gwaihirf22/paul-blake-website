@@ -1,5 +1,7 @@
 # Project Management Overview
 
+> **Status note (2026-10-16):** this document is a snapshot from its original date. The security counts and the migration milestones below are out of date. The site now runs Next.js 16.4.1, React 19.3.0, Node 22 and ESLint 10.9.1; the Next 16 / React 19 migration landed on 2026-09-02 (commit 1ff15d1) and the 2026-10-15 Dependabot batch brought the rest current. For the live audit picture and the deploy gate see `SECURITY_ROADMAP.md`, "Known advisories without a fix". Treat the task lists below as history, not a backlog.
+
 ## Executive Summary
 
 The Paul Blake Website project has undergone a comprehensive security audit and performance analysis. All critical security vulnerabilities have been resolved, and a detailed roadmap has been established for ongoing improvements.

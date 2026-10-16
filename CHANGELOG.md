@@ -21,12 +21,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - `pages/blog/[slug].js`: a leftover from before posts moved into category folders. It read the empty top level of `content/blog`, generated zero pages, and every `/blog/<slug>` URL has returned 404 since the move.
 
+### Changed
+- Dependencies brought current on 2026-10-15 via Dependabot: 44 production minors, 80+ dev updates, `feed` 5 → 6.0.0, ESLint 9 → 10.9.1, plus ws, finalhandler, @babel/runtime and style-to-js patches. Next is 16.4.1, React 19.3.0.
+- CI audit gate raised from `moderate` to `critical` in `deploy.yml` and `security-scan.yml`: `braces` (via `next-sitemap`) and `sprintf-js` (via `gray-matter`) have no non-breaking fix, so the moderate gate failed every commit. To be lowered again when upstream patches land.
+- Docs: README, CLAUDE.md/AGENTS.md, BUG_TRACKER, SECURITY_ROADMAP and the planning documents updated to the current stack and to the changes above; AGENTS.md is now a verbatim copy of CLAUDE.md apart from its first three lines.
+
 ### Planned
 - Content pagination for large blog posts
 - CSP headers implementation
 - Rate limiting for API routes
-- Next.js 15 migration planning
-- React 19 migration planning
 - TypeScript migration planning
 
 ## [0.1.2] - 2025-08-29
