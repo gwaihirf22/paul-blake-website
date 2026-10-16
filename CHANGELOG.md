@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `--card-bg`, `--card-border` and `--bg-color` were used but never defined, so the subscription form and blog index boxes had no background.
 - White-on-blue subscribe buttons and the warning callout text now meet WCAG AA contrast.
 - RSS: the technology feed (`/api/rss/blog.xml`) was empty and the combined feed only carried theology, because both read the top level of `content/blog` where no posts live. The three routes now share `lib/rss.js`, which reads `content/blog/<category>`. Item descriptions come from front matter (`description`/`excerpt`) or a plain-text excerpt instead of raw MDX, and the feed's author email and fallback URL are the site's real ones.
+- Blog notifications for technology posts always failed with 404: the workflow classified `content/blog/technology/*.mdx` as category `blog` and the API then looked for the file at the top level of `content/blog`. The API now reads `content/blog/technology` for that category and links emails to `/blog/technology/<slug>`; the workflow matches the technology folder explicitly. (Last failure: the Lion Tails guide, 2026-09-11.)
+- Permanent redirects from the four pre-2025-08-28 post URLs (`/blog/first-post` etc.) to their `/blog/technology/` homes.
+
+### Removed
+- `pages/blog/[slug].js`: a leftover from before posts moved into category folders. It read the empty top level of `content/blog`, generated zero pages, and every `/blog/<slug>` URL has returned 404 since the move.
 
 ### Planned
 - Content pagination for large blog posts

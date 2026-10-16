@@ -12,7 +12,7 @@ on:
         required: true
         type: string
       category:
-        description: 'Post category (blog or theology)'
+        description: 'Post category: blog (= technology posts) or theology'
         required: true
         type: choice
         options:
@@ -55,7 +55,11 @@ jobs:
             if [[ $file == content/blog/theology/*.mdx ]]; then
               category="theology"
               slug=$(basename "$file" .mdx)
-            elif [[ $file == content/blog/*.mdx ]]; then
+            # Technology posts live in content/blog/technology/; the API and
+            # MailerLite still call that category "blog". A bare content/blog/*
+            # pattern also matched the technology folder (bash * spans /), and
+            # the API then looked for the file at the wrong path (404).
+            elif [[ $file == content/blog/technology/*.mdx ]]; then
               category="blog"
               slug=$(basename "$file" .mdx)
             else

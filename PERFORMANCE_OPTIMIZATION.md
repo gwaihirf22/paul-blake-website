@@ -188,7 +188,7 @@ const YouTube = dynamic(() => import('./YouTube'), {
 
 #### Route-based Splitting
 ```javascript
-// pages/blog/[slug].js
+// pages/blog/technology/[slug].js
 import dynamic from 'next/dynamic';
 
 const BlogPost = dynamic(() => import('../../components/BlogPost'), {

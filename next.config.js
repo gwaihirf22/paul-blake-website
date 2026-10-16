@@ -8,6 +8,22 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // The technology posts lived at /blog/<slug> until 2025-08-28, when they
+  // moved to /blog/technology/<slug> (commit 36610b5). Keep the four URLs that
+  // existed before the move working. Explicit slugs on purpose: a /blog/:slug
+  // wildcard would also catch the /blog/technology and /blog/theology indexes.
+  async redirects() {
+    return [
+      'ai-app-integration-one-shot-fallacy',
+      'building-cicd-pipeline-with-ai',
+      'first-post',
+      'second-post',
+    ].map((slug) => ({
+      source: `/blog/${slug}`,
+      destination: `/blog/technology/${slug}`,
+      permanent: true,
+    }));
+  },
   // Security headers
   async headers() {
     return [

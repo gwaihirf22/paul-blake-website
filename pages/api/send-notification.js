@@ -13,9 +13,14 @@ const GROUP_IDS = {
   theology: "161750656038733632", // Theology Posts group ID
 };
 
+// The API, MailerLite and pages/api/subscribe.js call the technology group
+// "blog", but the posts live in content/blog/technology and are served at
+// /blog/technology/<slug>. Every path and URL below goes through this map.
+const categoryDir = (category) => (category === 'theology' ? 'theology' : 'technology');
+
 function generateEmailTemplate(post, category) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://paul-blake.com';
-  const postUrl = `${siteUrl}/blog${category === 'theology' ? '/theology' : ''}/${post.slug}`;
+  const postUrl = `${siteUrl}/blog/${categoryDir(category)}/${post.slug}`;
 
   return {
     html: `
@@ -157,7 +162,7 @@ function generateEmailTemplate(post, category) {
           
           <div class="social-links" style="text-align: center;">
             <a href="${siteUrl}/blog">Browse All Posts</a> • 
-            <a href="${siteUrl}/blog${category === 'theology' ? '/theology' : ''}">More ${category === 'theology' ? 'Theology' : 'Tech'} Posts</a>
+            <a href="${siteUrl}/blog/${categoryDir(category)}">More ${category === 'theology' ? 'Theology' : 'Tech'} Posts</a>
           </div>
           
           <div class="footer">
@@ -217,9 +222,7 @@ export default async function handler(req, res) {
 
   try {
     // Read the post file
-    const contentDir = category === 'theology'
-      ? path.join(process.cwd(), 'content/blog/theology')
-      : path.join(process.cwd(), 'content/blog');
+    const contentDir = path.join(process.cwd(), 'content/blog', categoryDir(category));
     const postPath = path.join(contentDir, `${slug}.mdx`);
 
     // Defense in depth: ensure the resolved path never escapes contentDir
@@ -283,7 +286,7 @@ export default async function handler(req, res) {
 
       // Campaign stays in draft - no sending, content can be added manually
       if (campaign.data?.data?.id) {
-        const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://paul-blake.com'}/blog${category === 'theology' ? '/theology' : ''}/${post.slug}`;
+        const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://paul-blake.com'}/blog/${categoryDir(category)}/${post.slug}`;
         
         results.push({
           group_id: groupId,

@@ -31,7 +31,8 @@ This is a Next.js 14 personal website using the Pages Router with MDX blog funct
 **Routing Structure:**
 - `/` - Homepage with profile, skills, and project showcase
 - `/blog` - Main blog index listing regular posts
-- `/blog/[slug]` - Individual blog post pages
+- `/blog/technology` - Technology section index
+- `/blog/technology/[slug]` - Individual technology posts
 - `/blog/theology` - Theology section index
 - `/blog/theology/[slug]` - Individual theology posts
 - `/projects` - Project showcase page
@@ -136,7 +137,7 @@ The app runs on port 3010 in production. The Dockerfile uses Next.js standalone 
 
 **Component Location:**
 - `components/Comments.jsx` - Main comment component
-- Imported in both `pages/blog/[slug].js` and `pages/blog/theology/[slug].js`
+- Imported in both `pages/blog/technology/[slug].js` and `pages/blog/theology/[slug].js`
 
 **Reconfiguration:** 
 If you need to change categories or repository settings, update the configuration values in `components/Comments.jsx` and ensure GitHub Discussions is enabled with the giscus app installed.
@@ -241,8 +242,8 @@ NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN=your_cloudflare_analytics_token
 ### Key Files to Understand
 
 - `pages/_app.js` - Global app wrapper and layout
-- `pages/blog/[slug].js` - Dynamic blog post rendering with MDX and comments
-- `pages/blog/theology/[slug].js` - Theology post rendering (mirrors main blog) with comments
+- `pages/blog/technology/[slug].js` - Technology post rendering with MDX and comments
+- `pages/blog/theology/[slug].js` - Theology post rendering (mirrors technology) with comments
 - `components/Comments.jsx` - Giscus comment system integration
 - `components/YouTube.jsx` - YouTube video embedding component for MDX posts
 - `next.config.js` - Next.js configuration with standalone output
