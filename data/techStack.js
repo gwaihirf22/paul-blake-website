@@ -26,6 +26,7 @@ export const TECH = {
   linux: { name: "Linux", icon: "/tech/linux.svg", mono: true },
   git: { name: "Git", icon: "/tech/git.svg" },
   flutter: { name: "Flutter", icon: "/tech/flutter.svg" },
+  dart: { name: "Dart", icon: "/tech/dart.svg" },
   claudecode: { name: "Claude Code", icon: "/tech/claude.svg" },
   cursor: { name: "Cursor", icon: "/tech/cursor.svg", mono: true },
   openai: { name: "OpenAI API" },

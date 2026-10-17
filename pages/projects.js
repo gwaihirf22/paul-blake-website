@@ -8,7 +8,7 @@ import { site } from "../data/site";
 export default function Projects() {
   const withScreenshots = projects.filter((p) => p.image && !p.experiment);
   const more = projects.filter((p) => !p.image && !p.status && !p.experiment);
-  const inProgress = projects.filter((p) => p.status);
+  const inProgress = projects.filter((p) => p.status && !p.image);
 
   return (
     <>

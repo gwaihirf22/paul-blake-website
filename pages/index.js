@@ -195,9 +195,10 @@ export default function Home({ hasResume }) {
           margin-bottom: 4rem;
         }
 
+        /* Two columns at desktop so four featured cards sit 2x2 */
         .project-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
           gap: 1.5rem;
           margin-top: 2rem;
         }

@@ -44,11 +44,14 @@ export const projects = [
   {
     slug: "atomic-momentum",
     title: "Atomic Momentum",
-    blurb: "Offline-first habit tracker built around streaks and small daily wins. Very early; changing daily.",
-    tech: ["html5", "javascript", "flutter"],
+    blurb:
+      "Habit tracker built on Atomic Habits: a momentum score instead of all-or-nothing streaks, reminders that follow each habit's schedule, and a two-minute version for hard days. Flutter, iPhone first, Android next.",
+    image: "/screenshots/atomic-momentum.webp",
+    imageAlt: "Atomic Momentum on an iPhone: the habits list with momentum scores, the calendar, and the habits list in dark mode",
+    tech: ["flutter", "dart"],
     links: { source: `${GH}/atomic-momentum` },
-    featured: false,
-    status: "Early development",
+    featured: true,
+    status: "Pre-release",
   },
   {
     slug: "snake",
