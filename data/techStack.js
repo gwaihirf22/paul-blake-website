@@ -45,9 +45,12 @@ export const TECH_STACK_GROUPS = [
       { key: "nextjs", subtitle: "This site and Neighborly" },
       { key: "nodejs", subtitle: "Express API behind Lion Tails" },
       { key: "python", subtitle: "Loom's overlay, PyQt6 and OpenCV" },
+      { key: "flutter", subtitle: "Atomic Momentum, one codebase for iPhone and Android" },
+      { key: "dart", subtitle: "The language behind the Flutter app and its tests" },
       { key: "postgresql", subtitle: "Database for Lion Tails and Neighborly" },
       { key: "docker", subtitle: "Every app ships as a container" },
       { key: "githubactions", subtitle: "CI/CD to a self-hosted Unraid box" },
+      { key: "linux", subtitle: "Unraid box that hosts everything" },
     ],
   },
   {

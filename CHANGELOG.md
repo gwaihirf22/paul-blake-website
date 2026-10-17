@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Atomic Momentum is a featured project: screenshot composite from the Flutter web build, Flutter and Dart chips, status badge "Pre-release". The homepage featured grid is two columns at desktop so four cards sit 2x2; `/projects` no longer lists a project with a screenshot under In Progress as well.
+- Atomic Momentum is a featured project: screenshot composite from the Flutter web build, Flutter and Dart chips, status badge "Pre-release"; Flutter, Dart and Linux tiles in the Tech Stack grid (twelve tiles, so the 3-wide and 2-wide grids stay even). The homepage featured grid is two columns at desktop so four cards sit 2x2; `/projects` no longer lists a project with a screenshot under In Progress as well.
 - Light mode with a Sun/Moon switch in the navbar. Follows the OS preference by default; the choice is remembered. Theme is applied before first paint, comments follow it, code blocks and the games stay dark.
 - Theme tokens for both palettes in `styles/globals.css`; `--color-on-accent` for text on accent fills.
 
