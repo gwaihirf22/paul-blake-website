@@ -50,7 +50,7 @@ export const TECH_STACK_GROUPS = [
       { key: "postgresql", subtitle: "Database for Lion Tails and Neighborly" },
       { key: "docker", subtitle: "Every app ships as a container" },
       { key: "githubactions", subtitle: "CI/CD to a self-hosted Unraid box" },
-      { key: "linux", subtitle: "Unraid box that hosts everything" },
+      { key: "linux", subtitle: "Unraid and Proxmox servers that host it all" },
     ],
   },
   {
