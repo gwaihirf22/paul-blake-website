@@ -45,9 +45,9 @@ export const projects = [
     slug: "atomic-momentum",
     title: "Atomic Momentum",
     blurb:
-      "Habit tracker built on Atomic Habits: a momentum score instead of all-or-nothing streaks, reminders that follow each habit's schedule, and a two-minute version for hard days. Flutter, iPhone first, Android next.",
+      "Habit tracker built on Atomic Habits: a momentum score instead of all-or-nothing streaks, a two-minute version for hard days, insights with a day-by-day heatmap, and achievements you can share. Flutter, for iPhone and Android.",
     image: "/screenshots/atomic-momentum.webp",
-    imageAlt: "Atomic Momentum on an iPhone: the habits list with momentum scores, the calendar, and the habits list in dark mode",
+    imageAlt: "Atomic Momentum on three phones: the Insights screen with a momentum chart and heatmap, the habits list with momentum scores, and a Showed up anyway achievement in the sepia theme",
     tech: ["flutter", "dart"],
     links: { source: `${GH}/atomic-momentum` },
     featured: true,
