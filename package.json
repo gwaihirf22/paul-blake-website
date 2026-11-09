@@ -36,9 +36,9 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@lhci/cli": "^0.15.1",
-    "eslint": "^10.9.1",
-    "eslint-config-next": "^16.4.0"
+    "@lhci/cli": "^0.16.0",
+    "eslint": "^10.14.0",
+    "eslint-config-next": "^16.4.5"
   },
   "overrides": {
     "react-syntax-highlighter": {
