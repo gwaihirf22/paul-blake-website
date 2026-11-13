@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Atomic Momentum is on the App Store: Apple's official badge links to the listing from its card (home Featured and `/projects`) and from `/momentum/support`. Cards take a new `appStore` link key. The status badge "Pre-release" became "Android coming soon".
 - Atomic Momentum is a featured project: screenshot composite from the Flutter web build (re-shot 2026-10-20 for the four-tab bar, Insights and achievements), Flutter and Dart chips, status badge "Pre-release"; Flutter, Dart and Linux tiles in the Tech Stack grid (twelve tiles, so the 3-wide and 2-wide grids stay even). The homepage featured grid is two columns at desktop so four cards sit 2x2; `/projects` no longer lists a project with a screenshot under In Progress as well.
 - Light mode with a Sun/Moon switch in the navbar. Follows the OS preference by default; the choice is remembered. Theme is applied before first paint, comments follow it, code blocks and the games stay dark.
 - Theme tokens for both palettes in `styles/globals.css`; `--color-on-accent` for text on accent fills.

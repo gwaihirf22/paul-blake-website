@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { MOMENTUM_SUPPORT_EMAIL as SUPPORT_EMAIL } from "../../lib/momentum";
+import { MOMENTUM_SUPPORT_EMAIL as SUPPORT_EMAIL, MOMENTUM_APP_STORE_URL } from "../../lib/momentum";
 
 // Support page for the Atomic Momentum app (the App Store's Support URL).
 export default function MomentumSupport() {
@@ -13,6 +13,11 @@ export default function MomentumSupport() {
       </Head>
       <div>
         <h1>Atomic Momentum support</h1>
+        <p>
+          <a href={MOMENTUM_APP_STORE_URL} target="_blank" rel="noopener noreferrer">
+            <img src="/badges/download-on-the-app-store.svg" alt="Download on the App Store" width="120" height="40" />
+          </a>
+        </p>
         <p>
           Questions, bugs or ideas: email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>. I read every
           message.

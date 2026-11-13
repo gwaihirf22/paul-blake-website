@@ -1,8 +1,10 @@
 // Single source of truth for project cards on /, /projects and /projects/games.
-// Buttons render only for the link keys present. `image` is a 1200x750 webp in
+// Buttons render only for the link keys present; `appStore` shows Apple's badge. `image` is a 1200x750 webp in
 // public/screenshots/; entries without one render as compact rows.
 // `experiment: true` marks AI-written test projects ("Fun with AI Programming"),
 // listed separately and never featured.
+
+import { MOMENTUM_APP_STORE_URL } from "../lib/momentum";
 
 const GH = "https://github.com/gwaihirf22";
 
@@ -45,13 +47,16 @@ export const projects = [
     slug: "atomic-momentum",
     title: "Atomic Momentum",
     blurb:
-      "Habit tracker built on Atomic Habits: a momentum score instead of all-or-nothing streaks, a two-minute version for hard days, insights with a day-by-day heatmap, and achievements you can share. Flutter, for iPhone and Android.",
+      "Habit tracker built on Atomic Habits: a momentum score instead of all-or-nothing streaks, a two-minute version for hard days, insights with a day-by-day heatmap, and achievements you can share. Flutter, for iPhone, Android coming.",
     image: "/screenshots/atomic-momentum.webp",
     imageAlt: "Atomic Momentum on three phones: the Insights screen with a momentum chart and heatmap, the habits list with momentum scores, and a Showed up anyway achievement in the sepia theme",
     tech: ["flutter", "dart"],
-    links: { source: `${GH}/atomic-momentum` },
+    links: {
+      appStore: MOMENTUM_APP_STORE_URL,
+      source: `${GH}/atomic-momentum`,
+    },
     featured: true,
-    status: "Pre-release",
+    status: "Android coming soon",
   },
   {
     slug: "snake",

@@ -10,7 +10,8 @@ function GitHubMark({ size = 16 }) {
   );
 }
 
-// Button order: the primary action first, then source.
+// Button order: the primary action first, then source. `appStore` is not a
+// button: it renders Apple's badge artwork unmodified, as Apple's rules require.
 const BUTTONS = [
   { key: "website", label: "Website", Icon: Globe, variant: "solid" },
   { key: "play", label: "Play", Icon: Gamepad2, variant: "solid" },
@@ -37,6 +38,7 @@ function ActionLink({ href, className, children }) {
 export default function ProjectCard({ project, compact = false }) {
   const { title, blurb, image, imageAlt, tech = [], links = {}, status } = project;
   const buttons = BUTTONS.filter((b) => links[b.key]);
+  const hasActions = Boolean(links.appStore) || buttons.length > 0;
   const chips = tech.map((key) => ({ key, ...TECH[key] })).filter((t) => t.name);
 
   return (
@@ -63,8 +65,13 @@ export default function ProjectCard({ project, compact = false }) {
           </ul>
         )}
       </div>
-      {buttons.length > 0 && (
+      {hasActions && (
         <div className="project-card-actions">
+          {links.appStore && (
+            <a href={links.appStore} className="store-badge" target="_blank" rel="noopener noreferrer">
+              <img src="/badges/download-on-the-app-store.svg" alt="Download on the App Store" width="120" height="40" />
+            </a>
+          )}
           {buttons.map(({ key, label, Icon, variant }) => (
             <ActionLink key={key} href={links[key]} className={`pbtn pbtn-${variant}`}>
               <Icon size={16} aria-hidden="true" />
@@ -185,9 +192,31 @@ export default function ProjectCard({ project, compact = false }) {
         .project-card-actions {
           display: flex;
           flex-wrap: wrap;
+          align-items: center;
           gap: 0.5rem;
           margin-top: auto;
           padding: 0.25rem 1.25rem 1rem;
+        }
+
+        .store-badge {
+          display: inline-flex;
+          border-radius: 7px;
+          transition: opacity 0.2s ease;
+        }
+
+        .store-badge:hover {
+          opacity: 0.85;
+        }
+
+        .store-badge:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 2px;
+        }
+
+        .store-badge img {
+          display: block;
+          width: 120px;
+          height: 40px;
         }
 
         .project-card :global(.pbtn) {
